@@ -1,0 +1,42 @@
+<div class="row center-center">
+    <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-8">
+        <div class="fs-4 card-title">
+            <img class="icono" src="https://logisticaintegral.com.mx/images/icon-contable.png">
+            <span>&nbsp;&nbsp;Logística Integral</span>
+            <br>&nbsp;
+        </div>
+        
+        <mat-card>
+            <mat-card-title class="fs-4">Ingrese a su cuenta</mat-card-title>
+            <p class="subtitle-login">
+                Ingrese su correo o nombre de usuario y contraseña para iniciar sesión
+            </p>
+
+            <mat-card-content>
+                <form action="" [formGroup]="formLogin">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email o nombre de usuario</mat-label>
+                        <input matInput placeholder="correo@gmail.com" formControlName="correo" required>
+                        <mat-error *ngIf="this.formLogin.get('correo')?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password" required>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="this.formLogin.get('password')?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <div class="center">
+                        <button mat-raised-button color="primary">Entrar</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+
+        <div class="center footer-login">
+            <h3>Diseñado por <a>GALA</a></h3>
+        </div>
+    </div>
+</div>
