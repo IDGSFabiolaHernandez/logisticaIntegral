@@ -13,26 +13,25 @@
             </p>
 
             <mat-card-content>
-                <mat-form-field appearance="outline">
-                    <mat-label>Email o nombre de usuario</mat-label>
-                    <!--input matInput placeholder="pat@example.com" [formControl]="email" required-->
-                    <input matInput placeholder="correo@gmail.com" required>
-                    <!--mat-error-- *ngIf="email.invalid">{{getErrorMessage()}}</!--mat-error-->
-                </mat-form-field>
+                <form action="" [formGroup]="formLogin">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email o nombre de usuario</mat-label>
+                        <input matInput placeholder="correo@gmail.com" formControlName="correo" required>
+                        <mat-error *ngIf="this.formLogin.get('correo')?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Contraseña</mat-label>
-                    <!--input matInput [type]="hide ? 'password' : 'text'"-->
-                    <input matInput required>
-                    <!--button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"-->
-                    <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
-                      <!--mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</!--mat-icon-->
-                      <mat-icon>{{'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>
-                <div class="center">
-                    <button mat-raised-button color="primary">Entrar</button>
-                </div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password" required>
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="this.formLogin.get('password')?.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <div class="center">
+                        <button mat-raised-button color="primary">Entrar</button>
+                    </div>
+                </form>
             </mat-card-content>
         </mat-card>
 
