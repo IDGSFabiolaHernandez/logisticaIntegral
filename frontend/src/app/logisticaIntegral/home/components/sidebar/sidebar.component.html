@@ -1,0 +1,46 @@
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <!--li
+      class="nav-heading"
+      *ngIf="obtenerPermisoPorModulo('clientes') || obtenerPermisoPorModulo('usuarios')"
+    >Administración</-li-->
+    <li class="nav-heading">Administración</li>
+    
+    <!--li class="nav-item" *ngIf="obtenerPermisoPorModulo('clientes')"-->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav-clientes" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Socios</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav-clientes" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <!--a *ngIf="this.permisosClientes.escritura.status" [routerLink]="['clientes/registro']"-->
+          <a>
+            <i class="bi bi-circle"></i><span>Lista Socios</span>
+          </a>
+        </li>
+        <li>
+          <!--a [routerLink]="['clientes']"-->
+          <a>
+            <i class="bi bi-circle"></i><span>Socios Empresas</span>
+          </a>
+        </li>
+        <li>
+          <!--a [routerLink]="['clientes']"-->
+          <a>
+            <i class="bi bi-circle"></i><span>Mensualidades</span>
+          </a>
+        </li>
+        <li>
+          <!--a [routerLink]="['clientes']"-->
+          <a>
+            <i class="bi bi-circle"></i><span>Prestamos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    
+  </ul>
+
+</aside>
