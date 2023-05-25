@@ -13,6 +13,6 @@ export class LoginService {
   ) { }
 
   public login(credenciales : any) : Observable<any>{
-    return this.http.post<any>(this.url+'auth/login', credenciales);
+    return this.http.post<any>(this.url+'/auth/login', credenciales);
   }
 }
