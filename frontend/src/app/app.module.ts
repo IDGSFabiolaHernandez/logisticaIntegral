@@ -7,11 +7,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routing';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './logisticaIntegral/home/home.component';
+import { HomeModule } from './logisticaIntegral/home/home.module';
+import { NavbarComponent } from './logisticaIntegral/home/components/navbar/navbar.component';
+import { SidebarComponent } from './logisticaIntegral/home/components/sidebar/sidebar.component';
+import { FooterComponent } from './logisticaIntegral/home/components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    NavbarComponent,
+    SidebarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot(AppRoutes),
-    HttpClientModule
+    HttpClientModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent],
