@@ -7,28 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class TblSociosEmpresas extends Model
 {
-    public $timestamps = false;
     use HasFactory;
+    
+    public $timestamps = false;
     protected $primaryKey = 'id';
     protected $table = 'socios_empresas';
     protected $fillable = 
     [
         'id',
-        'usuario',
-        'clave',
-        'clave_decrypt',
-        'nombre',
-        'noempleado',
-        'activo',
-        'genero',
-        'correo',
-        'fecharegistro',
-        'horaregistro',
-        'usuariobaja',
-        'fechabaja',
-        'horabaja',
-        'idMotivo',
-        'idPuesto',
-        'idPerfil'
+        'fkSocio',
+        'fkEmpresa',
+        'mesIngreso',
+        'tipoInstrumento',
+        'numeroInstrumento',
+        'mesSalida',
+        'observaciones',
+        'fkUsuarioAlta',
+        'fechaAlta',
+        'fechaActualizacion'
     ];
 }
