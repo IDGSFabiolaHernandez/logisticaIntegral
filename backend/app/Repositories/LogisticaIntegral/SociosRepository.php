@@ -13,6 +13,8 @@ class SociosRepository
                                     'tblSocios.id',
                                     'tblSocios.nombreSocio',
                                     'tblSocios.status',
+                                    'tblSocios.curpSocio',
+                                    'tblSocios.rfcSocio',
                                     'tblIntermediariosSocios.nombreIntermediario',
                                 )
                                 ->selectRaw('COALESCE(ne.numEmpresas, 0) AS numEmpresas')
