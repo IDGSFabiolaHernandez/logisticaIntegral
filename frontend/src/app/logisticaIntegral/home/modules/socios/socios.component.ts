@@ -1,16 +1,22 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
+import Option from 'src/app/shared/interfaces/options.interface';
 
 @Component({
   selector: 'app-socios',
   templateUrl: './socios.component.html',
   styleUrls: ['./socios.component.css']
 })
+
 export class SociosComponent implements OnInit, AfterViewInit {
   @ViewChild(DataTableDirective, {static: false})
   
   protected datatableElement!: DataTableDirective;
   protected dtOptions: DataTables.Settings = {};
+
+  //{ value: 'option1', label: 'Opción 1', checked: true },
+  protected opcionesSocios : Option[] = [];
+  private sociosSeleccionados : any[] = [];
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -44,6 +50,10 @@ export class SociosComponent implements OnInit, AfterViewInit {
     };
   }
 
+  onSelectionChange(selectedOptions: Option[]) {
+    this.sociosSeleccionados = selectedOptions;
+  }
+
   ngAfterViewInit(): void {
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.columns().every(function () {
@@ -57,5 +67,4 @@ export class SociosComponent implements OnInit, AfterViewInit {
       });
     });
   }
-  
 }
