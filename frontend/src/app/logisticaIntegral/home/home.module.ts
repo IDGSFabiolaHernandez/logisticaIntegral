@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './modules/inicio/inicio.component';
 import { SociosComponent } from './modules/socios/socios.component';
+import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
     imports:[
         CommonModule,
         RouterModule.forChild(HomeRoutes),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DataTablesModule
     ],
     declarations: [
         InicioComponent,
