@@ -25,4 +25,13 @@ class SociosService
         );
     }
 
+    public function obtenerSociosGenerales(){
+        $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó con éxito',
+                'data' => $sociosGenerales
+            ]
+        );
+    }
 }
