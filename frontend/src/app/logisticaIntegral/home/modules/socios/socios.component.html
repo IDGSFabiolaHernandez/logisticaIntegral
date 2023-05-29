@@ -13,13 +13,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-md-3" style="margin-top: 10px;">
-                        <label for="statusReportes" class="form-label">Status <b style="color: brown;">*</b>:</label>
-                        <select formControlName="statusReportes" type="text" class="form-control" id="statusReportes">
-                            <option value="" style="display: none; visibility: hidden;">Seleccione un Status</option>
-                            <option value="0">Todos</option>
-                            <option value="1">Pendiente</option>
-                            <option value="2">Atendido</option>
-                        </select>
+                        <label for="statusReportes" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label>
+                        
+                        <app-dropdown [options]="opcionesSocios" (selectionChange)="onSelectionChange($event)"></app-dropdown>
                     </div>
                     <div class="botonera">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoReporte">Nuevo</button>

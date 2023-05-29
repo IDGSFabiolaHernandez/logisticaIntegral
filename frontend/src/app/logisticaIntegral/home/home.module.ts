@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './modules/inicio/inicio.component';
 import { SociosComponent } from './modules/socios/socios.component';
 import { DataTablesModule } from "angular-datatables";
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
     imports:[
@@ -18,6 +19,7 @@ import { DataTablesModule } from "angular-datatables";
     declarations: [
         InicioComponent,
         SociosComponent,
+        DropdownComponent,
     ]
 })
 

@@ -35,6 +35,8 @@ button {
   margin-top: 20px;
   width: 100%;
   height: auto;
+  margin-left: -5px !important;
+  margin-right: -5px !important;
 }
 
 .botonera .btn {
@@ -1298,4 +1300,14 @@ button {
   flex: 1 1 auto;
   padding: var(--bs-modal-padding);
   overflow-y: auto;
+}
+
+.dropdown-menu {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.dropdown-search {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
 }
