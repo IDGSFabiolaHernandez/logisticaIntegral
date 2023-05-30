@@ -62,4 +62,19 @@ class SociosController extends Controller
             );
         }
     }
+
+    public function registroNuevoSocio( Request $request ){
+        try{
+            return $this->sociosService->registroNuevoSocio( $request->all() );
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
