@@ -3,6 +3,7 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\SociosRepository;
+use Illuminate\Support\Facades\Log;
 
 class SociosService
 {
@@ -24,13 +25,35 @@ class SociosService
             ]
         );
     }
-
+    //revisar
     public function obtenerSociosGenerales(){
         $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
         return response()->json(
             [
                 'mensaje' => 'Se consultó con éxito',
                 'data' => $sociosGenerales
+            ]
+        );
+    }
+
+    public function obtenerOpcionesSocios(){
+        $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
+        $opcionesSelect = [];
+
+        foreach( $sociosGenerales as $item ){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombreSocio,
+                'status' => true
+            ];
+
+            array_push($opcionesSelect, $temp);
+        }
+        
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó con éxito',
+                'data' => $opcionesSelect
             ]
         );
     }

@@ -26,9 +26,8 @@ class SociosRepository
     }
 
     public function obtenerSociosGenerales(){
-        $sociosGenerales = TblSocios::select('nombreSocio')
-                                     ->orderBy('nombreSocio','asc');
-
+        $sociosGenerales = TblSocios::orderBy('nombreSocio','asc')
+                                     ->limit(10);
         return $sociosGenerales->get();
     }
 }
