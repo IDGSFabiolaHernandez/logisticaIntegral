@@ -29,6 +29,9 @@ export class SociosComponent implements OnInit {
 	public itemsPerPageOptions = [5, 10, 25, 50];
 	public itemsPerPage = this.itemsPerPageOptions[0];
 
+	sortBy: string = '';
+  	sortDesc: boolean = false;
+
 	constructor (
 		private mensajes : MensajesService,
 		private apiSocios : SociosService
@@ -88,6 +91,28 @@ export class SociosComponent implements OnInit {
 	onItemsPerPageChange() {
 		this.currentPage = 1;
 		this.itemsPerPage = Number(this.itemsPerPage);
+	}
+
+	sortColumn(column: string) {
+		if (this.sortBy === column) {
+		  this.sortDesc = !this.sortDesc;
+		} else {
+		  this.sortBy = column;
+		  this.sortDesc = false;
+		}
+	
+		this.listaSocios.sort((a, b) => {
+		  const valueA = a[column];
+		  const valueB = b[column];
+	
+		  if (valueA < valueB) {
+			return this.sortDesc ? 1 : -1;
+		  } else if (valueA > valueB) {
+			return this.sortDesc ? -1 : 1;
+		  } else {
+			return 0;
+		  }
+		});
 	}
 
 	consultarSociosPorSelect () : void {
