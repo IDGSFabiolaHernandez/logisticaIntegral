@@ -1,9 +1,18 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { DataTableDirective } from 'angular-datatables';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Option from '../../../../shared/interfaces/options.interface';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { Subject } from 'rxjs';
+
+interface Socio {
+	id: number;
+	nombreSocio: string;
+	status: string;
+	numEmpresas: number;
+	curpSocio: string;
+	rfcSocio: string;
+	nombreIntermediario: string;
+  }
 
 @Component({
   selector: 'app-socios',
@@ -11,52 +20,74 @@ import { Subject } from 'rxjs';
   styleUrls: ['./socios.component.css']
 })
 
-export class SociosComponent implements OnInit, AfterViewInit {
-	@ViewChild(DataTableDirective, {static: false})
-	
-	protected datatableElement!: DataTableDirective;
-	protected dtOptions: DataTables.Settings = {};
-	protected dtTrigger: Subject<any> = new Subject<any>();
-
-	//{ value: 'option1', label: 'Opción 1', checked: true },
-	protected opcionesSocios : Option[] = [
-		{ value: '1', label: 'Opción 1', checked: true },
-		{ value: '2', label: 'Opción 1', checked: true }
-	];
+export class SociosComponent implements OnInit {
+	protected opcionesSocios : Option[] = [];
 	private sociosSeleccionados : any[] = [];
 	protected listaSocios : any[] = [];
 
-	private columnasTabla = [
-		{title : '#', data : 'id'},
-		{title : 'Socio', data : 'nombreSocio'},
-		{title : 'Status Socio', data : 'status'},
-		{title : 'Relación Empresas', data : 'curpSocio'},
-		{title : 'CURP', data : 'rfcSocio'},
-		{title : 'RFC', data : 'nombreIntermediario'},
-		{title : 'Intermediario', data : 'numEmpresas'}
-	];
+	public currentPage : number = 1;
+	public itemsPerPageOptions = [5, 10, 25, 50];
+	public itemsPerPage = this.itemsPerPageOptions[0];
 
 	constructor (
 		private mensajes : MensajesService,
 		private apiSocios : SociosService
-	) {
+	) {}
 
+	async ngOnInit () : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		await this.obtenerSociosSelect();
+		this.mensajes.cerrarMensajes();
 	}
 
-	ngOnInit(): void {
-		this.tableStart();
-	}
-
-	private tableStart () {
-		this.dtOptions = {
-			/*language: {
-				url : "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-			}*/
-		};
+	private obtenerSociosSelect () : Promise<any> {
+		return this.apiSocios.obtenerSociosSelect().toPromise().then(
+			respuesta => {
+				this.opcionesSocios = respuesta.data;
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
 	}
 
 	onSelectionChange(selectedOptions: Option[]) {
 		this.sociosSeleccionados = selectedOptions;
+	}
+
+	get paginatedItems() {
+		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+		const endIndex = startIndex + this.itemsPerPage;
+		return this.listaSocios.slice(startIndex, endIndex);
+	}
+	
+	get totalPages() {
+		return Math.ceil(this.listaSocios.length / this.itemsPerPage);
+	}
+	
+	get pagesArray() {
+		const visiblePages = 3;
+		const halfVisible = Math.floor(visiblePages / 2);
+	
+		let startPage = Math.max(this.currentPage - halfVisible, 1);
+		let endPage = startPage + visiblePages - 1;
+	
+		if (endPage > this.totalPages) {
+			endPage = this.totalPages;
+			startPage = Math.max(endPage - visiblePages + 1, 1);
+		}
+	
+		return Array(endPage - startPage + 1).fill(0).map((_, i) => startPage + i);
+	}
+	
+	goToPage(page: number) {
+		if (page >= 1 && page <= this.totalPages) {
+			this.currentPage = page;
+		}
+	}
+	
+	onItemsPerPageChange() {
+		this.currentPage = 1;
+		this.itemsPerPage = Number(this.itemsPerPage);
 	}
 
 	consultarSociosPorSelect () : void {
@@ -77,19 +108,5 @@ export class SociosComponent implements OnInit, AfterViewInit {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
-	}
-
-	ngAfterViewInit(): void {
-		this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-			dtInstance.columns().every(function () {
-				const that: any = this;
-				const inputElement = $('input', this.footer())[0] as HTMLInputElement;
-				$(inputElement).on('keyup change', function () {
-					if (that.search() !== inputElement.value) {
-						that.search(inputElement.value).draw();
-					}
-				});
-			});
-		});
 	}
 }

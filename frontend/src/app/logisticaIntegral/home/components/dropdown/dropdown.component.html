@@ -11,7 +11,7 @@
             <input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar" (input)="filterOptions($event)">
         </div>
         <ul class="dropdown-list">
-            <li class="form-check" *ngFor="let option of filteredOptions">
+            <li class="form-check listaSocios" *ngFor="let option of filteredOptions">
                 <input class="form-check-input" type="checkbox" [value]="option.value" [id]="option.value" [checked]="option.checked" (change)="optionChanged(option)">
                 <label class="form-check-label" [for]="option.value">{{ option.label }}</label>
             </li>

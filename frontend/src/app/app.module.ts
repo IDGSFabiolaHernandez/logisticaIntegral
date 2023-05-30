@@ -12,7 +12,6 @@ import { HomeModule } from './logisticaIntegral/home/home.module';
 import { NavbarComponent } from './logisticaIntegral/home/components/navbar/navbar.component';
 import { SidebarComponent } from './logisticaIntegral/home/components/sidebar/sidebar.component';
 import { FooterComponent } from './logisticaIntegral/home/components/footer/footer.component';
-import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import { DataTablesModule } from "angular-datatables";
     FormsModule,
     RouterModule.forRoot(AppRoutes),
     HttpClientModule,
-    DataTablesModule,
     HomeModule
   ],
   providers: [],
