@@ -24,4 +24,10 @@ class LoginRepository
                               ]);
         return $usuario->count() > 0;
     }
+
+    public function obtenerDatosUsuarioPorID( $id ){
+        $usuario = TblUsuarios::where('id', $id);
+
+        return $usuario->get();
+    }
 }
