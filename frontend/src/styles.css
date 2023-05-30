@@ -1311,3 +1311,12 @@ button {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
 }
+
+.dropdown-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.listaSocios {
+  margin-left: -30px;
+}

@@ -16,4 +16,8 @@ export class SociosService {
   public obtenerListaSocios ( socios : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/socios/listaSocios', socios);
   }
+
+  public obtenerSociosSelect () : Observable<any> {
+    return this.http.get<any>(this.url+'/socios/obtenerSociosSelect');
+  }
 }

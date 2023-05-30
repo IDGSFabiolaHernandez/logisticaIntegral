@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './modules/inicio/inicio.component';
 import { SociosComponent } from './modules/socios/socios.component';
-import { DataTablesModule } from "angular-datatables";
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
@@ -13,8 +12,7 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
         CommonModule,
         RouterModule.forChild(HomeRoutes),
         FormsModule,
-        ReactiveFormsModule,
-        DataTablesModule
+        ReactiveFormsModule
     ],
     declarations: [
         InicioComponent,

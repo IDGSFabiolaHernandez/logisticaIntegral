@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import Option from 'src/app/shared/interfaces/options.interface';
 
 @Component({
@@ -7,7 +7,7 @@ import Option from 'src/app/shared/interfaces/options.interface';
   	styleUrls: ['./dropdown.component.css']
 })
 
-export class DropdownComponent {
+export class DropdownComponent implements OnInit, OnChanges {
 	@Input() options: Option[] = [];
 	@Output() selectionChange: EventEmitter<Option[]> = new EventEmitter<Option[]>();
 
@@ -16,8 +16,12 @@ export class DropdownComponent {
 
 	constructor(private elementRef: ElementRef) {}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.filteredOptions = [...this.options];
+		this.updateSelectedCount();
+	}
+
+	ngOnChanges(): void {
 		this.updateSelectedCount();
 	}
 

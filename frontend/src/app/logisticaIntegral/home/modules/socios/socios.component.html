@@ -18,8 +18,8 @@
                         <app-dropdown [options]="opcionesSocios" (selectionChange)="onSelectionChange($event)"></app-dropdown>
                     </div>
                     <div class="botonera">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoReporte">Nuevo</button>
-                        <button class="btn btn-primary">Consultar</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoSocio">Nuevo</button>
+                        <button class="btn btn-primary" (click)="consultarSociosPorSelect()">Consultar</button>
                         <button class="btn btn-primary" disabled="true">Excel</button>
                         <button class="btn btn-danger">Limpiar</button>
                     </div>
@@ -29,32 +29,102 @@
             <div class="card recent-sales overflow-auto">
                 <div class="card-body">
                     <br>
-                    <table datatable [dtOptions]="dtOptions" class="table">
+                    <div class="col-lg-3 col-md-5 col-sm-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Mostrar</span>
+                            <select id="itemsPerPageSelect" class="form-select" [(ngModel)]="itemsPerPage" (ngModelChange)="onItemsPerPageChange()">
+                                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+                            </select>
+                            <span class="input-group-text">Registros</span>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Socio</th>
+                                <th scope="col">Status Socio</th>
+                                <th scope="col">Relación Empresas</th>
+                                <th scope="col">CURP</th>
+                                <th scope="col">RFC</th>
+                                <th scope="col">Intermediario</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-                                <td>Adrián Villa</td>
-                                <td>Activo</td>
-                                <td>12</td>
-                                <td>VIRA010529HMCLYDA5</td>
-                                <td>VIRA010529</td>
-                                <td>Logística Integral</td>
+                                <td><input type="text" class="form-control" placeholder="#"></td>
+                                <td><input type="text" class="form-control" placeholder="Socio"></td>
+                                <td><input type="text" class="form-control" placeholder="Status Socio"></td>
+                                <td><input type="text" class="form-control" placeholder="Relación Empresas"></td>
+                                <td><input type="text" class="form-control" placeholder="CURP"></td>
+                                <td><input type="text" class="form-control" placeholder="RFC"></td>
+                                <td><input type="text" class="form-control" placeholder="Intermediario"></td>
+                            </tr>
+                            <tr *ngFor="let socio of paginatedItems">
+                                <th scope="row">{{ socio.id }}</th>
+                                <td>{{ socio.nombreSocio }}</td>
+                                <td>{{ socio.status }}</td>
+                                <td>{{ socio.numEmpresas }}</td>
+                                <td>{{ socio.curpSocio }}</td>
+                                <td>{{ socio.rfcSocio }}</td>
+                                <td>{{ socio.nombreIntermediario }}</td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th><input type="text" class="form-control" name="search-id" placeholder="#"/></th>
-                                <th><input type="text" class="form-control" name="search-socio" placeholder="Socio"/></th>
-                                <th><input type="text" class="form-control" name="search-statusSocio" placeholder="Status Socio"/></th>
-                                <th><input type="text" class="form-control" name="search-relacionEmpresas" placeholder="Relación Empresas"/></th>
-                                <th><input type="text" class="form-control" name="search-curp" placeholder="CURP"/></th>
-                                <th><input type="text" class="form-control" name="search-rfc" placeholder="RFC"/></th>
-                                <th><input type="text" class="form-control" name="search-intermediario" placeholder="Intermediario"/></th>
-                            </tr>
-                        </tfoot>
                     </table>
+                      
+                    <nav class="d-flex justify-content-center">
+                        <ul class="pagination">
+                            <li class="page-item" [class.disabled]="currentPage === 1">
+                                <a class="page-link" (click)="goToPage(1)" aria-label="First">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="visually-hidden">First</span>
+                                </a>
+                            </li>
+                            <li class="page-item" [class.disabled]="currentPage === 1">
+                                <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
+                                    <span aria-hidden="true">&lsaquo;</span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item" [class.active]="page === currentPage" *ngFor="let page of pagesArray">
+                                <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+                            </li>
+                            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                                <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
+                                    <span aria-hidden="true">&rsaquo;</span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </li>
+                            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                                <a class="page-link" (click)="goToPage(totalPages)" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="visually-hidden">Last</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+  
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!--div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true" *ngIf="this.permisos.escritura.status"></!--div-->
+<div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+            </div>
+
+            <div class="modal-footer" style="text-align: center;">
+                <!--button type="button" class="btn btn-primary" (click)="crearRegistroReporte()" *ngIf="this.permisos.escritura.status"><b>Generar nuevo reporte</b></!--button-->
+                <button type="button" class="btn btn-primary"><b>Regitrar Socio</b></button>
+                <!--button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal" (click)="limpiarFormulario()"><b>Cancelar</b></!--button-->
+                <button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal"><b>Cancelar</b></button>
+            </div>
+        </div>
+    </div>
+</div>
