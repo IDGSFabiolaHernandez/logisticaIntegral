@@ -13,6 +13,7 @@ export class DropdownComponent implements OnInit, OnChanges {
 
 	selectedCount = 0;
 	filteredOptions: Option[] = [];
+	searchText : string = '';
 
 	constructor(private elementRef: ElementRef) {}
 
@@ -47,6 +48,17 @@ export class DropdownComponent implements OnInit, OnChanges {
 
 	filterOptions(event: Event) {
 		const searchText = (event.target as HTMLInputElement).value;
+		this.searchText = searchText;
+		if (searchText === '') {
+			this.filteredOptions = [...this.options];
+		} else {
+			this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(searchText.toLowerCase()));
+		}
+		this.updateSelectedCount();
+	}
+
+	alternativeFilter () {
+		const searchText = this.searchText;
 		if (searchText === '') {
 			this.filteredOptions = [...this.options];
 		} else {
@@ -71,5 +83,6 @@ export class DropdownComponent implements OnInit, OnChanges {
 	updateSelection() {
 		const selectedOptions = this.getSelectedOptions();
 		this.selectionChange.emit(selectedOptions);
+		this.alternativeFilter();
 	}
 }
