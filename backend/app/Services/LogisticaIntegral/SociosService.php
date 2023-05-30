@@ -44,7 +44,7 @@ class SociosService
             $temp = [
                 'value' => $item->id,
                 'label' => $item->nombreSocio,
-                'status' => true
+                'checked' => true
             ];
 
             array_push($opcionesSelect, $temp);
