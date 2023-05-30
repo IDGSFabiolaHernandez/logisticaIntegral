@@ -42,25 +42,47 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Socio</th>
-                                <th scope="col">Status Socio</th>
-                                <th scope="col">Relación Empresas</th>
-                                <th scope="col">CURP</th>
-                                <th scope="col">RFC</th>
-                                <th scope="col">Intermediario</th>
+                                <th scope="col" (click)="sortColumn('id')">#
+                                    <span *ngIf="sortBy === 'id' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'id' && sortDesc">&#9660;</span>
+                                </th>
+                                <th scope="col" (click)="sortColumn('nombreSocio')">Socio
+                                    <span *ngIf="sortBy === 'nombreSocio' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'nombreSocio' && sortDesc">&#9660;</span>
+                                </th>
+                                <th scope="col" (click)="sortColumn('status')">Status Socio
+                                    <span *ngIf="sortBy === 'status' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'status' && sortDesc">&#9660;</span>
+                                </th>
+                                <th scope="col" (click)="sortColumn('numEmpresas')">Relación Empresas
+                                    <span *ngIf="sortBy === 'numEmpresas' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'numEmpresas' && sortDesc">&#9660;</span>
+                                </th>
+                                <th scope="col" (click)="sortColumn('curpSocio')">CURP
+                                    <span *ngIf="sortBy === 'curpSocio' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'curpSocio' && sortDesc">&#9660;</span>
+                                </th>
+                                <th scope="col" (click)="sortColumn('rfcSocio')">RFC
+                                    <span *ngIf="sortBy === 'rfcSocio' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'rfcSocio' && sortDesc">&#9660;</span>
+                                </th>
+                                <th scope="col" (click)="sortColumn('nombreIntermediario')">Intermediario
+                                    <span *ngIf="sortBy === 'nombreIntermediario' && !sortDesc">&#9650;</span>
+                                    <span *ngIf="sortBy === 'nombreIntermediario' && sortDesc">&#9660;</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="text" class="form-control" placeholder="#"></td>
-                                <td><input type="text" class="form-control" placeholder="Socio"></td>
-                                <td><input type="text" class="form-control" placeholder="Status Socio"></td>
-                                <td><input type="text" class="form-control" placeholder="Relación Empresas"></td>
-                                <td><input type="text" class="form-control" placeholder="CURP"></td>
-                                <td><input type="text" class="form-control" placeholder="RFC"></td>
-                                <td><input type="text" class="form-control" placeholder="Intermediario"></td>
-                            </tr>
+                                <td><input type="text" class="form-control" placeholder="#" [(ngModel)]="filterValues.id" (input)="onItemsPerPageChange()"></td>
+                                <td><input type="text" class="form-control" placeholder="Socio" [(ngModel)]="filterValues.nombreSocio" (input)="onItemsPerPageChange()"></td>
+                                <td><input type="text" class="form-control" placeholder="Status Socio" [(ngModel)]="filterValues.status" (input)="onItemsPerPageChange()"></td>
+                                <td><input type="text" class="form-control" placeholder="Relación Empresas" [(ngModel)]="filterValues.numEmpresas" (input)="onItemsPerPageChange()"></td>
+                                <td><input type="text" class="form-control" placeholder="CURP" [(ngModel)]="filterValues.curpSocio" (input)="onItemsPerPageChange()"></td>
+                                <td><input type="text" class="form-control" placeholder="RFC" [(ngModel)]="filterValues.rfcSocio" (input)="onItemsPerPageChange()"></td>
+                                <td><input type="text" class="form-control" placeholder="Intermediario" [(ngModel)]="filterValues.nombreIntermediario" (input)="onItemsPerPageChange()"></td>
+                            </tr>  
+                              
                             <tr *ngFor="let socio of paginatedItems">
                                 <th scope="row">{{ socio.id }}</th>
                                 <td>{{ socio.nombreSocio }}</td>
