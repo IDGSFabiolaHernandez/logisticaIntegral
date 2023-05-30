@@ -3,6 +3,7 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\SociosRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SociosService
@@ -55,6 +56,31 @@ class SociosService
                 'mensaje' => 'Se consultó con éxito',
                 'data' => $opcionesSelect
             ]
+        );
+    }
+
+    public function registroNuevoSocio($datosSocios){
+        $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocios);
+
+        if($validarSocio > 0 ){
+            return response()->json(
+                [
+                    'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor de validar la información',
+                    'status' => 409
+                ],
+                200
+            );
+        }
+
+        DB::beginTransaction();
+            $this->sociosRepository->registroNuevoSocio($datosSocios);
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se registro el Socio con éxito'      
+            ],
+            200
         );
     }
 }
