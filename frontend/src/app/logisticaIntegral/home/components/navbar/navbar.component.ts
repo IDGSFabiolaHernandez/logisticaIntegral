@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/logisticaIntegral/services/data.service';
+import { MensajesService } from '../../../../services/mensajes/mensajes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +11,9 @@ import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 export class NavbarComponent implements OnInit{
 
   constructor(
-    private dataService : DataService
+    private dataService : DataService,
+    private mensajes : MensajesService,
+    private router : Router
   ){}
 
   ngOnInit(): void {
@@ -18,5 +22,11 @@ export class NavbarComponent implements OnInit{
 
   prueba() : void {
     this.dataService.claseSidebar = this.dataService.claseSidebar == '' ? 'toggle-sidebar' : '';
+  }
+
+  logout() : void {
+    this.mensajes.mensajeEsperar();
+    this.router.navigate(['/']);
+    this.mensajes.mensajeGenerico('Vuelva pronto', 'info');
   }
 }
