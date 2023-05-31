@@ -1,0 +1,217 @@
+<div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="pagetitle">
+                <h1>Registro de Socios</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">Socios</li>
+                        <li class="breadcrumb-item active">Registro de Socios</li>
+                    </ol>
+                </nav>
+            </div>
+            
+            <section class="section profile formsWTitle">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body pt-3">
+                            
+                                <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                                    <li class="nav-item flex-fill" role="presentation">
+                                        <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#profile-informacion" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                            Información personal
+                                        </button>
+                                    </li>
+                                    <li class="nav-item flex-fill" role="presentation">
+                                        <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-direccion" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
+                                            Detalles de domicilio
+                                        </button>
+                                    </li>
+                                    <li class="nav-item flex-fill" role="presentation">
+                                        <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-identificacion" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
+                                            Datos de identificación
+                                        </button>
+                                    </li>
+                                </ul>
+                
+                                <div class="tab-content pt-2">
+                                    <div class="tab-pane fade show active profile-edit" id="profile-informacion">
+                                        <h5 class="card-title" align="center" style="margin-top: 15px;">Información personal</h5>
+                        
+                                        <!--form class="row g-3" autocomplete="off" [formGroup]="formInformacionCliente" (input)="prevNuevoCliente()" (change)="prevNuevoCliente()"-->
+                                        <form class="row g-3" autocomplete="off">
+                                            <div class="col-md-6">
+                                                <label for="nombreSocio" class="form-label required">Nombre(s):</label>
+                                                <input formControlName="nombreSocio" type="text" class="form-control" id="nombreSocio" placeholder="Nombre(s)" (keypress)="soloLetras($event)" maxlength="255">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="statusSocio" class="form-label required">Status Socio:</label>
+                                                <section style="text-align: center;">
+                                                    <input class="form-check-input" type="radio" formControlName="statusSocio" id="statusSocioA" value="1" checked>
+                                                    <label class="form-check-label" for="statusSocioA">&nbsp;Activo</label>
+                                                    &nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" formControlName="statusSocio" id="statusSocioI" value="0">
+                                                    <label class="form-check-label" for="statusSocioI">&nbsp;Inactivo</label>
+                                                </section>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="fechaNacimiento" class="form-label required">Fecha Nacimiento:</label>
+                                                <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento">
+                                            </div>
+                        
+                                            <div class="col-md-6">
+                                                <label for="curpSocio" class="form-label required">CURP:</label>
+                                                <input formControlName="curpSocio" type="text" class="form-control" id="curpSocio" placeholder="CURP" (keypress)="soloTexto($event)" maxlength="18">
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="rfcSocio" class="form-label required">RFC:</label>
+                                                <input formControlName="rfcSocio" type="text" class="form-control" id="rfcSocio" placeholder="RFC" (keypress)="soloTexto($event)" maxlength="13">
+                                            </div>
+                                            
+                                            <div class="col-md-4">
+                                                <label for="estadoCivilSocio" class="form-label required">Estado Civil:</label>
+                                                <select formControlName="estadoCivilSocio" id="estadoCivilSocio" class="form-control">
+                                                    <option value="" style="display: none; visibility: hidden;">Seleccione una estado</option>
+                                                    <option value="1">Solter@</option>
+                                                    <option value="2">Casad@</option>
+                                                    <option value="3">Divorciad@</option>
+                                                    <option value="4">Separación en proceso judicial</option>
+                                                    <option value="5">Viud@</option>
+                                                    <option value="6">Concubinato</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="telefonoCliente" class="form-label">Teléfono:</label>
+                                                <input formControlName="telefonoCliente" type="text" class="form-control" id="telefonoCliente" placeholder="Teléfono" (keypress)="soloNumeros($event)" maxlength="10">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="lugarNacimiento" class="form-label required">Lugar de Nacimiento:</label>
+                                                <input formControlName="lugarNacimiento" type="text" class="form-control" id="lugarNacimiento" placeholder="Lugar de Nacimiento" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+                        
+                                            <div class="col-md-6">
+                                                <label for="ocupacion" class="form-label required">Ocupación:</label>
+                                                <input formControlName="ocupacion" type="text" class="form-control" id="ocupacion" placeholder="Ocupación" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+                                        </form>
+                                    </div>
+                
+                                    <div class="tab-pane fade pt-3 profile-edit" id="profile-direccion">
+                                        <h5 class="card-title" align="center">Detalles de domicilio</h5>
+                        
+                                        <!--form class="row g-3" autocomplete="off" [formGroup]="formDireccionRegistro" (input)="prevNuevoCliente()" (change)="prevNuevoCliente()"-->
+                                        <form class="row g-3" autocomplete="off">
+                                            <div class="col-md-6">
+                                                <label for="direccion" class="form-label required">Dirección:</label>
+                                                <input formControlName="direccion" type="text" class="form-control" id="direccion" placeholder="Dirección" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="colonia" class="form-label required">Colonia:</label>
+                                                <input formControlName="colonia" type="text" class="form-control" id="colonia" placeholder="Colonia" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="cp" class="form-label required">CP:</label>
+                                                <input formControlName="cp" type="text" class="form-control" id="cp" placeholder="CP" (keypress)="soloNumeros($event)" maxlength="5">
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="localidad" class="form-label required">Localidad:</label>
+                                                <input formControlName="localidad" type="text" class="form-control" id="localidad" placeholder="Localidad" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="estado" class="form-label required">Estado:</label>
+                                                <input formControlName="estado" type="text" class="form-control" id="estado" placeholder="Estado" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-pane fade pt-3 profile-edit" id="profile-identificacion">
+                                        <h5 class="card-title" align="center">Datos de identificación</h5>
+                        
+                                        <!--form class="row g-3" autocomplete="off" [formGroup]="formDireccionRegistro" (input)="prevNuevoCliente()" (change)="prevNuevoCliente()"-->
+                                        <form class="row g-3" autocomplete="off">
+                                            <div class="col-lg-6">
+                                                <label for="fkIntermediario" class="form-label required">Intermediario:</label>
+                                                <input
+                                                    list="browsers"
+                                                    class="form-control"
+                                                    id="fkIntermediario"
+                                                    formControlName="fkIntermediario"
+                                                    placeholder="Intermediario"
+                                                    (keypress)="soloLetras($event)"
+                                                    (input)="mostrarOpcionesCliente()"
+                                                    maxlength="255"
+                                                >
+            
+                                                <datalist id="browsers" *ngIf="this.mostrarOpciones">
+                                                    <option *ngFor="let intermediario of this.intermediarios" value="{{intermediario.Nombre}}">
+                                                </datalist>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-12">
+                                                <label for="tipoIdentificacion" class="form-label required">Tipo de identificación:</label>
+                                                <section style="text-align: center;">
+                                                    <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="INE" value="1" checked>
+                                                    <label class="form-check-label" for="INE">&nbsp;INE</label>&nbsp;&nbsp;&nbsp;
+                                                    <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="Pasaporte" value="2">
+                                                    <label class="form-check-label" for="Pasaporte">&nbsp;Pasaporte</label>&nbsp;&nbsp;&nbsp;
+                                                    <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="LicenciaManejo" value="3">
+                                                    <label class="form-check-label" for="LicenciaManejo">&nbsp;Licencia de manejo</label>
+                                                </section>
+                                            </div>
+                        
+                                            <div class="col-md-6">
+                                                <label for="numeroIdentificacion" class="form-label required">No. identificación:</label>
+                                                <input formControlName="numeroIdentificacion" type="text" class="form-control" id="numeroIdentificacion" placeholder="Número de identificación" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="vigencia" class="form-label required">Vigencia INE:</label>
+                                                <input formControlName="vigencia" type="text" class="form-control" id="vigencia" placeholder="Vigencia INE" (keypress)="soloTexto($event)" maxlength="255">
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <label for="fiel" class="form-label required">Fiel:</label>
+                                                <section style="text-align: center;">
+                                                    <input class="form-check-input" type="radio" formControlName="fiel" id="fielA" value="1" checked>
+                                                    <label class="form-check-label" for="fielA">&nbsp;Activo</label>&nbsp;&nbsp;&nbsp;
+                                                    <input class="form-check-input" type="radio" formControlName="fiel" id="fielI" value="0">
+                                                    <label class="form-check-label" for="fielI">&nbsp;Inactivo</label>
+                                                </section>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+                                                <input formControlName="fechaInicio" type="date" class="form-control" id="fechaInicio">
+                                            </div>
+
+                                            <div class="col-sm-12">
+                                                <label for="observaciones" class="form-label">Observaciones:</label>
+                                                <textarea formControlName="observaciones" class="form-control" id="observaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="modal-footer" style="text-align: center;">
+            <!--button type="button" class="btn btn-primary" (click)="crearRegistroReporte()" *ngIf="this.permisos.escritura.status"><b>Generar nuevo reporte</b></!--button-->
+            <button type="button" class="btn btn-primary"><b>Regitrar Socio</b></button>
+            <!--button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal" (click)="limpiarFormulario()"><b>Cancelar</b></!--button-->
+            <button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal"><b>Cancelar</b></button>
+        </div>
+    </div>
+</div>

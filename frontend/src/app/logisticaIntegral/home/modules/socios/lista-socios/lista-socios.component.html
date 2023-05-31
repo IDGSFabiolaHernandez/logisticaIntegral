@@ -135,18 +135,5 @@
 
 <!--div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true" *ngIf="this.permisos.escritura.status"></!--div-->
 <div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-body">
-                
-            </div>
-
-            <div class="modal-footer" style="text-align: center;">
-                <!--button type="button" class="btn btn-primary" (click)="crearRegistroReporte()" *ngIf="this.permisos.escritura.status"><b>Generar nuevo reporte</b></!--button-->
-                <button type="button" class="btn btn-primary"><b>Regitrar Socio</b></button>
-                <!--button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal" (click)="limpiarFormulario()"><b>Cancelar</b></!--button-->
-                <button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal"><b>Cancelar</b></button>
-            </div>
-        </div>
-    </div>
+    <app-registro-socios></app-registro-socios>
 </div>
