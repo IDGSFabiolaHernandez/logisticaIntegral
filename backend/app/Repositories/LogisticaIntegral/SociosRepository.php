@@ -3,6 +3,7 @@
 namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblSocios;
+use App\Models\TblSociosEmpresas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -70,5 +71,36 @@ class SociosRepository
                                 ]);
 
         return $validarSocio->coutn();
+    }
+
+    public function obtenerSociosEmpresas($socios, $empresas){
+        $sociosEmpresasAmbos = TblSociosEmpresas::select(
+                                                    'tblSocios.nombreSocio',
+                                                    'tblSocios.status as activoSocio',
+                                                    'empresas.nombre as nombreEmpresa',
+                                                    'empresas.status',
+                                                    'tblSociosEmpresas.id',
+                                                    'tblSociosEmpresas.fkSocio',
+                                                    'tblSociosEmpresas.fkEmpresa',
+                                                    'tblSociosEmpresas.tipoInstrumento',
+                                                    'tblSociosEmpresas.numeroInstrumento',
+                                                    'tblSociosEmpresas.observaciones'
+                                                )
+                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesIngreso, '%M %Y' ) AS mesIngreso")
+                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesSalida, '%M %Y' ) AS mesSalida")
+                                                ->join('tblSocios', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
+                                                ->join('empresas', 'empresas.id', 'tblSociosEmpresas.fkEmpresa')
+                                                ->orderBy('nombreSocio','asc');
+                                                
+        if( is_null($empresas) ){
+            $sociosEmpresasAmbos->whereIn('fkSocio', $socios);
+        } else if(is_null($socios)){
+            $sociosEmpresasAmbos->whereIn('fkEmpresa', $empresas);
+        } else {
+            $sociosEmpresasAmbos->whereIn('fkSocio', $socios)
+                                ->whereIn('fkEmpresa', $empresas);
+        }
+
+        return $sociosEmpresasAmbos->get();
     }
 }
