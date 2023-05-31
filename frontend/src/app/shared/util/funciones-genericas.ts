@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import * as unorm from 'unorm';
+//import * as unorm from 'unorm';
 
 @Component({template: ''})
 
@@ -130,7 +130,7 @@ export default class Grid {
         return permisosmodulo;
     }
     
-    formatearMinusculasSinAcentos ( cadena : any ) : any {
+    /*formatearMinusculasSinAcentos ( cadena : any ) : any {
         return unorm.nfd(cadena ?? '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-    }
+    }*/
 }

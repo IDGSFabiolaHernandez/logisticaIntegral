@@ -4,8 +4,9 @@ import { HomeRoutes } from './home.routing';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './modules/inicio/inicio.component';
-import { SociosComponent } from './modules/socios/socios.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { RegistroSociosComponent } from './modules/socios/registro-socios/registro-socio.component';
+import { ListaSociosComponent } from './modules/socios/lista-socios/lista-socios.component';
 
 @NgModule({
     imports:[
@@ -16,8 +17,9 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     ],
     declarations: [
         InicioComponent,
-        SociosComponent,
         DropdownComponent,
+        RegistroSociosComponent,
+        ListaSociosComponent,
     ]
 })
 

@@ -33,7 +33,7 @@ class SociosRepository
     }
 
     public function registroNuevoSocio($datosSocios){
-        $fechaInicio = Carbon::parse($datosSocios->fechaInicio);
+        $fechaInicio = Carbon::parse($datosSocios['fechaInicio']);
         $registro = new TblSocios();
         $registro->nombreSocio            = $datosSocios['nombreSocio'];
         $registro->curpSocio              = $datosSocios['curpSocio'];

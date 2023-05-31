@@ -1,26 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
-import Option from '../../../../shared/interfaces/options.interface';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
-import { Subject } from 'rxjs';
-
-interface Socio {
-	id: number;
-	nombreSocio: string;
-	status: string;
-	numEmpresas: number;
-	curpSocio: string;
-	rfcSocio: string;
-	nombreIntermediario: string;
-  }
+import Option from 'src/app/shared/interfaces/options.interface';
 
 @Component({
-  selector: 'app-socios',
-  templateUrl: './socios.component.html',
-  styleUrls: ['./socios.component.css']
+  	selector: 'app-lista-socios',
+  	templateUrl: './lista-socios.component.html',
+  	styleUrls: ['./lista-socios.component.css']
 })
-
-export class SociosComponent implements OnInit {
+export class ListaSociosComponent {
 	protected opcionesSocios : Option[] = [];
 	private sociosSeleccionados : any[] = [];
 	protected listaSocios : any[] = [];

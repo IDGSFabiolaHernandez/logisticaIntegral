@@ -1320,3 +1320,13 @@ button {
 .listaSocios {
   margin-left: -30px;
 }
+
+.formsWTitle {
+  margin-top: 40px;
+}
+
+.required:after {
+  content: '*';
+  color: red;
+  margin-left: 5px;
+}
