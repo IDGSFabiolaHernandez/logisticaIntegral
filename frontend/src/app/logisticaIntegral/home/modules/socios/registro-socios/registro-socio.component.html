@@ -39,19 +39,18 @@
                                     <div class="tab-pane fade show active profile-edit" id="profile-informacion">
                                         <h5 class="card-title" align="center" style="margin-top: 15px;">Información personal</h5>
                         
-                                        <!--form class="row g-3" autocomplete="off" [formGroup]="formInformacionCliente" (input)="prevNuevoCliente()" (change)="prevNuevoCliente()"-->
-                                        <form class="row g-3" autocomplete="off">
+                                        <form class="row g-3" autocomplete="off" [formGroup]="formDatosPersonalesSocio">
                                             <div class="col-md-6">
                                                 <label for="nombreSocio" class="form-label required">Nombre(s):</label>
                                                 <input formControlName="nombreSocio" type="text" class="form-control" id="nombreSocio" placeholder="Nombre(s)" (keypress)="soloLetras($event)" maxlength="255">
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="statusSocio" class="form-label required">Status Socio:</label>
+                                                <label for="status" class="form-label required">Status Socio:</label>
                                                 <section style="text-align: center;">
-                                                    <input class="form-check-input" type="radio" formControlName="statusSocio" id="statusSocioA" value="1" checked>
+                                                    <input class="form-check-input" type="radio" formControlName="status" id="statusSocioA" value="1">
                                                     <label class="form-check-label" for="statusSocioA">&nbsp;Activo</label>
-                                                    &nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" formControlName="statusSocio" id="statusSocioI" value="0">
+                                                    &nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" formControlName="status" id="statusSocioI" value="0">
                                                     <label class="form-check-label" for="statusSocioI">&nbsp;Inactivo</label>
                                                 </section>
                                             </div>
@@ -85,8 +84,8 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="telefonoCliente" class="form-label">Teléfono:</label>
-                                                <input formControlName="telefonoCliente" type="text" class="form-control" id="telefonoCliente" placeholder="Teléfono" (keypress)="soloNumeros($event)" maxlength="10">
+                                                <label for="telefono" class="form-label">Teléfono:</label>
+                                                <input formControlName="telefono" type="text" class="form-control" id="telefono" placeholder="Teléfono" (keypress)="soloNumeros($event)" maxlength="10">
                                             </div>
 
                                             <div class="col-md-6">
@@ -104,8 +103,7 @@
                                     <div class="tab-pane fade pt-3 profile-edit" id="profile-direccion">
                                         <h5 class="card-title" align="center">Detalles de domicilio</h5>
                         
-                                        <!--form class="row g-3" autocomplete="off" [formGroup]="formDireccionRegistro" (input)="prevNuevoCliente()" (change)="prevNuevoCliente()"-->
-                                        <form class="row g-3" autocomplete="off">
+                                        <form class="row g-3" autocomplete="off" [formGroup]="formDetalleDomicilioSocio">
                                             <div class="col-md-6">
                                                 <label for="direccion" class="form-label required">Dirección:</label>
                                                 <input formControlName="direccion" type="text" class="form-control" id="direccion" placeholder="Dirección" (keypress)="soloTexto($event)" maxlength="255">
@@ -136,15 +134,14 @@
                                     <div class="tab-pane fade pt-3 profile-edit" id="profile-identificacion">
                                         <h5 class="card-title" align="center">Datos de identificación</h5>
                         
-                                        <!--form class="row g-3" autocomplete="off" [formGroup]="formDireccionRegistro" (input)="prevNuevoCliente()" (change)="prevNuevoCliente()"-->
-                                        <form class="row g-3" autocomplete="off">
+                                        <form class="row g-3" autocomplete="off" [formGroup]="formDatosIdentificacionSocio">
                                             <div class="col-lg-6">
-                                                <label for="fkIntermediario" class="form-label required">Intermediario:</label>
+                                                <label for="nombreIntermediario" class="form-label required">Intermediario:</label>
                                                 <input
                                                     list="browsers"
                                                     class="form-control"
-                                                    id="fkIntermediario"
-                                                    formControlName="fkIntermediario"
+                                                    id="nombreIntermediario"
+                                                    formControlName="nombreIntermediario"
                                                     placeholder="Intermediario"
                                                     (keypress)="soloLetras($event)"
                                                     (input)="mostrarOpcionesCliente()"
@@ -152,14 +149,14 @@
                                                 >
             
                                                 <datalist id="browsers" *ngIf="this.mostrarOpciones">
-                                                    <option *ngFor="let intermediario of this.intermediarios" value="{{intermediario.Nombre}}">
+                                                    <option *ngFor="let intermediario of this.intermediarios" value="{{intermediario.nombreIntermediario}}">
                                                 </datalist>
                                             </div>
 
                                             <div class="col-lg-6 col-md-12">
                                                 <label for="tipoIdentificacion" class="form-label required">Tipo de identificación:</label>
                                                 <section style="text-align: center;">
-                                                    <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="INE" value="1" checked>
+                                                    <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="INE" value="1">
                                                     <label class="form-check-label" for="INE">&nbsp;INE</label>&nbsp;&nbsp;&nbsp;
                                                     <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="Pasaporte" value="2">
                                                     <label class="form-check-label" for="Pasaporte">&nbsp;Pasaporte</label>&nbsp;&nbsp;&nbsp;
@@ -178,10 +175,10 @@
                                                 <input formControlName="vigencia" type="text" class="form-control" id="vigencia" placeholder="Vigencia INE" (keypress)="soloTexto($event)" maxlength="255">
                                             </div>
 
-                                            <div class="col-lg-6">
+                                            <div class="col-md-6">
                                                 <label for="fiel" class="form-label required">Fiel:</label>
                                                 <section style="text-align: center;">
-                                                    <input class="form-check-input" type="radio" formControlName="fiel" id="fielA" value="1" checked>
+                                                    <input class="form-check-input" type="radio" formControlName="fiel" id="fielA" value="1">
                                                     <label class="form-check-label" for="fielA">&nbsp;Activo</label>&nbsp;&nbsp;&nbsp;
                                                     <input class="form-check-input" type="radio" formControlName="fiel" id="fielI" value="0">
                                                     <label class="form-check-label" for="fielI">&nbsp;Inactivo</label>
@@ -209,9 +206,8 @@
 
         <div class="modal-footer" style="text-align: center;">
             <!--button type="button" class="btn btn-primary" (click)="crearRegistroReporte()" *ngIf="this.permisos.escritura.status"><b>Generar nuevo reporte</b></!--button-->
-            <button type="button" class="btn btn-primary"><b>Regitrar Socio</b></button>
-            <!--button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal" (click)="limpiarFormulario()"><b>Cancelar</b></!--button-->
-            <button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal"><b>Cancelar</b></button>
+            <button type="button" class="btn btn-primary" (click)="registrarSocio()"><b>Regitrar Socio</b></button>
+            <button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal" (click)="limpiarFormularios()"><b>Cancelar</b></button>
         </div>
     </div>
 </div>

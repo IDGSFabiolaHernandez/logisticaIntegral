@@ -10,7 +10,7 @@ import Option from 'src/app/shared/interfaces/options.interface';
 })
 export class ListaSociosComponent {
 	protected opcionesSocios : Option[] = [];
-	private sociosSeleccionados : any[] = [];
+	protected sociosSeleccionados : any[] = [];
 
 	protected columnasSocio : any = {
 		'id' 				  : '#',
@@ -45,28 +45,39 @@ export class ListaSociosComponent {
 		);
 	}
 
+	async refreshSocios () : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		await this.obtenerSociosSelect();
+		this.mensajes.mensajeGenericoToast('Se actualizó la lista de Socios', 'success');
+	}
+
 	onSelectionChange(selectedOptions: Option[]) {
 		this.sociosSeleccionados = selectedOptions;
 	}
 
 	consultarSociosPorSelect () : void {
 		this.mensajes.mensajeEsperar();
-
-		if ( this.sociosSeleccionados.length == 0 ) {
-			this.mensajes.mensajeGenerico('Para continuar antes debe seleccionar al menos un Socio', 'info');
-			return;
-		}
-
 		const arregloSocios = { socios : this.sociosSeleccionados.map(({value}) => value) };
 
 		this.apiSocios.obtenerListaSocios(arregloSocios).subscribe(
 			respuesta => {
 				this.listaSocios = respuesta.data;
-				console.log(this.listaSocios);
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
+	}
+
+	limpiarGrid () : void {
+		this.listaSocios = [];
+	}
+
+	canSearch () : boolean {
+		return this.sociosSeleccionados.length != 0;
+	}
+
+	canCrear () : boolean {
+		return this.listaSocios.length != 0;
 	}
 }

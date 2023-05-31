@@ -34,7 +34,7 @@ class SociosRepository
     }
 
     public function registroNuevoSocio($datosSocios){
-        $fechaInicio = Carbon::parse($datosSocios['fechaInicio']);
+        $fechaInicio = Carbon::parse($datosSocios['fechaInicio']) ?? null;
         $registro = new TblSocios();
         $registro->nombreSocio            = $datosSocios['nombreSocio'];
         $registro->curpSocio              = $datosSocios['curpSocio'];
@@ -56,7 +56,7 @@ class SociosRepository
         $registro->fechaNacimiento        = $datosSocios['fechaNacimiento'];
         $registro->fiel                   = $datosSocios['fiel'];
         $registro->fechaInicio            = $fechaInicio;
-        $registro->fechaFin               = $fechaInicio->addyears(4);
+        $registro->fechaFin               = $fechaInicio->addyears(4) ?? null;
         $registro->status                 = $datosSocios['status'];
         //$registro->fkUsuarioAlta          = $datosSocios[''];
         $registro->fechaAltaRegistro      = Carbon::now();
@@ -64,13 +64,13 @@ class SociosRepository
     }
 
     public function validarSocioExistente($datosSocios){
-        $validarSocio = TblSocios::where([
-                                    ['nombreSocio',$datosSocios['nombreSocio']],
-                                    ['curpSocio',$datosSocios['curpSocio']],
-                                    ['rfcSocio',$datosSocios['rfcSocio']]
-                                ]);
+        $validarSocio = TblSocios::orWhere(function ($query) use ($datosSocios) {
+                                       $query->where('nombreSocio', $datosSocios['nombreSocio'])
+                                             ->orWhere('curpSocio', $datosSocios['curpSocio'])
+                                             ->orWhere('rfcSocio', $datosSocios['rfcSocio']);
+                                   });
 
-        return $validarSocio->coutn();
+        return $validarSocio->count();
     }
 
     public function obtenerSociosEmpresas($socios, $empresas){

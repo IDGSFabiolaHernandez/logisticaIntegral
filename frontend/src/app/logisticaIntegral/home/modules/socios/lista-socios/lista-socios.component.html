@@ -15,13 +15,16 @@
                     <div class="col-md-3" style="margin-top: 10px;">
                         <label for="statusReportes" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label>
                         
-                        <app-dropdown [options]="opcionesSocios" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                        <div class="flex-container botonera">
+                            <app-dropdown [options]="opcionesSocios" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                            <div class="btn btn-outline-primary" (click)="refreshSocios()"><i class="bi bi-arrow-repeat"></i></div>
+                        </div>
                     </div>
                     <div class="botonera">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoSocio">Nuevo</button>
-                        <button class="btn btn-primary" (click)="consultarSociosPorSelect()">Consultar</button>
+                        <button class="btn btn-primary" [disabled]="!canSearch()" (click)="consultarSociosPorSelect()">Consultar</button>
                         <button class="btn btn-primary" disabled="true">Excel</button>
-                        <button class="btn btn-danger">Limpiar</button>
+                        <button class="btn btn-danger" [disabled]="!canCrear()" (click)="limpiarGrid()">Limpiar</button>
                     </div>
                 </div>
             </div>
@@ -33,5 +36,5 @@
 
 <!--div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true" *ngIf="this.permisos.escritura.status"></!--div-->
 <div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
-    <!--app-registro-socios></!--app-registro-socios-->
+    <app-registro-socios></app-registro-socios>
 </div>
