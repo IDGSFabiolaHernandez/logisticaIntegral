@@ -62,7 +62,7 @@ class SociosService
     public function registroNuevoSocio($datosSocios){
         $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocios);
 
-        if($validarSocio > 0 ){
+        if( $validarSocio > 0 ){
             return response()->json(
                 [
                     'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor de validar la información',
@@ -78,7 +78,7 @@ class SociosService
 
         return response()->json(
             [
-                'mensaje' => 'Se registro el Socio con éxito'      
+                'mensaje' => 'Se registró el Socio con éxito'      
             ],
             200
         );

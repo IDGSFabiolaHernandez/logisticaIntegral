@@ -20,4 +20,8 @@ export class SociosService {
   public obtenerSociosSelect () : Observable<any> {
     return this.http.get<any>(this.url+'/socios/obtenerSociosSelect');
   }
+
+  public registrarSocio ( datosSocio : any ) : Observable<any> {
+    return this.http.post<any>(this.url+'/socios/registroNuevoSocio', datosSocio);
+  }
 }

@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-//import * as unorm from 'unorm';
 
 @Component({template: ''})
 
 export default class Grid {
-
-    constructor( private router : Router ) {}
-
     public soloLetras(event: KeyboardEvent) {
         const pattern = /[a-zA-Zá-úÁ-Ú ]/;
         const inputChar = String.fromCharCode(event.charCode);
@@ -111,9 +106,9 @@ export default class Grid {
         return JSON.parse( cadenaObjeto.replace(/'/g, '"') );
     }
     
-    redireccionPorRuta ( ruta : string ) : void {
+    /*redireccionPorRuta ( ruta : string ) : void {
         this.router.navigate(['/gala/'+ruta]);
-    }
+    }*/
     
     obtenerPermisosPorModulo ( nombreModulo : string ) : any {
         const cadenaPermisos : any = localStorage.getItem('permisos');
