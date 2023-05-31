@@ -11,3 +11,4 @@ Route::get('socios/obtenerSociosSelect', 'App\Http\Controllers\LogisticaIntegral
 Route::post('socios/registroNuevoSocio', 'App\Http\Controllers\LogisticaIntegral\SociosController@registroNuevoSocio');
 Route::get('intermediarios/intermediariosSocios', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@obtenerIntermediariosSocios');
 Route::post('socios/obtenerSociosEmpresas','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosEmpresas');
+Route::get('empresas/listaEmpresas','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerListasEmpresas');
