@@ -83,4 +83,14 @@ class SociosService
             200
         );
     }
+
+    public function obtenerSociosEmpresas($datosSociosEmpresas){
+        $sociosEmpresasAmbos = $this->sociosRepository->obtenerSociosEmpresas($datosSociosEmpresas['socios'] ?? null, $datosSociosEmpresas['empresas'] ?? null);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó con éxito',
+                'data' => $sociosEmpresasAmbos
+            ]
+        );
+    }
 }
