@@ -26,114 +26,12 @@
                 </div>
             </div>
 
-            <div class="card recent-sales overflow-auto">
-                <div class="card-body">
-                    <br>
-                    <div class="col-lg-3 col-md-5 col-sm-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">Mostrar</span>
-                            <select id="itemsPerPageSelect" class="form-select" [(ngModel)]="itemsPerPage" (ngModelChange)="onItemsPerPageChange()">
-                                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
-                            </select>
-                            <span class="input-group-text">Registros</span>
-                        </div>
-                    </div>
-                    
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col" (click)="sortColumn('id')">#
-                                    <span *ngIf="sortBy === 'id' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'id' && sortDesc">&#9660;</span>
-                                </th>
-                                <th scope="col" (click)="sortColumn('nombreSocio')">Socio
-                                    <span *ngIf="sortBy === 'nombreSocio' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'nombreSocio' && sortDesc">&#9660;</span>
-                                </th>
-                                <th scope="col" (click)="sortColumn('status')">Status Socio
-                                    <span *ngIf="sortBy === 'status' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'status' && sortDesc">&#9660;</span>
-                                </th>
-                                <th scope="col" (click)="sortColumn('numEmpresas')">Relación Empresas
-                                    <span *ngIf="sortBy === 'numEmpresas' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'numEmpresas' && sortDesc">&#9660;</span>
-                                </th>
-                                <th scope="col" (click)="sortColumn('curpSocio')">CURP
-                                    <span *ngIf="sortBy === 'curpSocio' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'curpSocio' && sortDesc">&#9660;</span>
-                                </th>
-                                <th scope="col" (click)="sortColumn('rfcSocio')">RFC
-                                    <span *ngIf="sortBy === 'rfcSocio' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'rfcSocio' && sortDesc">&#9660;</span>
-                                </th>
-                                <th scope="col" (click)="sortColumn('nombreIntermediario')">Intermediario
-                                    <span *ngIf="sortBy === 'nombreIntermediario' && !sortDesc">&#9650;</span>
-                                    <span *ngIf="sortBy === 'nombreIntermediario' && sortDesc">&#9660;</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" class="form-control" placeholder="#" [(ngModel)]="filterValues.id" (input)="onItemsPerPageChange()"></td>
-                                <td><input type="text" class="form-control" placeholder="Socio" [(ngModel)]="filterValues.nombreSocio" (input)="onItemsPerPageChange()"></td>
-                                <td><input type="text" class="form-control" placeholder="Status Socio" [(ngModel)]="filterValues.status" (input)="onItemsPerPageChange()"></td>
-                                <td><input type="text" class="form-control" placeholder="Relación Empresas" [(ngModel)]="filterValues.numEmpresas" (input)="onItemsPerPageChange()"></td>
-                                <td><input type="text" class="form-control" placeholder="CURP" [(ngModel)]="filterValues.curpSocio" (input)="onItemsPerPageChange()"></td>
-                                <td><input type="text" class="form-control" placeholder="RFC" [(ngModel)]="filterValues.rfcSocio" (input)="onItemsPerPageChange()"></td>
-                                <td><input type="text" class="form-control" placeholder="Intermediario" [(ngModel)]="filterValues.nombreIntermediario" (input)="onItemsPerPageChange()"></td>
-                            </tr>  
-                              
-                            <tr *ngFor="let socio of paginatedItems">
-                                <th scope="row">{{ socio.id }}</th>
-                                <td>{{ socio.nombreSocio }}</td>
-                                <td>{{ socio.status }}</td>
-                                <td>{{ socio.numEmpresas }}</td>
-                                <td>{{ socio.curpSocio }}</td>
-                                <td>{{ socio.rfcSocio }}</td>
-                                <td>{{ socio.nombreIntermediario }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                      
-                    <nav class="d-flex justify-content-center">
-                        <ul class="pagination">
-                            <li class="page-item" [class.disabled]="currentPage === 1">
-                                <a class="page-link" (click)="goToPage(1)" aria-label="First">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="visually-hidden">First</span>
-                                </a>
-                            </li>
-                            <li class="page-item" [class.disabled]="currentPage === 1">
-                                <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
-                                    <span aria-hidden="true">&lsaquo;</span>
-                                    <span class="visually-hidden">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item" [class.active]="page === currentPage" *ngFor="let page of pagesArray">
-                                <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
-                            </li>
-                            <li class="page-item" [class.disabled]="currentPage === totalPages">
-                                <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
-                                    <span aria-hidden="true">&rsaquo;</span>
-                                    <span class="visually-hidden">Next</span>
-                                </a>
-                            </li>
-                            <li class="page-item" [class.disabled]="currentPage === totalPages">
-                                <a class="page-link" (click)="goToPage(totalPages)" aria-label="Last">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="visually-hidden">Last</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-  
-                </div>
-            </div>
+            <app-datatable [columnasTabla]="columnasSocio" [datosTabla]="listaSocios"></app-datatable>
         </div>
     </div>
 </section>
 
 <!--div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true" *ngIf="this.permisos.escritura.status"></!--div-->
 <div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
-    <app-registro-socios></app-registro-socios>
+    <!--app-registro-socios></!--app-registro-socios-->
 </div>

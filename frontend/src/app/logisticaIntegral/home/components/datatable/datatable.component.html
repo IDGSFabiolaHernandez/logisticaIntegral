@@ -1,0 +1,68 @@
+<div class="card recent-sales overflow-auto">
+    <div class="card-body">
+        <br>
+        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-6">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Mostrar</span>
+                <select id="itemsPerPageSelect" class="form-select" [(ngModel)]="itemsPerPage" (ngModelChange)="onItemsPerPageChange()">
+                    <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+                </select>
+                <span class="input-group-text">Registros</span>
+            </div>
+        </div>          
+        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)">
+                        {{ columnasTabla[columna] }}
+                        <span *ngIf="sortBy === columna && !sortDesc">&#9650;</span>
+                        <span *ngIf="sortBy === columna && sortDesc">&#9660;</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td *ngFor="let columna of getColumnKeys()">
+                        <input type="text" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                    </td>
+                </tr>
+                <tr *ngFor="let socio of paginatedItems">
+                    <td *ngFor="let columna of getColumnKeys()">{{ socio[columna] }}</td>
+                </tr>                  
+            </tbody>
+        </table>
+          
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <a class="page-link" (click)="goToPage(1)" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="visually-hidden">First</span>
+                    </a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" [class.active]="page === currentPage" *ngFor="let page of pagesArray">
+                    <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <a class="page-link" (click)="goToPage(totalPages)" aria-label="Last">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="visually-hidden">Last</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
