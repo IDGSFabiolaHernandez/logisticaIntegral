@@ -7,6 +7,7 @@ import { InicioComponent } from './modules/inicio/inicio.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { RegistroSociosComponent } from './modules/socios/registro-socios/registro-socio.component';
 import { ListaSociosComponent } from './modules/socios/lista-socios/lista-socios.component';
+import { DatatableComponent } from './components/datatable/datatable.component';
 
 @NgModule({
     imports:[
@@ -20,6 +21,7 @@ import { ListaSociosComponent } from './modules/socios/lista-socios/lista-socios
         DropdownComponent,
         RegistroSociosComponent,
         ListaSociosComponent,
+        DatatableComponent,
     ]
 })
 
