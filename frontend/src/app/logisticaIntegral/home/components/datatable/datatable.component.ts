@@ -37,7 +37,7 @@ export class DatatableComponent implements OnInit, OnChanges {
 		return this.datosTabla.filter((registro : any) => {
 			return Object.keys(this.filterValues).every((column : any) => {
 				const filter = this.filterValues[column].toLowerCase();
-				return registro[column].toString().toLowerCase().includes(filter);
+				return (registro[column]?.toString()?.toLowerCase() ?? '').includes(filter);
 			});
 		}).slice(startIndex, endIndex);
 	}

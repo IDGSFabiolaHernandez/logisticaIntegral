@@ -44,6 +44,7 @@ button {
   margin-right: 5px;
   padding-left: 15px;
   padding-right: 15px;
+  width: 120px;
 }
 
 ::-webkit-scrollbar {
@@ -1372,4 +1373,8 @@ button {
 #dropdownMenuButton {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
+}
+
+#itemsPerPageSelect {
+  border-radius: 0px;
 }
