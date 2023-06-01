@@ -1,16 +1,17 @@
 <div class="card recent-sales overflow-auto">
     <div class="card-body">
         <br>
-        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-6">
-            <div class="input-group mb-3">
-                <span class="input-group-text">Mostrar</span>
+        <div class="d-flex justify-content-center">
+            <div class="btn-group" role="group">
+                <button class="btn btn-light" disabled="true">Mostrar</button>
                 <select id="itemsPerPageSelect" class="form-select" [(ngModel)]="itemsPerPage" (ngModelChange)="onItemsPerPageChange()">
                     <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
                 </select>
-                <span class="input-group-text">Registros</span>
+                <button class="btn btn-light" disabled="true">Registros</button>
             </div>
-        </div>          
+        </div>
         
+        <br>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -33,7 +34,7 @@
             </tbody>
         </table>
           
-        <nav class="d-flex justify-content-center">
+        <nav class="d-flex justify-content-center" style="margin-bottom: -15px;">
             <ul class="pagination">
                 <li class="page-item" [class.disabled]="currentPage === 1">
                     <a class="page-link" (click)="goToPage(1)" aria-label="First">
