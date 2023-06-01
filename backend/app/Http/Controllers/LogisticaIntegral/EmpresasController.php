@@ -18,10 +18,25 @@ class EmpresasController extends Controller
         $this->empresasService = $EmpresasService;
     }
 
-    public function obtenerListasEmpresas(){
+    public function empresasGenerales(){
         try{
-            return $this->empresasService->obtenerListasEmpresas();
+            return $this->empresasService->empresasGenerales();
         } catch (\Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerEmpresasSelect( Request $request ){
+        try{
+            return $this->empresasService->obtenerEmpresasSelect( $request->all() );
+        } catch ( \Exception $error ){
             Log::alert($error);
             return response()->json(
                 [

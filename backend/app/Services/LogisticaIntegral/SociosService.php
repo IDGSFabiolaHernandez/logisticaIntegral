@@ -21,7 +21,7 @@ class SociosService
         $listaSocios = $this->sociosRepository->obtenerListaSocios($socios['socios']);
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron los Socios con éxito',
                 'data' => $listaSocios
             ]
         );
@@ -31,7 +31,7 @@ class SociosService
         $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron los Socios con éxito',
                 'data' => $sociosGenerales
             ]
         );
@@ -53,7 +53,7 @@ class SociosService
         
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron los Socios con éxito',
                 'data' => $opcionesSelect
             ]
         );
@@ -88,7 +88,7 @@ class SociosService
         $sociosEmpresasAmbos = $this->sociosRepository->obtenerSociosEmpresas($datosSociosEmpresas['socios'] ?? null, $datosSociosEmpresas['empresas'] ?? null);
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultarón los enlaces Socios-Empresas con éxito',
                 'data' => $sociosEmpresasAmbos
             ]
         );

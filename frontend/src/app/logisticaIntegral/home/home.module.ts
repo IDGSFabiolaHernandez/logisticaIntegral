@@ -4,10 +4,10 @@ import { HomeRoutes } from './home.routing';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './modules/inicio/inicio.component';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
-import { RegistroSociosComponent } from './modules/socios/registro-socios/registro-socio.component';
 import { ListaSociosComponent } from './modules/socios/lista-socios/lista-socios.component';
 import { DatatableComponent } from './components/datatable/datatable.component';
+import { SociosEmpresasComponent } from './modules/socios/socios-empresas/socios-empresas.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
     imports:[
@@ -18,10 +18,10 @@ import { DatatableComponent } from './components/datatable/datatable.component';
     ],
     declarations: [
         InicioComponent,
-        DropdownComponent,
-        RegistroSociosComponent,
         ListaSociosComponent,
         DatatableComponent,
+        SociosEmpresasComponent,
+        DropdownComponent,
     ]
 })
 

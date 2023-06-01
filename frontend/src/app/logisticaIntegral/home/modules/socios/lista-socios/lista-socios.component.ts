@@ -51,8 +51,10 @@ export class ListaSociosComponent {
 		this.mensajes.mensajeGenericoToast('Se actualizó la lista de Socios', 'success');
 	}
 
-	onSelectionChange(selectedOptions: Option[]) {
-		this.sociosSeleccionados = selectedOptions;
+	onSelectionChange (data: any) : void {
+		if ( data.from == 'socios' ) {
+			this.sociosSeleccionados = data.selectedOptions;
+		}
 	}
 
 	consultarSociosPorSelect () : void {
