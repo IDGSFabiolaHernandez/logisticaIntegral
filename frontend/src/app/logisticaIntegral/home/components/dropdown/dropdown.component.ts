@@ -9,7 +9,8 @@ import Option from 'src/app/shared/interfaces/options.interface';
 
 export class DropdownComponent implements OnInit, OnChanges {
 	@Input() options: Option[] = [];
-	@Output() selectionChange: EventEmitter<Option[]> = new EventEmitter<Option[]>();
+  	@Input() font: string = '';
+	@Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
 
 	selectedCount = 0;
 	filteredOptions: Option[] = [];
@@ -80,8 +81,11 @@ export class DropdownComponent implements OnInit, OnChanges {
 	}
 
 	updateSelection() {
-		const selectedOptions = this.getSelectedOptions();
-		this.selectionChange.emit(selectedOptions);
+		const data = {
+			selectedOptions : this.getSelectedOptions(),
+			from : this.font
+		};
+		this.selectionChange.emit(data);
 		this.alternativeFilter();
 	}
 }

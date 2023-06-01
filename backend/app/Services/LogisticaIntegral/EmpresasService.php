@@ -3,6 +3,7 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\EmpresasRepository;
+use Illuminate\Support\Facades\Log;
 
 class EmpresasService
 {
@@ -14,12 +15,34 @@ class EmpresasService
         $this->empresasRepository = $EmpresasRepository;
     }
 
-    public function obtenerListasEmpresas(){
-        $listaEmpresas = $this->empresasRepository->obtenerListasEmpresas();
+    public function empresasGenerales(){
+        $listaEmpresas = $this->empresasRepository->empresasGenerales();
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron las Empresas con éxito',
                 'data' => $listaEmpresas
+            ]
+        );
+    }
+
+    public function obtenerEmpresasSelect(){
+        $empresasGenerales = $this->empresasRepository->empresasGenerales();
+        $opcionesSelect = [];
+
+        foreach( $empresasGenerales as $item ){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombre,
+                'checked' => false
+            ];
+
+            array_push($opcionesSelect, $temp);
+        }
+        
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron las Empresas con éxito',
+                'data' => $opcionesSelect
             ]
         );
     }

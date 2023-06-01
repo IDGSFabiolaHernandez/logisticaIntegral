@@ -728,6 +728,12 @@ button {
   color: #4154f1;
 }
 
+.sidebar-nav .sidebar-nav .nav-link i {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #4154f1;
+}
+
 .sidebar-nav .nav-link.collapsed {
   color: #012970;
   background: #fff;
@@ -1336,4 +1342,34 @@ button {
   display: flex;
   align-items: center;
   margin-top: 3px;
+}
+
+.sidebar-nav .sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4154f1;
+  transition: 0.3;
+  background: #f6f9ff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-left: 30px;
+}
+
+.sidebar-nav .sidebar-nav .nav-content a {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  transition: 0.3;
+  padding: 10px 0 10px 40px;
+  transition: 0.3s;
+  margin-left: 30px;
+}
+
+#dropdownMenuButton {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
