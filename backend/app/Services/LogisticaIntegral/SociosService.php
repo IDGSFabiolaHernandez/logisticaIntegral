@@ -65,7 +65,7 @@ class SociosService
         if( $validarSocio > 0 ){
             return response()->json(
                 [
-                    'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor de validar la información',
+                    'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor validar la información',
                     'status' => 409
                 ],
                 200
@@ -91,6 +91,31 @@ class SociosService
                 'mensaje' => 'Se consultarón los enlaces Socios-Empresas con éxito',
                 'data' => $sociosEmpresasAmbos
             ]
+        );
+    }
+
+    public function generarEnlaceSocioEmpresa($datosSociosEmpresas){
+        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSociosEmpresas['fkSocio'],$datosSociosEmpresas['$fkEmpresa']);
+
+        if($enlaceExistente > 0){
+            return response()->json(
+                [
+                    'mensaje' => 'Upss! Al parecer ya existe un enlace de este Socio con la misma empresa. Por favor validar la información',
+                    'status' => 409
+                ],
+                200
+            );
+        }
+
+        DB::beginTransaction();
+            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas);
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se registró el nuevo Enlace con éxito'      
+            ],
+            200
         );
     }
 }

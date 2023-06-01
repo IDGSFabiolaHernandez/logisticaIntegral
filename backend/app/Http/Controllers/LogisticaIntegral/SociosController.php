@@ -92,4 +92,19 @@ class SociosController extends Controller
             );
         }
     }
+
+    public function generarEnlaceSocioEmpresa(Request $request){
+        try{
+            return $this->sociosService->obtenerSociosEmpresas( $request->all() );
+        }catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
