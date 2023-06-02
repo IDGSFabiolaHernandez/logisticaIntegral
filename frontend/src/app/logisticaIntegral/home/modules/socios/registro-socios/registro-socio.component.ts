@@ -11,12 +11,12 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   	styleUrls: ['./registro-socio.component.css']
 })
 export class RegistroSociosComponent extends Grid implements OnInit {
-	public formDatosPersonalesSocio! : FormGroup;
-  	public formDetalleDomicilioSocio! : FormGroup;
-	public formDatosIdentificacionSocio! : FormGroup;
+	protected formDatosPersonalesSocio! : FormGroup;
+  	protected formDetalleDomicilioSocio! : FormGroup;
+	protected formDatosIdentificacionSocio! : FormGroup;
 
 	public mostrarOpciones : boolean = false;
-	public intermediarios : any = [];
+	protected intermediarios : any = [];
 
 	constructor (
 		private mensajes : MensajesService,
@@ -80,29 +80,34 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 		);
 	}
 
+	mostrarOpcionesIntermediarios () : void {
+		const campoNombre : any = this.formDatosIdentificacionSocio.get('nombreIntermediario')?.value;
+		this.mostrarOpciones = campoNombre.length > 0;
+		this.formDatosIdentificacionSocio.get('nombreIntermediario')?.setValue( campoNombre.trim() );
+	}
+
 	protected registrarSocio () : void {
 		if ( this.formDatosPersonalesSocio.invalid ) {
-			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta de la información personal.', 'warning', 'Los campos requeridos están marcados con un *');
+			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta de la Información personal.', 'warning', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 	  
 		if ( this.formDetalleDomicilioSocio.invalid ) {
-			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta de los detalles del domicilio.', 'warning', 'Los campos requeridos están marcados con un *');
+			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta de los Detalles del domicilio.', 'warning', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
 		if ( this.formDatosIdentificacionSocio.invalid ) {
-			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta de los datos de identificación.', 'warning', 'Los campos requeridos están marcados con un *');
+			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta de los Datos de identificación.', 'warning', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
 		if ( !this.validaClienteExistente() ) {
-			this.mensajes.mensajeGenerico('Para continuar debe colocar un intermediario existente y valido.', 'info', 'Los campos requeridos están marcados con un *');
+			this.mensajes.mensajeGenerico('Para continuar debe colocar un Intermediario existente y valido.', 'info', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
 		this.mensajes.mensajeEsperar();
-
 		this.formDatosIdentificacionSocio.value.fkIntermediario = this.obtenerIntermediarioPorNombre(this.formDatosIdentificacionSocio.value.nombreIntermediario).id;
 
 		const datosSocio = {
@@ -113,13 +118,13 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 
 		this.apiSocios.registrarSocio( datosSocio ).subscribe(
 			respuesta => {
-				if ( respuesta.status != 409 ) {
-					this.limpiarFormularios();
-					this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
+				if ( respuesta.status == 409 ) {
+					this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
 					return;
 				}
-	
-				this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
+
+				this.limpiarFormularios();
+				this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
 				return;
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
@@ -134,12 +139,6 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 		});
 	
 		return resultado.length > 0 ? resultado[0] : {};
-	}
-
-	mostrarOpcionesCliente () : void {
-		const campoNombre : any = this.formDatosIdentificacionSocio.get('nombreIntermediario')?.value;
-		this.mostrarOpciones = campoNombre.length > 0;
-		this.formDatosIdentificacionSocio.get('nombreIntermediario')?.setValue( campoNombre.trim() );
 	}
 
 	private validaClienteExistente () : boolean {

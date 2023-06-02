@@ -23,13 +23,13 @@
                 <i class="bi bi-people"></i><span>Socios Empresas</span><i class="bi bi-chevron-down ms-auto"></i>
               </a>
               <ul id="components-nav-sociosEmpresas" class="nav-content collapse " data-bs-parent="#sidebar-nav-socios-empresas">
-                <li>
+                <li data-bs-toggle="modal" data-bs-target="#nuevoEnlaceSocioEmpresa">
                   <a>
                     <i class="bi bi-circle"></i><span>Nuevo enlace</span>
                   </a>
                 </li>
-                <li>
-                  <a [routerLink]="['socios/sociosEmpresas']">
+                <li [routerLink]="['socios/sociosEmpresas']">
+                  <a>
                     <i class="bi bi-circle"></i><span>Consulta</span>
                   </a>
                 </li>
@@ -49,4 +49,8 @@
 
 <div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
   <app-registro-socios></app-registro-socios>
+</div>
+
+<div class="modal fade section profile" id="nuevoEnlaceSocioEmpresa" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
+  <app-registro-enlace-socios-empresas></app-registro-enlace-socios-empresas>
 </div>

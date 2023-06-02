@@ -95,7 +95,7 @@ class SociosController extends Controller
 
     public function generarEnlaceSocioEmpresa(Request $request){
         try{
-            return $this->sociosService->obtenerSociosEmpresas( $request->all() );
+            return $this->sociosService->generarEnlaceSocioEmpresa( $request->all() );
         }catch ( \Exception $error ){
             Log::alert($error);
             return response()->json(

@@ -24,8 +24,12 @@ export class SociosService {
   public registrarSocio ( datosSocio : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/socios/registroNuevoSocio', datosSocio);
   }
-
+  
   public obtenerSociosEmpresas ( data : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/socios/obtenerSociosEmpresas', data);
+  }
+
+  public generarEnlaceSocioEmpresa ( datosEnlace : any ) : Observable<any> {
+    return this.http.post<any>(this.url+'/socios/generarEnlaceSocioEmpresa', datosEnlace);
   }
 }

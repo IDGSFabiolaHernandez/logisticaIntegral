@@ -13,6 +13,7 @@ import { NavbarComponent } from './logisticaIntegral/home/components/navbar/navb
 import { SidebarComponent } from './logisticaIntegral/home/components/sidebar/sidebar.component';
 import { FooterComponent } from './logisticaIntegral/home/components/footer/footer.component';
 import { RegistroSociosComponent } from './logisticaIntegral/home/modules/socios/registro-socios/registro-socio.component';
+import { RegistroEnlaceSociosEmpresasComponent } from './logisticaIntegral/home/modules/socios/registro-enlace-socios-empresas/registro-enlace-socios-empresas.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RegistroSociosComponent } from './logisticaIntegral/home/modules/socios
     NavbarComponent,
     SidebarComponent,
     FooterComponent,
-    RegistroSociosComponent
+    RegistroSociosComponent,
+    RegistroEnlaceSociosEmpresasComponent
   ],
   imports: [
     BrowserModule,
