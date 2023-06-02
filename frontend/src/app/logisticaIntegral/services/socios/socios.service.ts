@@ -20,7 +20,7 @@ export class SociosService {
   public obtenerSociosSelect () : Observable<any> {
     return this.http.get<any>(this.url+'/socios/obtenerSociosSelect');
   }
-
+  
   public registrarSocio ( datosSocio : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/socios/registroNuevoSocio', datosSocio);
   }
@@ -28,8 +28,12 @@ export class SociosService {
   public obtenerSociosEmpresas ( data : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/socios/obtenerSociosEmpresas', data);
   }
-
+  
   public generarEnlaceSocioEmpresa ( datosEnlace : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/socios/generarEnlaceSocioEmpresa', datosEnlace);
+  }
+
+  public obtenerSociosGenerales () : Observable<any> {
+    return this.http.get<any>(this.url+'/socios/obtenerSociosGenerales');
   }
 }

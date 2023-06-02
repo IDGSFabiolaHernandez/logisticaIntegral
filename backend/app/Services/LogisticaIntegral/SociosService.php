@@ -95,7 +95,7 @@ class SociosService
     }
 
     public function generarEnlaceSocioEmpresa($datosSociosEmpresas){
-        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSociosEmpresas['fkSocio'],$datosSociosEmpresas['$fkEmpresa']);
+        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSociosEmpresas['fkSocio'], $datosSociosEmpresas['fkEmpresa']);
 
         if($enlaceExistente > 0){
             return response()->json(
