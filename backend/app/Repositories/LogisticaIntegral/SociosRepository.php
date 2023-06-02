@@ -114,12 +114,12 @@ class SociosRepository
 
     public function registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas){
         $registro = new TblSociosEmpresas();
-        $registro->fkSocio           = $datosSociosEmpresas['fkSocio,'];
-        $registro->fkEmpresa         = $datosSociosEmpresas['fkEmpresa,'];
-        $registro->mesIngreso        = $datosSociosEmpresas['mesIngreso,'];
-        $registro->tipoInstrumento   = $datosSociosEmpresas['tipoInstrumento,'];
-        $registro->numeroInstrumento = $datosSociosEmpresas['numeroInstrumento,'];
-        $registro->observaciones     = $datosSociosEmpresas['observaciones,'];
+        $registro->fkSocio           = $datosSociosEmpresas['fkSocio'];
+        $registro->fkEmpresa         = $datosSociosEmpresas['fkEmpresa'];
+        $registro->mesIngreso        = Carbon::parse($datosSociosEmpresas['mesIngreso']);
+        $registro->tipoInstrumento   = $datosSociosEmpresas['tipoInstrumento'];
+        $registro->numeroInstrumento = $datosSociosEmpresas['numeroInstrumento'];
+        $registro->observaciones     = $datosSociosEmpresas['observaciones'];
         //$registro->fkUsuarioAlta     = $datosSociosEmpresas['fkUsuarioAlta,'];
         $registro->fechaAlta         = Carbon::now();
         $registro->save();
