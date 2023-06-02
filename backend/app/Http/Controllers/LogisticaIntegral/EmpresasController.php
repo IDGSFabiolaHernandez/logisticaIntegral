@@ -47,4 +47,19 @@ class EmpresasController extends Controller
             );
         }
     }
+
+    public function obtenerEmpresasMensualidadesSelect(){
+        try{
+            return $this->empresasService->obtenerEmpresasMensualidadesSelect();
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
