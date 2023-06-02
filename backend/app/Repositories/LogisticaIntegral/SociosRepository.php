@@ -124,4 +124,16 @@ class SociosRepository
         $registro->fechaAlta         = Carbon::now();
         $registro->save();
     }
+
+    public function obtenerDetalldeSocio($idSocio){
+        $detalleSocio = TblSocios::where('id',$idSocio);
+
+        return $detalleSocio->get();
+    }
+
+    public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
+        $detalleEnlaceSocioEmpresa = TblSociosEmpresas::where('id',$idEnlace);
+
+        return $detalleEnlaceSocioEmpresa->get();
+    }
 }
