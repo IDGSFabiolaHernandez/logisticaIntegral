@@ -111,22 +111,28 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 			return;
 		}
 
-		this.mensajes.mensajeEsperar();
-		this.formEnlaceSocioEmpresa.value.fkSocio = this.obtenerSocioPorNombre(this.formEnlaceSocioEmpresa.value.nombreSocio).id;
-		this.formEnlaceSocioEmpresa.value.fkEmpresa = this.obtenerEmpresaPorNombre(this.formEnlaceSocioEmpresa.value.nombreEmpresa).id;
+		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Registrar enlace Socio-Empresa').then(
+			respuestaMensaje => {
+				if ( respuestaMensaje.isConfirmed ) {
+					this.mensajes.mensajeEsperar();
+					this.formEnlaceSocioEmpresa.value.fkSocio = this.obtenerSocioPorNombre(this.formEnlaceSocioEmpresa.value.nombreSocio).id;
+					this.formEnlaceSocioEmpresa.value.fkEmpresa = this.obtenerEmpresaPorNombre(this.formEnlaceSocioEmpresa.value.nombreEmpresa).id;
 
-		this.apiSocios.generarEnlaceSocioEmpresa(this.formEnlaceSocioEmpresa.value).subscribe(
-			respuesta => {
-				if ( respuesta.status == 409 ) {
-					this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
-					return;
+					this.apiSocios.generarEnlaceSocioEmpresa(this.formEnlaceSocioEmpresa.value).subscribe(
+						respuesta => {
+							if ( respuesta.status == 409 ) {
+								this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
+								return;
+							}
+
+							this.limpiarFormulario();
+							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
+							return;
+						}, error => {
+							this.mensajes.mensajeGenerico('error', 'error');
+						}
+					);
 				}
-
-				this.limpiarFormulario();
-				this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
-				return;
-			}, error => {
-				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
 	}

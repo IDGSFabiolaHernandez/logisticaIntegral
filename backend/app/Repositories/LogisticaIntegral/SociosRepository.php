@@ -14,11 +14,16 @@ class SociosRepository
         $listaSocios = TblSocios::select(
                                     'tblSocios.id',
                                     'tblSocios.nombreSocio',
-                                    'tblSocios.status',
                                     'tblSocios.curpSocio',
                                     'tblSocios.rfcSocio',
                                     'tblIntermediariosSocios.nombreIntermediario',
                                 )
+                                ->selectRaw("
+                                    case
+                                        when tblSocios.status = 1 then 'Activo'
+                                        else 'Inactivo'
+                                    end as status
+                                ")
                                 ->selectRaw('COALESCE(ne.numEmpresas, 0) AS numEmpresas')
                                 ->join('tblIntermediariosSocios', 'tblIntermediariosSocios.id', 'tblSocios.fkIntermediario')
                                 ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) AS numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id')
@@ -76,16 +81,36 @@ class SociosRepository
     public function obtenerSociosEmpresas($socios, $empresas){
         $sociosEmpresasAmbos = TblSociosEmpresas::select(
                                                     'tblSocios.nombreSocio',
-                                                    'tblSocios.status as activoSocio',
                                                     'empresas.nombre as nombreEmpresa',
-                                                    'empresas.status',
                                                     'tblSociosEmpresas.id',
                                                     'tblSociosEmpresas.fkSocio',
                                                     'tblSociosEmpresas.fkEmpresa',
-                                                    'tblSociosEmpresas.tipoInstrumento',
                                                     'tblSociosEmpresas.numeroInstrumento',
                                                     'tblSociosEmpresas.observaciones'
                                                 )
+                                                ->selectRaw("
+                                                    case
+                                                        when tblSocios.status = 1 then 'Activo'
+                                                        else 'Inactivo'
+                                                    end as activoSocio
+                                                ")
+                                                ->selectRaw("
+                                                    case
+                                                        when tblSociosEmpresas.tipoInstrumento = 1 then 'Acta Constitutiva'
+                                                        when tblSociosEmpresas.tipoInstrumento = 2 then 'Acta Asamblea Extraordinaria'
+                                                        when tblSociosEmpresas.tipoInstrumento = 3 then 'Poder'
+                                                    end as tipoInstrumento
+                                                ")
+                                                ->selectRaw("
+                                                    case
+                                                        when empresas.status = 1 then 'Activa'
+                                                        when empresas.status = 2 then 'X suspender'
+                                                        when empresas.status = 3 then 'En proceso'
+                                                        when empresas.status = 4 then 'Inactiva'
+                                                        when empresas.status = 5 then 'Maquila cliente'
+                                                        when empresas.status = 6 then 'Cuenta bancaria'
+                                                    end as status
+                                                ")
                                                 ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesIngreso, '%M %Y' ) AS mesIngreso")
                                                 ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesSalida, '%M %Y' ) AS mesSalida")
                                                 ->join('tblSocios', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
