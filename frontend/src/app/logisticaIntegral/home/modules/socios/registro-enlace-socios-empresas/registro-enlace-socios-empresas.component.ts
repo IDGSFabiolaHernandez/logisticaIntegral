@@ -47,6 +47,16 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		});
 	}
 
+	async refresh ( op : string ) : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		if ( op == 'Socios' ){
+			await this.obtenerSocios();
+		} else if ( op == 'Empresas' ) {
+			await this.obtenerEmpresas();
+		}
+		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
+	}
+
 	private obtenerSocios () : Promise<any> {
 		return this.apiSocios.obtenerSociosGenerales().toPromise().then(
 			respuesta => {
