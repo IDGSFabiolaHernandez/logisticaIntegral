@@ -118,4 +118,24 @@ class SociosService
             200
         );
     }
+
+    public function obtenerDetalldeSocio($idSocio){
+        $detalleSocio = $this->sociosRepository->obtenerDetalldeSocio($idSocio);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle de Socio con éxito',
+                'data' => $detalleSocio
+            ]
+        );
+    }
+
+    public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
+        $detalleEnlaceSocioEmpresa = $this->sociosRepository->obtenerDetalleEnlaceSocioEmpresa($idEnlace);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle del enlace Socio-Empresa con éxito',
+                'data' =>  $detalleEnlaceSocioEmpresa
+            ]
+        );
+    }
 }
