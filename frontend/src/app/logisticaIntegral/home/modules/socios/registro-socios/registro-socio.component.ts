@@ -107,27 +107,33 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 			return;
 		}
 
-		this.mensajes.mensajeEsperar();
-		this.formDatosIdentificacionSocio.value.fkIntermediario = this.obtenerIntermediarioPorNombre(this.formDatosIdentificacionSocio.value.nombreIntermediario).id;
+		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Registrar nuevo Socio').then(
+			respuestaMensaje => {
+				if (respuestaMensaje.isConfirmed) {
+					this.mensajes.mensajeEsperar();
+					this.formDatosIdentificacionSocio.value.fkIntermediario = this.obtenerIntermediarioPorNombre(this.formDatosIdentificacionSocio.value.nombreIntermediario).id;
 
-		const datosSocio = {
-			...this.formDatosPersonalesSocio.value,
-  			...this.formDetalleDomicilioSocio.value,
-			...this.formDatosIdentificacionSocio.value
-		};
+					const datosSocio = {
+						...this.formDatosPersonalesSocio.value,
+						...this.formDetalleDomicilioSocio.value,
+						...this.formDatosIdentificacionSocio.value
+					};
 
-		this.apiSocios.registrarSocio( datosSocio ).subscribe(
-			respuesta => {
-				if ( respuesta.status == 409 ) {
-					this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
-					return;
+					this.apiSocios.registrarSocio( datosSocio ).subscribe(
+						respuesta => {
+							if ( respuesta.status == 409 ) {
+								this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
+								return;
+							}
+
+							this.limpiarFormularios();
+							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
+							return;
+						}, error => {
+							this.mensajes.mensajeGenerico('error', 'error');
+						}
+					);
 				}
-
-				this.limpiarFormularios();
-				this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
-				return;
-			}, error => {
-				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
 	}

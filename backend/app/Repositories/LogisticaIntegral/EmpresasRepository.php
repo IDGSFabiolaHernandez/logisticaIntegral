@@ -7,7 +7,8 @@ use App\Models\TblEmpresas;
 class EmpresasRepository
 {
     public function obtenerEmpresasGenerales(){
-        $listaEmpresas = TblEmpresas::orderBy('nombre','asc');
+        $listaEmpresas = TblEmpresas::where('Activo', 1)
+                                    ->orderBy('nombre','asc');
         /*$listaEmpresas = TblEmpresas::select(
                                         'empresas.id as IdEmpresa',
                                         'empresas.Nombre as Empresa',
