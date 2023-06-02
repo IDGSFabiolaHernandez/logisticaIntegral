@@ -19,6 +19,23 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 	protected datosSocios : any = [];
 	protected datosEmpresas : any = [];
 
+	protected statusSocio : string = '';
+	protected statusEmpresa : string = '';
+
+	private opStatusSocio : string[] = [
+		'Inactivo',
+		'Activo'
+	];
+
+	private opStatusEmpresa : string[] = [
+		'Activa',
+		'X suspender',
+		'En proceso',
+		'Inactiva',
+		'Maquila cliente',
+		'Cuenta bancaria'
+	];
+
 	constructor (
 		private fb : FormBuilder,
 		private mensajes : MensajesService,
@@ -81,8 +98,14 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		const campoNombre : any = this.formEnlaceSocioEmpresa.get( 'nombre'+op )?.value;
 		if ( op == 'Socio' ) {
 			this.mostrarOpcionesSocios = campoNombre.length > 0;
+			this.statusSocio = this.validaSocioExistente() ?
+							   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status - 1] :
+							   '';
 		} else if ( op == 'Empresa' ) {
 			this.mostrarOpcionesEmpresas = campoNombre.length > 0;
+			this.statusEmpresa = this.validaEmpresaExistente() ?
+								 this.opStatusEmpresa[this.obtenerEmpresaPorNombre(campoNombre.trim()).status - 1] :
+								 '';
 		}
 		this.formEnlaceSocioEmpresa.get( 'nombre'+op )?.setValue( campoNombre.trim() );
 	}

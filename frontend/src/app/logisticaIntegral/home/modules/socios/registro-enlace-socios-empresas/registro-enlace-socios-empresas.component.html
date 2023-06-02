@@ -21,10 +21,11 @@
                                 <form class="row g-3" autocomplete="off" [formGroup]="formEnlaceSocioEmpresa">
                                     <div class="col-lg-6">
                                         <label for="nombreSocio" class="form-label required">Socio:</label>
+                                        <span>&nbsp;<b>{{this.statusSocio}}</b></span>
                                         <div class="btn-group col-sm-12" role="group">
                                             <input
                                                 list="socios"
-                                                class="form-control"
+                                                class="form-control border-right-none"
                                                 id="nombreSocio"
                                                 formControlName="nombreSocio"
                                                 placeholder="Socio"
@@ -42,10 +43,11 @@
 
                                     <div class="col-lg-6">
                                         <label for="nombreEmpresa" class="form-label required">Empresa:</label>
+                                        <span>&nbsp;<b>{{this.statusEmpresa}}</b></span>
                                         <div class="btn-group col-sm-12" role="group">
                                             <input
                                                 list="empresas"
-                                                class="form-control"
+                                                class="form-control border-right-none"
                                                 id="nombreEmpresa"
                                                 formControlName="nombreEmpresa"
                                                 placeholder="Empresa"
