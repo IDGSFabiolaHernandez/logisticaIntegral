@@ -2,6 +2,7 @@
 
 namespace App\Repositories\LogisticaIntegral;
 
+use App\Models\TblMensualidadesSocios;
 use App\Models\TblSocios;
 use App\Models\TblSociosEmpresas;
 use Carbon\Carbon;
@@ -160,5 +161,15 @@ class SociosRepository
         $detalleEnlaceSocioEmpresa = TblSociosEmpresas::where('id',$idEnlace);
 
         return $detalleEnlaceSocioEmpresa->get();
+    }
+
+    public function obtenerSociosMensualidadesSelect(){
+        $mensualidadesSelect = TblMensualidadesSocios::select(
+                                                            'tblSocios.id',
+                                                            'tblSocios.nombreSocio'
+                                                        )
+                                                      ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
+                                                      ->orderBy('tblSocios.nombreSocio','asc');
+        return $mensualidadesSelect->get();
     }
 }
