@@ -138,4 +138,26 @@ class SociosService
             ]
         );
     }
+
+    public function obtenerSociosMensualidadesSelect(){
+        $mensualidadesSelect = $this->sociosRepository->obtenerSociosMensualidadesSelect();
+        $opcionesSelect = [];
+
+        foreach( $mensualidadesSelect as $item){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombreSocio,
+                'checked' => false
+            ];
+
+            array_push($opcionesSelect,$temp);
+        }
+
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron las Mensualidades con éxito',
+                'data' => $opcionesSelect
+            ]
+        );
+    }
 }
