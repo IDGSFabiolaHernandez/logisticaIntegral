@@ -6,7 +6,7 @@ use App\Models\TblEmpresas;
 
 class EmpresasRepository
 {
-    public function empresasGenerales(){
+    public function obtenerEmpresasGenerales(){
         $listaEmpresas = TblEmpresas::orderBy('nombre','asc');
         /*$listaEmpresas = TblEmpresas::select(
                                         'empresas.id as IdEmpresa',
@@ -32,11 +32,7 @@ class EmpresasRepository
                                             end as status")
                                     ->join('usuarios', 'usuarios.id', 'empresas.IdUsuario')
                                     ->orderBy('empresas.Nombre','asc');*/
-        
                                 
         return $listaEmpresas->get();
     }
-    
-   
-   
 }

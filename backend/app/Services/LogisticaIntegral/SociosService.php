@@ -26,7 +26,7 @@ class SociosService
             ]
         );
     }
-    //revisar
+    
     public function obtenerSociosGenerales(){
         $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
         return response()->json(

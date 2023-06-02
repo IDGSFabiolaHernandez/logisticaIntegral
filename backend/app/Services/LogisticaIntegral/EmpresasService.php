@@ -15,8 +15,8 @@ class EmpresasService
         $this->empresasRepository = $EmpresasRepository;
     }
 
-    public function empresasGenerales(){
-        $listaEmpresas = $this->empresasRepository->empresasGenerales();
+    public function obtenerEmpresasGenerales(){
+        $listaEmpresas = $this->empresasRepository->obtenerEmpresasGenerales();
         return response()->json(
             [
                 'mensaje' => 'Se consultaron las Empresas con éxito',
@@ -26,7 +26,7 @@ class EmpresasService
     }
 
     public function obtenerEmpresasSelect(){
-        $empresasGenerales = $this->empresasRepository->empresasGenerales();
+        $empresasGenerales = $this->empresasRepository->obtenerEmpresasGenerales();
         $opcionesSelect = [];
 
         foreach( $empresasGenerales as $item ){

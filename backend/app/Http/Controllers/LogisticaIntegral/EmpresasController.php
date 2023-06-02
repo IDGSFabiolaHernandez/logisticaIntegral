@@ -18,9 +18,9 @@ class EmpresasController extends Controller
         $this->empresasService = $EmpresasService;
     }
 
-    public function empresasGenerales(){
+    public function obtenerEmpresasGenerales(){
         try{
-            return $this->empresasService->empresasGenerales();
+            return $this->empresasService->obtenerEmpresasGenerales();
         } catch (\Exception $error ){
             Log::alert($error);
             return response()->json(

@@ -117,7 +117,7 @@ class SociosRepository
         $registro->fkSocio           = $datosSociosEmpresas['fkSocio,'];
         $registro->fkEmpresa         = $datosSociosEmpresas['fkEmpresa,'];
         $registro->mesIngreso        = $datosSociosEmpresas['mesIngreso,'];
-        $registro->tipoInstrumento   = $datosSociosEmpresas['tipoInstrumento,'] ;
+        $registro->tipoInstrumento   = $datosSociosEmpresas['tipoInstrumento,'];
         $registro->numeroInstrumento = $datosSociosEmpresas['numeroInstrumento,'];
         $registro->observaciones     = $datosSociosEmpresas['observaciones,'];
         //$registro->fkUsuarioAlta     = $datosSociosEmpresas['fkUsuarioAlta,'];
