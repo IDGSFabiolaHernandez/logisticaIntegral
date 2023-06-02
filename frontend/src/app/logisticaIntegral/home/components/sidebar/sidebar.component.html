@@ -19,16 +19,16 @@
         <li>
           <ul class="sidebar-nav" id="sidebar-nav-socios-empresas">
             <li class="nav-item">
-              <a class="nav-link collapsed" data-bs-target="#components-nav-sociosEmpresas" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-people"></i><span>Socios Empresas</span><i class="bi bi-chevron-down ms-auto"></i>
+              <a class="nav-link collapsed" data-bs-target="#components-nav-socioes-empresas" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-bank"></i><span>Socios Empresas</span><i class="bi bi-chevron-down ms-auto"></i>
               </a>
-              <ul id="components-nav-sociosEmpresas" class="nav-content collapse " data-bs-parent="#sidebar-nav-socios-empresas">
+              <ul id="components-nav-socioes-empresas" class="nav-content collapse " data-bs-parent="#sidebar-nav-socios-empresas">
                 <li data-bs-toggle="modal" data-bs-target="#nuevoEnlaceSocioEmpresa">
                   <a>
                     <i class="bi bi-circle"></i><span>Nuevo enlace</span>
                   </a>
                 </li>
-                <li [routerLink]="['socios/sociosEmpresas']">
+                <li [routerLink]="['socios/socioes-empresas']">
                   <a>
                     <i class="bi bi-circle"></i><span>Consulta</span>
                   </a>
@@ -38,9 +38,46 @@
           </ul>
         </li>
         <li>
-          <a>
-            <i class="bi bi-circle"></i><span>Prestamos</span>
-          </a>
+          <ul class="sidebar-nav" id="sidebar-nav-mensualidades">
+            <li class="nav-item">
+              <a class="nav-link collapsed" data-bs-target="#components-nav-mensualidades" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-calendar-week"></i><span>Mensualidades</span><i class="bi bi-chevron-down ms-auto"></i>
+              </a>
+              <ul id="components-nav-mensualidades" class="nav-content collapse " data-bs-parent="#sidebar-nav-mensualidades">
+                <li>
+                  <a>
+                    <i class="bi bi-circle"></i><span>Pago</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <i class="bi bi-circle"></i><span>Consulta</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <ul class="sidebar-nav" id="sidebar-nav-prestamos">
+            <li class="nav-item">
+              <a class="nav-link collapsed" data-bs-target="#components-nav-prestamos" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-currency-dollar"></i><span>Préstamos</span><i class="bi bi-chevron-down ms-auto"></i>
+              </a>
+              <ul id="components-nav-prestamos" class="nav-content collapse " data-bs-parent="#sidebar-nav-prestamos">
+                <li>
+                  <a>
+                    <i class="bi bi-circle"></i><span>Nuevo préstamo</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <i class="bi bi-circle"></i><span>Consulta</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </li>
       </ul>
     </li>

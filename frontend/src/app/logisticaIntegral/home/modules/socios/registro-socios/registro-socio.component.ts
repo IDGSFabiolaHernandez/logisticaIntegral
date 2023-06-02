@@ -70,6 +70,12 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 		});
 	}
 
+	async refresh ( op : string ) : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		await this.obtenerIntermediarios();
+		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
+	}
+
 	private obtenerIntermediarios () : Promise<any> {
 		return this.apiIntermediarios.obtenerListaSocios().toPromise().then(
 			respuesta => {
