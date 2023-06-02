@@ -46,4 +46,26 @@ class EmpresasService
             ]
         );
     }
+
+    public function obtenerEmpresasMensualidadesSelect(){
+        $empresasSelect = $this->empresasRepository->obtenerEmpresasMensualidadesSelect();
+        $opcionesSelect = [];
+
+        foreach($empresasSelect as $item){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombreSocio,
+                'checked' => false
+            ];
+
+            array_push($opcionesSelect,$temp);
+        }
+
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron las Empresas con éxito',
+                'data' => $opcionesSelect
+            ]
+        );
+    }
 }

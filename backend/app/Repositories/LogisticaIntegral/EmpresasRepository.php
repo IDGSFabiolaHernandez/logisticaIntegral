@@ -3,6 +3,7 @@
 namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblEmpresas;
+use App\Models\TblMensualidadesSocios;
 
 class EmpresasRepository
 {
@@ -35,5 +36,15 @@ class EmpresasRepository
                                     ->orderBy('empresas.Nombre','asc');*/
                                 
         return $listaEmpresas->get();
+    }
+
+    public function obtenerEmpresasMensualidadesSelect(){
+        $empresasSelect = TblMensualidadesSocios::select(
+                                                    'empresas.id as idEmpresa',
+                                                    'empresas.nombre as nombreEmpresa'
+                                                )
+                                                ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
+                                                ->orderBy('empresas.nombre','asc');
+        return $empresasSelect->get();
     }
 }
