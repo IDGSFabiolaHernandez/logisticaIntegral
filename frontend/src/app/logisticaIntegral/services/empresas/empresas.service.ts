@@ -17,6 +17,10 @@ export class EmpresasService {
     	return this.http.get<any>(this.url+'/empresas/obtenerEmpresasSelect');
   	}
 
+  	public obtenerEmpresasMensualidadesSelect () : Observable<any> {
+    	return this.http.get<any>(this.url+'/empresas/obtenerEmpresasMensualidadesSelect');
+  	}
+
   	public obtenerEmpresasGenerales () : Observable<any> {
     	return this.http.get<any>(this.url+'/empresas/obtenerEmpresasGenerales');
   	}

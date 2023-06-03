@@ -18,6 +18,21 @@ class MensualidadesController extends Controller
         $this->mensualidadesService = $MensualidadesService;
     }
 
+    public function obtenerMensualidadesSelect(){
+        try{
+            return $this->mensualidadesService->obtenerMensualidadesSelect();
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
     public function obtenerMensualidadesEmpresa( Request $request ){
         try{
             return $this->mensualidadesService->obtenerMensualidadesEmpresa( $request->all() );
