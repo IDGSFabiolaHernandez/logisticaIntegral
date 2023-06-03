@@ -23,7 +23,21 @@ class MensualidadesRepository
         return $ultimoMesSociosEmpresas->get();
     }
 
-    public function obtenerMesesPosterioresAUltimoMes($ultimoMes){
+    public function obtenerMesMensualidades ( $op ) {
+        $mes = TblMensualidadesSocios::select('mensualidad')
+                                     ->limit(1);
+
+        if ( $op == 'ultimo' ) {
+            $mes->orderBy('mensualidad', 'asc');
+        } else if ( $op == 'reciente' ) {
+            $mes->orderBy('mensualidad', 'desc');
+        }
+
+        return $mes->get()[0]->mensualidad ?? null;
+    }
+    
+
+    public function obtenerMesesPosterioresAUltimoMes($ultimoMes, $filter = 'NOW()'){
         $mesesPosteriores = DB::select("
                                     SELECT
                                         DATE_FORMAT(DATE_ADD('".$ultimoMes."', INTERVAL n MONTH), '%Y-%m-%d') AS fechaBase,
@@ -40,7 +54,7 @@ class MensualidadesRepository
                                         ) t2
                                         CROSS JOIN (SELECT @row := -1) r
                                     ) numbers
-                                    WHERE DATE_ADD('".$ultimoMes."', INTERVAL n MONTH) BETWEEN '".$ultimoMes."' AND NOW()
+                                    WHERE DATE_ADD('".$ultimoMes."', INTERVAL n MONTH) BETWEEN '".$ultimoMes."' AND ".$filter."
                                 ");
         return $mesesPosteriores;
     }
@@ -63,7 +77,7 @@ class MensualidadesRepository
         return $socioEmpresaHastaFecha->get();
     }
 
-    public function verificarPagoMensualidad($idSocio,$idEmpresa,$fecha){
+    public function verificarPagoMensualidad($idSocio, $idEmpresa, $fecha){
         $verificarEmpresaHastaFecha = TblMensualidadesSocios::where([
                                                                 ['idSocio',$idSocio],
                                                                 ['idEmpresa',$idEmpresa],
@@ -72,7 +86,7 @@ class MensualidadesRepository
         return $verificarEmpresaHastaFecha->count();
     }
 
-    public function obtenerMensualidadesEmpresa($socios,$mensualidades){
+    public function obtenerMensualidadesEmpresa($socios, $empresas, $mensualidades){
         $mensualidadesEmpresa = TblMensualidadesSocios::select(
                                                             'tblSocios.nombreSocio',
                                                             'empresas.nombre as nombreEmpresa',
@@ -84,10 +98,15 @@ class MensualidadesRepository
                                                       ->selectRaw("DATE_FORMAT(mensualidadesSocios.fechaPago, '%d-%m-%Y') as fechaPago")
                                                       ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
                                                       ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
-                                                      ->whereIn('mensualidadesSocios.idSocio',$socios)
                                                       ->whereIn('mensualidadesSocios.mensualidad',$mensualidades)
                                                       ->orderBy('nombreSocio','asc');
+
+        if( is_null($empresas) ){
+            $mensualidadesEmpresa->whereIn('mensualidadesSocios.idSocio',$socios);
+        } else if(is_null($socios)){
+            $mensualidadesEmpresa->whereIn('mensualidadesSocios.idEmpresa',$empresas);
+        }
+
         return $mensualidadesEmpresa->get();
     }
-    
 }

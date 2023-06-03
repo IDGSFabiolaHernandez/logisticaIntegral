@@ -172,5 +172,5 @@ export class SociosEmpresasComponent {
 			default:
 				return false;
 		}
-	}	  
+	}
 }

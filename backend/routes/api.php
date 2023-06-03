@@ -22,4 +22,5 @@ Route::get('empresas/obtenerEmpresasGenerales','App\Http\Controllers\LogisticaIn
 Route::get('empresas/obtenerEmpresasSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasSelect');
 Route::get('empresas/obtenerEmpresasMensualidadesSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasMensualidadesSelect');
 
-Route::post('mensualidades/obtenerMensualidadesEmpresa','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesEmpresa');
+Route::get('mensualidades/obtenerMensualidadesSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesSelect');
+Route::post('mensualidades/obtenerMensualidades','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesEmpresa');
