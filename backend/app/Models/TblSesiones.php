@@ -10,7 +10,7 @@ class TblSesiones extends Model
     use HasFactory;
     public $timestamps = false;
     protected $primaryKey = 'PkTblSsesion';
-    protected $table = 'tblsesiones';
+    protected $table = 'tblSesiones';
     protected $fillable =
     [
         'PkTblSesion',

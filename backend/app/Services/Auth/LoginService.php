@@ -51,11 +51,21 @@ class LoginService
                 'data' => [
                     'token'     => $token
                 ],
-                'mensaje' => 'Bienvenido a Logística Integral'
+                'mensaje' => 'Bienvenido a Logística Integral',
+                'status' => 200
             ],
             200
         );
     }
 
-
+    public function logout( $token ){
+        $this->loginRepository->logout($token['token']);
+        
+        return response()->json(
+            [
+                'mensaje' => 'Vuelva pronto'
+            ],
+            200
+        );
+    }
 }

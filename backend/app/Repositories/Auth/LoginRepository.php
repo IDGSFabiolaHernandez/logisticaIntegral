@@ -47,9 +47,9 @@ class LoginRepository
         return $registro->Token;
     }
 
-    public function obtenerDatosUsuarioPorID( $id ){
-        $usuario = TblUsuarios::where('id', $id);
-
-        return $usuario->get();
+    public function logout( $token ){
+        $sesion = TblSesiones::where('Token', $token);
+        
+        $sesion->delete();
     }
 }
