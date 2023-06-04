@@ -16,6 +16,10 @@ export class LoginService {
     return this.http.post<any>(this.url+'/auth/login', credenciales);
   }
 
+  public auth(token : any) : Observable<any> {
+    return this.http.post<any>(this.url+'/auth', {token});
+  }
+
   public logout(token : any) : Observable<any> {
     return this.http.post<any>(this.url+'/logout',{token});
   }
