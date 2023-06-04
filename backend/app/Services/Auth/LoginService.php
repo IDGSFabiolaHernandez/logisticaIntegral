@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Repositories\Auth\LoginRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LoginService
@@ -40,14 +41,35 @@ class LoginService
             );
         }
 
+        DB::beginTransaction();
+            $this->loginRepository->depurarSesionPorPK( $pkUsuario );
+            $token = $this->loginRepository->crearSesionYAsignarToken( $pkUsuario );
+        DB::commit();
+
         return response()->json(
             [
-                'mensaje' => 'Bienvenido a Integración logística',
+                'data' => [
+                    'token'     => $token
+                ],
+                'mensaje' => 'Bienvenido a Logística Integral',
                 'status' => 200
             ],
             200
         );
     }
 
+    public function auth( $token ){
+        return $this->loginRepository->auth($token['token']);
+    }
 
+    public function logout( $token ){
+        $this->loginRepository->logout($token['token']);
+        
+        return response()->json(
+            [
+                'mensaje' => 'Vuelva pronto'
+            ],
+            200
+        );
+    }
 }
