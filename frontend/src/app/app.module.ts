@@ -14,6 +14,7 @@ import { SidebarComponent } from './logisticaIntegral/home/components/sidebar/si
 import { FooterComponent } from './logisticaIntegral/home/components/footer/footer.component';
 import { RegistroSociosComponent } from './logisticaIntegral/home/modules/socios/registro-socios/registro-socio.component';
 import { RegistroEnlaceSociosEmpresasComponent } from './logisticaIntegral/home/modules/socios/registro-enlace-socios-empresas/registro-enlace-socios-empresas.component';
+import { InvalidRouteComponent } from './shared/invalid-route/invalid-route.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { RegistroEnlaceSociosEmpresasComponent } from './logisticaIntegral/home/
     SidebarComponent,
     FooterComponent,
     RegistroSociosComponent,
-    RegistroEnlaceSociosEmpresasComponent
+    RegistroEnlaceSociosEmpresasComponent,
+    InvalidRouteComponent
   ],
   imports: [
     BrowserModule,
