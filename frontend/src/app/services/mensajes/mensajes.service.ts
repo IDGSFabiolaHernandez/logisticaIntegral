@@ -72,16 +72,15 @@ export class MensajesService {
       icon: tipo,
       showDenyButton: showDeny,
       showCancelButton: true,
-      confirmButtonColor: '#0d6efd',
-      cancelButtonColor: '#dc3545',
-      denyButtonColor: '#6e7d88',
       confirmButtonText: btnConfirmar,
       cancelButtonText: btnCancelar,
       denyButtonText: btnDenegado,
+      buttonsStyling: false,
+      allowOutsideClick: false,
       customClass: {
-        cancelButton: 'order-2',
-        denyButton: 'order-3',
-        confirmButton: 'order-1 btn btn-primary'
+        confirmButton: 'order-1 btn btn-primary me-2',
+        cancelButton: 'order-2 btn btn-danger',
+        denyButton: 'order-3'
       },
       allowEscapeKey: false
     });
