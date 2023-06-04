@@ -47,6 +47,11 @@ class LoginRepository
         return $registro->Token;
     }
 
+    public function auth( $token ){
+        $sesiones = TblSesiones::where('Token', $token)->count();
+        return $sesiones > 0 ? 'true' : 'false';
+    }
+
     public function logout( $token ){
         $sesion = TblSesiones::where('Token', $token);
         

@@ -58,6 +58,10 @@ class LoginService
         );
     }
 
+    public function auth( $token ){
+        return $this->loginRepository->auth($token['token']);
+    }
+
     public function logout( $token ){
         $this->loginRepository->logout($token['token']);
         
