@@ -38,16 +38,15 @@ export class LoginComponent implements OnInit{
 
     this.apiLogin.login(this.formLogin.value).subscribe(
       respuesta => {
-        if(respuesta.status == 200){
-          this.router.navigate(['/logistica/inicio']);
-          this.mensajes.cerrarMensajes();
-        } else {
+        if(respuesta.status != 200){
           this.mensajes.mensajeGenerico(respuesta.mensaje,'warning');
+          return;
         }
         
-      },
-
-      error => {
+        localStorage.setItem('token', respuesta.data.token);
+        this.router.navigate(['/logistica/inicio']);
+        this.mensajes.cerrarMensajes();
+      }, error => {
         this.mensajes.mensajeGenerico('error', 'error');
       }
     );
