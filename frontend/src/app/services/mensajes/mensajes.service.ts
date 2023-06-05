@@ -52,11 +52,7 @@ export class MensajesService {
       position : 'bottom-end',
       showConfirmButton : false,
       timer : tiempo,
-      timerProgressBar : true,
-      onOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
+      timerProgressBar : true
     });
 
     Toast.fire({

@@ -11,7 +11,7 @@ import { UsuariosService } from 'src/app/logisticaIntegral/services/usuarios/usu
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit{
-  protected informacionUsuario : any;
+  protected informacionUsuario : any = [];
 
   constructor(
     private dataService : DataService,
