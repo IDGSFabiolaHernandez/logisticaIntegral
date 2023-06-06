@@ -31,3 +31,4 @@ Route::get('/mensualidades/obtenerMensualidadesPagadasSelect','App\Http\Controll
 Route::post('/mensualidades/obtenerMensualidadesPagadasEmpresaSocios','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasEmpresaSocios');
 Route::get('/mensualidades/obtenerMensualidadesPagarSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagarSelect');
 Route::post('/mensualidades/obtenerMensualidadesPagarPorMensualidad','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagarPorMensualidad');
+Route::post('/mensualidades/pagarMensualidadEmpresaSocio','App\Http\Controllers\LogisticaIntegral\MensualidadesController@pagarMensualidadEmpresaSocio');

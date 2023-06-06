@@ -3,6 +3,7 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\MensualidadesRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MensualidadesService
@@ -123,6 +124,68 @@ class MensualidadesService
             [
                 'mensaje' => 'Se consultaron las mensualidades por pagar con éxito',
                 'data' => $mensaulidadesPorPagar
+            ],
+            200
+        );
+    }
+
+    public function pagarMensualidadEmpresaSocio($dataPagar){
+        DB::beginTransaction();
+            foreach($dataPagar['sociosAPagar'] as $idSocio){
+                $enlacesSocioEmpresas = $this->mensualidadesRepository->obtenerEnlacesSocioEmpresas($dataPagar['fechaMensualidadPagar'],$idSocio);
+
+                foreach($enlacesSocioEmpresas as $enlace){
+                    $prestamosActivos = $this->mensualidadesRepository->obtenerPrestamosSocioActivos($idSocio);
+                    $montoAPagar = $dataPagar['montoPagar'];
+
+                    foreach($prestamosActivos as $idPrestamo){
+                        $idPrestamo = $idPrestamo->id;
+                        $detallePrestamo = $this->mensualidadesRepository->obtenerDetallePrestamoSocio($idPrestamo);
+                        $deuda = 0;
+                        $aCuenta = 0;
+
+                        if(
+                            $detallePrestamo['idEmpresaMensualidad'] == 0 ||
+                            $detallePrestamo['idEmpresaMensualidad'] == $enlace->fkEmpresa
+                        ){
+                            $deuda = $detallePrestamo['deuada'] - $aCuenta;
+
+                            if($deuda >= $montoAPagar){
+                                $aCuenta = $detallePrestamo['aCuenta'] + $montoAPagar;
+                                $montoAPagar = 0;
+                            }else{
+                                $aCuenta = $detallePrestamo['prestamo'] + $deuda;
+                                $montoAPagar -= $deuda;
+                            }
+
+                            $this->mensualidadesRepository->actualizarEstadoDeCuenta(
+                                $aCuenta,
+                                ($aCuenta == $detallePrestamo['montoPrestamo'] ? 1 : 0 ),
+                                $idPrestamo
+                            );
+                        }
+
+                        if($montoAPagar == 0) break;
+                    }
+
+                    $mapeoDatos = [
+                        'idSocio'       => $idSocio, 
+                        'idEmpresa'     => $enlace->fkEmpresa, 
+                        'mensualidad'   => $dataPagar['fechaMensualidadPagar'], 
+                        'cantidad'      => $montoAPagar, 
+                        'abonoPrestamo' => $dataPagar['montoPagar'], 
+                        'fechaPago'     => $dataPagar['fechaPago'], 
+                        //'fkUsuarioPago' => $
+                    ];
+
+                    $this->mensualidadesRepository->registrarPagoMensualidadEmpresaSocio($mapeoDatos);
+                }
+            }
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se realizó el pago de las mensualidades a los Socios correspondientes con éxito'
             ],
             200
         );
