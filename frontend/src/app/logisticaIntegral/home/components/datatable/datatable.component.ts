@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 @Component({
   	selector: 'app-datatable',
@@ -8,6 +8,10 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 export class DatatableComponent implements OnInit, OnChanges {
 	@Input() columnasTabla : any = [];
 	@Input() datosTabla : any = [];
+	@Input() tableConfig : any = [];
+	@Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
+
+	protected selectedCheckboxes: any[] = [];
 
   	public currentPage : number = 1;
 	public itemsPerPageOptions = [5, 10, 25, 50];
@@ -21,12 +25,16 @@ export class DatatableComponent implements OnInit, OnChanges {
 	constructor () {}
 
 	ngOnInit(): void {
+		this.selectedCheckboxes = [];
+		this.emitirDatos();
 		Object.keys(this.columnasTabla).forEach((key) => {
 			this.filterValues[key] = '';
 		});
 	}
 
 	ngOnChanges(): void {
+		this.selectedCheckboxes = [];
+		this.emitirDatos();
 		this.onItemsPerPageChange();
 	}
 
@@ -96,5 +104,38 @@ export class DatatableComponent implements OnInit, OnChanges {
 
 	getColumnKeys(): string[] {
 		return Object.keys(this.columnasTabla);
+	}
+
+	getStartIndex(): number {
+		return (this.currentPage - 1) * this.itemsPerPage + 1;
+	}
+	
+	getEndIndex(): number {
+		const endIndex = this.currentPage * this.itemsPerPage;
+		return Math.min(endIndex, this.datosTabla.length);
+	}
+
+	isCheckboxSelected(id: number): boolean {
+		return this.selectedCheckboxes.includes(id);
+	}
+
+	toggleCheckboxSelection(event: any, id: number): void {
+		if (event.target.checked) {
+		  	this.selectedCheckboxes.push(id);
+		} else {
+		  	const index = this.selectedCheckboxes.indexOf(id);
+		  	if (index !== -1) {
+				this.selectedCheckboxes.splice(index, 1);
+		  	}
+		}
+
+		this.emitirDatos();
+	}
+
+	emitirDatos () : void {
+		const data = {
+			selectedOptions : this.selectedCheckboxes
+		};
+		this.selectionChange.emit(data);
 	}
 }
