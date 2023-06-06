@@ -5,6 +5,7 @@ import { ListaSociosComponent } from './modules/socios/consulta-socios/lista-soc
 import { SociosEmpresasComponent } from './modules/socios/consulta-enlaces-socios-empresas/socios-empresas.component';
 import { ConsultaMensualidadesComponent } from './modules/socios/consulta-mensualidades/consulta-mensualidades.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { PagoMensualidadesComponent } from './modules/socios/pago-mensualidades/pago-mensualidades.component';
 
 
 export const HomeRoutes: Routes = [
@@ -25,6 +26,9 @@ export const HomeRoutes: Routes = [
             }, {
                 path: 'mensualidades',
                 component: ConsultaMensualidadesComponent
+            }, {
+                path: 'mensualidades/pagoMensualidades',
+                component: PagoMensualidadesComponent
             }
         ]
     }

@@ -27,5 +27,7 @@ Route::get('/empresas/obtenerEmpresasGenerales','App\Http\Controllers\LogisticaI
 Route::get('/empresas/obtenerEmpresasSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasSelect');
 Route::get('/empresas/obtenerEmpresasMensualidadesSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasMensualidadesSelect');
 
-Route::get('/mensualidades/obtenerMensualidadesSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesSelect');
-Route::post('/mensualidades/obtenerMensualidades','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesEmpresa');
+Route::get('/mensualidades/obtenerMensualidadesPagadasSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasSelect');
+Route::post('/mensualidades/obtenerMensualidadesPagadasEmpresaSocios','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasEmpresaSocios');
+Route::get('/mensualidades/obtenerMensualidadesPagarSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagarSelect');
+Route::post('/mensualidades/obtenerMensualidadesPagarPorMensualidad','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagarPorMensualidad');
