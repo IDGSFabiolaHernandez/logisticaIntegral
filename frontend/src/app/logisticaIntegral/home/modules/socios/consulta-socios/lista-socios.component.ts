@@ -79,7 +79,7 @@ export class ListaSociosComponent {
 		return this.sociosSeleccionados.length != 0;
 	}
 
-	canCrear () : boolean {
+	canClear () : boolean {
 		return this.listaSocios.length != 0;
 	}
 }

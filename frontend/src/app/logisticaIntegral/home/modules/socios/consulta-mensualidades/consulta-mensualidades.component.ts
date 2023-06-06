@@ -49,7 +49,7 @@ export class ConsultaMensualidadesComponent {
 		await Promise.all([
 			this.obtenerSociosMensualidadesSelect(),
 			this.obtenerEmpresasMensualidadesSelect(),
-			this.obtenerMensualidadesSelect()
+			this.obtenerMensualidadesPagadasSelect()
 		]);
 		this.mensajes.cerrarMensajes();
 	}
@@ -74,8 +74,8 @@ export class ConsultaMensualidadesComponent {
 		);
 	}
 
-	private obtenerMensualidadesSelect () : Promise<any> {
-		return this.apiMensualidades.obtenerMensualidadesSelect().toPromise().then(
+	private obtenerMensualidadesPagadasSelect () : Promise<any> {
+		return this.apiMensualidades.obtenerMensualidadesPagadasSelect().toPromise().then(
 			respuesta => {
 				this.opcionesEmpresas = respuesta.data;
 			}, error => {
@@ -91,7 +91,7 @@ export class ConsultaMensualidadesComponent {
 		} else if ( op == 'Empresas' ) {
 			await this.obtenerEmpresasMensualidadesSelect();
 		} else if ( op == 'Mensualidades' ) {
-			await this.obtenerMensualidadesSelect();
+			await this.obtenerMensualidadesPagadasSelect();
 		}
 		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
 	}
@@ -169,7 +169,7 @@ export class ConsultaMensualidadesComponent {
 			   (this.sociosSeleccionados.length != 0 && this.mensualidadesSeleccionadas.length != 0);
 	}
 
-	protected canCrear(): boolean {
+	protected canClear(): boolean {
 		switch (this.optionProgress) {
 			case 'socios':
 				return this.listaMensualidadesSocios.length !== 0;

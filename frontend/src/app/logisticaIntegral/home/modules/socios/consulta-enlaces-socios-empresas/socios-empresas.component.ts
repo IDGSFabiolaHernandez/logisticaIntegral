@@ -161,7 +161,7 @@ export class SociosEmpresasComponent {
 			   (this.sociosSeleccionados.length != 0 || this.empresasSeleccionadas.length != 0);
 	}
 
-	protected canCrear(): boolean {
+	protected canClear(): boolean {
 		switch (this.optionProgress) {
 			case 'general':
 				return this.listaSociosEmpresasGeneral.length !== 0;
