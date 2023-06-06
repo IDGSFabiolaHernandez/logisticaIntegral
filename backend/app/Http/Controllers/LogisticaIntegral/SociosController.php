@@ -152,4 +152,19 @@ class SociosController extends Controller
             );
         }
     }
+
+    public function obtenerDetalleSocioEmpresas($idSocioEmpresas){
+        try{
+            return $this->sociosService->obtenerDetalleSocioEmpresas($idSocioEmpresas);
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }

@@ -160,4 +160,14 @@ class SociosService
             ]
         );
     }
+
+    public function obtenerDetalleSocioEmpresas($idSocioEmpresas){
+        $detalleSocioEmpresas = $this->sociosRepository->obtenerDetalleSocioEmpresas($idSocioEmpresas);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle del Socio-Empresas con éxito',
+                'data' =>  $detalleSocioEmpresas
+            ]
+        );
+    }
 }
