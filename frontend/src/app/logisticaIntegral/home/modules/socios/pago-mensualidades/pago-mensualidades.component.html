@@ -1,0 +1,50 @@
+<div class="pagetitle">
+    <h1>Pago de Mensualidades</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Mensualidades</li>
+            <li class="breadcrumb-item active">Pago de Mensualidades</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body row" style="margin-top: 10px;">
+                    <div class="form-group col-lg-3 col-md-4">
+                        <label for="statusReportes" class="form-label">Fecha pago <b style="color: brown;">*</b>:</label><br>
+                        <input type="date" class="form-control" [(ngModel)]="fechaPago">
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-4">
+                        <label for="statusReportes" class="form-label">Mensualidades por Pagar <b style="color: brown;">*</b>:</label><br>
+                        <select class="form-select" [(ngModel)]="mensualidadPagar">
+                            <option value="" style="display: none; visibility: hidden;">Seleccionar mensualidad</option>
+                            <option *ngFor="let mensualidad of opcionesMensualidadesPagar" value="{{mensualidad.fechaBase}}">{{mensualidad.mes}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-4">
+                        <label for="statusReportes" class="form-label">Total a pagar:</label><br>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [value]="totalAPagar | number:'1.0-0'" style="text-align: center;">
+                            <span class="input-group-text">.00</span>
+                          </div>
+                    </div>
+
+                    <div class="botonera" style="margin-top: 1px;">
+                        <button class="btn btn-primary" [disabled]="!canSearch()" (click)="obtenerMensualidadesPagarPorMensualidad()">Consultar</button>
+                        <button class="btn btn-primary" [disabled]="!canPay()">Pagar</button>
+                        <button class="btn btn-primary" disabled="true">Excel</button>
+                        <button class="btn btn-danger" [disabled]="!canClear()" (click)="limpiarGrid()">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesPagar" [tableConfig]="tableConfig" (selectionChange)="obtenerSociosAPagar($event)"></app-datatable>
+        </div>
+    </div>
+</section>

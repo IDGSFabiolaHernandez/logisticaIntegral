@@ -9,6 +9,7 @@ import { DatatableComponent } from './components/datatable/datatable.component';
 import { SociosEmpresasComponent } from './modules/socios/consulta-enlaces-socios-empresas/socios-empresas.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ConsultaMensualidadesComponent } from './modules/socios/consulta-mensualidades/consulta-mensualidades.component';
+import { PagoMensualidadesComponent } from './modules/socios/pago-mensualidades/pago-mensualidades.component';
 
 @NgModule({
     imports:[
@@ -24,6 +25,7 @@ import { ConsultaMensualidadesComponent } from './modules/socios/consulta-mensua
         SociosEmpresasComponent,
         DropdownComponent,
         ConsultaMensualidadesComponent,
+        PagoMensualidadesComponent,
     ]
 })
 
