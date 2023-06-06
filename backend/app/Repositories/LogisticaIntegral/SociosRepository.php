@@ -173,6 +173,13 @@ class SociosRepository
         return $mensualidadesSelect->get();
     }
 
+    public function obtenerDetalleSocioEmpresas($id){
+        $detalleSocioEmpresa = TblSociosEmpresas::select('empresas.*')
+                                                ->join('empresas','empresas.id','tblSociosEmpresas.fkEmpresa')
+                                                ->where('tblSociosEmpresas.fkSocio',$id);
+        return $detalleSocioEmpresa->get();                                                
+    }
+
     public function trimValidator ( $value ) {
 		return $value != null && trim($value) != '' ? trim($value) : null;
 	}
