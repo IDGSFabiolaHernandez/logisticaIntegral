@@ -77,4 +77,19 @@ class MensualidadesController extends Controller
             );
         }
     }
+
+    public function pagarMensualidadEmpresaSocio( Request $request){
+        try{
+            return $this->mensualidadesService->pagarMensualidadEmpresaSocio( $request->all() );
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
