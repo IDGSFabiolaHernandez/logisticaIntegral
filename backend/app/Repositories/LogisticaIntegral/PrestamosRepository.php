@@ -39,4 +39,20 @@ class PrestamosRepository
                                               ->where('tblSociosEmpresas.fkSocio',$idSocio);
         return $empresasPorSocio->get();
    }
+
+   public function obtenerPrestamosPorSociosYStatus($socios,$status){
+          $sociosYStatus = TblPrestamosSocios::select(
+                                                  'tblSocios.nombreSocio',
+                                                  'empresas.nombre as nombreEmpresa',
+                                                  'prestamosSocios.montoPrestamo',
+                                                  'prestamosSocios.aCuenta',
+                                                  'prestamosSocios.estatusPrestamo'
+                                             )
+                                             ->selectRaw("DATE_FORMAT(prestamosSocios.fechaPrestamo, '%d-%m-%Y') as fechaPrestamo")
+                                             ->join('tblSocios','tblSocios.id','prestamosSocios.idSocio')
+                                             ->leftJoin('empresas','empresas.id','prestamosSocios.idEmpresaMensualidad')
+                                             ->whereIn('prestamosSocios.idSocio',$socios)
+                                             ->whereIn('prestamosSocios.estatusPrestamo',$status);
+          return $sociosYStatus->get();
+   }
 }

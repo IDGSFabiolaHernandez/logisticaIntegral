@@ -43,4 +43,14 @@ class PrestamosService
             ]
         );
     }
+
+    public function obtenerPrestamosPorSociosYStatus($datosGenerales){
+        $sociosYStatus = $this->prestamosRepository->obtenerPrestamosPorSociosYStatus($datosGenerales['socios'],$datosGenerales['status']);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron los Préstamos y Status por Socio con éxito',
+                'data' => $sociosYStatus
+            ]
+        );
+    }
 }

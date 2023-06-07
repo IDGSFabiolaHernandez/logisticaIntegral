@@ -61,4 +61,19 @@ class PrestamosController extends Controller
             );
         }
     }
+
+    public function obtenerPrestamosPorSociosYStatus( Request $request){
+        try{
+            return $this->prestamosService->obtenerPrestamosPorSociosYStatus($request->all());
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
