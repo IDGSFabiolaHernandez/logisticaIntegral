@@ -18,7 +18,7 @@ class PrestamosService
         $sociosRelacionEmpresas = $this->prestamosRepository->obtenerSociosConRelacionEmpresas();
         return response()->json(
             [
-                'mensaje' => 'Se consultó la relación de Socios con Empresas con éxito',
+                'mensaje' => 'Se consultaron con éxito los Socios que tienen relación con Empresas',
                 'data' => $sociosRelacionEmpresas
             ]
         );
@@ -40,7 +40,7 @@ class PrestamosService
 
         return response()->json(
             [
-                'mensaje' => 'Se consultaron las Empresas por Socio con éxito',
+                'mensaje' => 'Se consultaron con éxito las Empresas con las que tiene relación el Socio',
                 'data' => $opcionesSelect
             ]
         );
@@ -50,17 +50,17 @@ class PrestamosService
         $sociosPrestamos = $this->prestamosRepository->obtenerSociosConPrestamos();
         return response()->json(
             [
-                'mensaje' => 'Se consultaron los Socios y Prestamos con éxito',
+                'mensaje' => 'Se consultaron con éxito los Socios que tienen/tuvieron préstamos',
                 'data' => $sociosPrestamos
             ]
         );
     }
 
     public function obtenerPrestamosPorSociosYStatus($datosGenerales){
-        $sociosYStatus = $this->prestamosRepository->obtenerPrestamosPorSociosYStatus($datosGenerales['socios'],$datosGenerales['status']);
+        $sociosYStatus = $this->prestamosRepository->obtenerPrestamosPorSociosYStatus($datosGenerales['socios'], $datosGenerales['status']);
         return response()->json(
             [
-                'mensaje' => 'Se consultaron los Préstamos y Status por Socio con éxito',
+                'mensaje' => 'Se consultaron con éxito los Socios que tienen/tuvieron préstamos',
                 'data' => $sociosYStatus
             ]
         );

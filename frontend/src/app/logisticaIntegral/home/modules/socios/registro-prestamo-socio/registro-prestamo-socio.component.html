@@ -34,7 +34,7 @@
                                                 formControlName="nombreSocio"
                                                 placeholder="Socio"
                                                 (keypress)="soloLetras($event)"
-                                                (input)="mostrarOpciones('Socio')"
+                                                (input)="mostrarOpcionesSocio()"
                                                 maxlength="255"
                                             >
                                             <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
@@ -57,7 +57,7 @@
                                     <div class="col-lg-6">
                                         <label for="empresasMensualidad" class="form-label required">Empresa(s) mensualidad:</label>
                                         <div class="btn-group group-dropdown-form" role="group">
-                                            <app-dropdown [options]="opcionesEmpresas" [font]="'empresas'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                            <app-dropdown [options]="opcionesEmpresas" (selectionChange)="onSelectionChange($event)"></app-dropdown>
                                             <button class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></button>
                                         </div>
                                     </div>
@@ -76,7 +76,7 @@
 
         <div class="modal-footer" style="text-align: center;">
             <button type="button" class="btn btn-primary"><b>Registrar préstamo</b></button>
-            <button type="button" class="btn btn-danger" #cerrarModal data-bs-dismiss="modal"><b>Cancelar</b></button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="limpiarFormulario()"><b>Cancelar</b></button>
         </div>
     </div>
 </div>
