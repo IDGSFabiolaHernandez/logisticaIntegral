@@ -36,3 +36,4 @@ Route::post('/mensualidades/pagarMensualidadEmpresaSocio','App\Http\Controllers\
 Route::get('/prestamos/obtenerSociosConPrestamos','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerSociosConPrestamos');
 Route::get('/prestamos/obtenerSociosConRelacionEmpresas','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerSociosConRelacionEmpresas');
 Route::get('/prestamos/obtenerEmpresasSelectPorSocio/{idSocio}','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerEmpresasSelectPorSocio');
+Route::post('/prestamos/obtenerPrestamosPorSociosYStatus','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerPrestamosPorSociosYStatus');
