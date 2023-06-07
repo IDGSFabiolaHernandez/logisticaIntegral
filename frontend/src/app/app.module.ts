@@ -12,10 +12,7 @@ import { HomeModule } from './logisticaIntegral/home/home.module';
 import { NavbarComponent } from './logisticaIntegral/home/components/navbar/navbar.component';
 import { SidebarComponent } from './logisticaIntegral/home/components/sidebar/sidebar.component';
 import { FooterComponent } from './logisticaIntegral/home/components/footer/footer.component';
-import { RegistroSociosComponent } from './logisticaIntegral/home/modules/socios/registro-socios/registro-socio.component';
-import { RegistroEnlaceSociosEmpresasComponent } from './logisticaIntegral/home/modules/socios/registro-enlace-socios-empresas/registro-enlace-socios-empresas.component';
 import { InvalidRouteComponent } from './shared/invalid-route/invalid-route.component';
-import { RegistroPrestamoSocioComponent } from './logisticaIntegral/home/modules/socios/registro-prestamo-socio/registro-prestamo-socio.component';
 import { SharedModule } from './shared/modules/shared.module';
 
 @NgModule({
@@ -26,9 +23,6 @@ import { SharedModule } from './shared/modules/shared.module';
     NavbarComponent,
     SidebarComponent,
     FooterComponent,
-    RegistroSociosComponent,
-    RegistroEnlaceSociosEmpresasComponent,
-    RegistroPrestamoSocioComponent,
     InvalidRouteComponent
   ],
   imports: [
