@@ -31,17 +31,17 @@ class MensualidadesService
             );
         }
 
-        $mesesSelect    = $this->mensualidadesRepository->obtenerMesesPosterioresAUltimoMes($ultimoMes, $recienteMes);
+        $mesesSelect    = $this->mensualidadesRepository->obtenerMesesPosterioresAUltimoMes($ultimoMes, "'".$recienteMes."'");
         $opcionesSelect = [];
 
         foreach( $mesesSelect as $item){
             $temp = [
-                'value' => $item->id,
-                'label' => $item->nombreSocio,
+                'value' => $item->fechaBase,
+                'label' => $item->mes,
                 'checked' => false
             ];
 
-            array_push($opcionesSelect,$temp);
+            array_push($opcionesSelect, $temp);
         }
 
         return response()->json(

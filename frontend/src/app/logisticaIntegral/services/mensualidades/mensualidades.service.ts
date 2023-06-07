@@ -18,7 +18,7 @@ export class MensualidadesService {
 	}
 
 	public obtenerMensualidades ( data : any ) : Observable<any> {
-		return this.http.post<any>(this.url+'/mensualidades/obtenerMensualidades', data);
+		return this.http.post<any>(this.url+'/mensualidades/obtenerMensualidadesPagadasEmpresaSocios', data);
 	}
 	
 	public obtenerMensualidadesPagarSelect () : Observable<any> {
@@ -27,5 +27,9 @@ export class MensualidadesService {
 	
 	public obtenerMensualidadesPagarPorMensualidad ( mensualidad : any ) : Observable<any> {
 		return this.http.post<any>(this.url+'/mensualidades/obtenerMensualidadesPagarPorMensualidad', {mensualidad});
+	}
+
+	public pagarMensualidadEmpresaSocio ( dataMensualidadesPagar : any) : Observable<any> {
+		return this.http.post<any>(this.url+'/mensualidades/pagarMensualidadEmpresaSocio', dataMensualidadesPagar);
 	}
 }

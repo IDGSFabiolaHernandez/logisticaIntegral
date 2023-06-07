@@ -20,7 +20,7 @@
 
                     <div class="form-group col-lg-3 col-md-4">
                         <label for="statusReportes" class="form-label">Mensualidades por Pagar <b style="color: brown;">*</b>:</label><br>
-                        <select class="form-select" [(ngModel)]="mensualidadPagar">
+                        <select class="form-select" [(ngModel)]="fechaMensualidadPagar">
                             <option value="" style="display: none; visibility: hidden;">Seleccionar mensualidad</option>
                             <option *ngFor="let mensualidad of opcionesMensualidadesPagar" value="{{mensualidad.fechaBase}}">{{mensualidad.mes}}</option>
                         </select>
@@ -37,7 +37,7 @@
 
                     <div class="botonera" style="margin-top: 1px;">
                         <button class="btn btn-primary" [disabled]="!canSearch()" (click)="obtenerMensualidadesPagarPorMensualidad()">Consultar</button>
-                        <button class="btn btn-primary" [disabled]="!canPay()">Pagar</button>
+                        <button class="btn btn-primary" [disabled]="!canPay()" (click)="pagarMensualidades()">Pagar</button>
                         <button class="btn btn-primary" disabled="true">Excel</button>
                         <button class="btn btn-danger" [disabled]="!canClear()" (click)="limpiarGrid()">Limpiar</button>
                     </div>

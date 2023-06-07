@@ -19,7 +19,7 @@ Route::post('/socios/generarEnlaceSocioEmpresa','App\Http\Controllers\LogisticaI
 Route::get('/socios/obtenerDetalldeSocio/{idSocio}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalldeSocio');
 Route::get('/socios/obtenerDetalleEnlaceSocioEmpresa/{idEnlace}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleEnlaceSocioEmpresa');
 Route::get('/socios/obtenerSociosMensualidadesSelect', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosMensualidadesSelect');
-Route::get('socios/obtenerDetalleSocioEmpresas/{idSocioEmpresas}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioEmpresas');
+Route::get('/socios/obtenerDetalleSocioEmpresas/{idSocioEmpresas}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioEmpresas');
 
 Route::get('/intermediarios/intermediariosSocios', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@obtenerIntermediariosSocios');
 

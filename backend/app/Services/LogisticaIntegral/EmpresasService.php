@@ -54,7 +54,7 @@ class EmpresasService
         foreach($empresasSelect as $item){
             $temp = [
                 'value' => $item->id,
-                'label' => $item->nombreSocio,
+                'label' => $item->nombre,
                 'checked' => false
             ];
 
