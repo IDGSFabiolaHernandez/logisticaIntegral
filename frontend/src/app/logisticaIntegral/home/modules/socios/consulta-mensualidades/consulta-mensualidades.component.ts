@@ -77,7 +77,7 @@ export class ConsultaMensualidadesComponent {
 	private obtenerMensualidadesPagadasSelect () : Promise<any> {
 		return this.apiMensualidades.obtenerMensualidadesPagadasSelect().toPromise().then(
 			respuesta => {
-				this.opcionesEmpresas = respuesta.data;
+				this.opcionesMensualidades = respuesta.data;
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}

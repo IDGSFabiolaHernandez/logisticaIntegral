@@ -40,8 +40,8 @@ class EmpresasRepository
 
     public function obtenerEmpresasMensualidadesSelect(){
         $empresasSelect = TblMensualidadesSocios::select(
-                                                    'empresas.id as idEmpresa',
-                                                    'empresas.nombre as nombreEmpresa'
+                                                    'empresas.id',
+                                                    'empresas.nombre'
                                                 )
                                                 ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
                                                 ->orderBy('empresas.nombre','asc');
