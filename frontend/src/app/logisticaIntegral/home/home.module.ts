@@ -7,23 +7,23 @@ import { InicioComponent } from './modules/inicio/inicio.component';
 import { ListaSociosComponent } from './modules/socios/consulta-socios/lista-socios.component';
 import { DatatableComponent } from './components/datatable/datatable.component';
 import { SociosEmpresasComponent } from './modules/socios/consulta-enlaces-socios-empresas/socios-empresas.component';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ConsultaMensualidadesComponent } from './modules/socios/consulta-mensualidades/consulta-mensualidades.component';
 import { PagoMensualidadesComponent } from './modules/socios/pago-mensualidades/pago-mensualidades.component';
+import { SharedModule } from 'src/app/shared/modules/shared.module';
 
 @NgModule({
     imports:[
         CommonModule,
         RouterModule.forChild(HomeRoutes),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SharedModule
     ],
     declarations: [
         InicioComponent,
         ListaSociosComponent,
         DatatableComponent,
         SociosEmpresasComponent,
-        DropdownComponent,
         ConsultaMensualidadesComponent,
         PagoMensualidadesComponent,
     ]

@@ -15,6 +15,8 @@ import { FooterComponent } from './logisticaIntegral/home/components/footer/foot
 import { RegistroSociosComponent } from './logisticaIntegral/home/modules/socios/registro-socios/registro-socio.component';
 import { RegistroEnlaceSociosEmpresasComponent } from './logisticaIntegral/home/modules/socios/registro-enlace-socios-empresas/registro-enlace-socios-empresas.component';
 import { InvalidRouteComponent } from './shared/invalid-route/invalid-route.component';
+import { RegistroPrestamoSocioComponent } from './logisticaIntegral/home/modules/socios/registro-prestamo-socio/registro-prestamo-socio.component';
+import { SharedModule } from './shared/modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { InvalidRouteComponent } from './shared/invalid-route/invalid-route.comp
     FooterComponent,
     RegistroSociosComponent,
     RegistroEnlaceSociosEmpresasComponent,
+    RegistroPrestamoSocioComponent,
     InvalidRouteComponent
   ],
   imports: [
@@ -35,7 +38,8 @@ import { InvalidRouteComponent } from './shared/invalid-route/invalid-route.comp
     FormsModule,
     RouterModule.forRoot(AppRoutes),
     HttpClientModule,
-    HomeModule
+    HomeModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],

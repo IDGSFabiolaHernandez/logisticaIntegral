@@ -17,21 +17,6 @@ class PrestamosController extends Controller
         $this->prestamosService = $PrestamosService;
     }
 
-    public function obtenerSociosConPrestamos(){
-        try{
-            return $this->prestamosService->obtenerSociosConPrestamos();
-        } catch ( \Exception $error ){
-            Log::alert($error);
-            return response()->json(
-                [
-                    'error' => $error,
-                    'mensaje' => 'Ocurrió un error interno'
-                ],
-                500
-            );
-        }
-    }
-
     public function obtenerSociosConRelacionEmpresas(){
         try{
             return $this->prestamosService->obtenerSociosConRelacionEmpresas();
@@ -49,7 +34,22 @@ class PrestamosController extends Controller
 
     public function obtenerEmpresasSelectPorSocio($idSocio){
         try{
-            return $this->prestamosService->obtenerEmpresasSelectPorSocio($idSocio);
+            return $this->prestamosService->obtenerEmpresasPorSocioSelect($idSocio);
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerSociosConPrestamos(){
+        try{
+            return $this->prestamosService->obtenerSociosConPrestamos();
         } catch ( \Exception $error ){
             Log::alert($error);
             return response()->json(

@@ -1378,3 +1378,20 @@ button {
 #itemsPerPageSelect {
   border-radius: 0px;
 }
+
+.group-dropdown-form {
+  width: 100%;
+}
+
+.group-dropdown-form app-dropdown {
+  width: 100%;
+}
+
+.group-dropdown-form app-dropdown .dropdown-toggle {
+  width: 100%;
+}
+
+.input-group {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
