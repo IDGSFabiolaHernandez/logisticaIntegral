@@ -32,10 +32,10 @@
                             <span class="input-group-text">$</span>
                             <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [value]="totalAPagar | number:'1.0-0'" style="text-align: center;">
                             <span class="input-group-text">.00</span>
-                          </div>
+                        </div>
                     </div>
 
-                    <div class="botonera" style="margin-top: 1px;">
+                    <div class="botonera">
                         <button class="btn btn-primary" [disabled]="!canSearch()" (click)="obtenerMensualidadesPagarPorMensualidad()">Consultar</button>
                         <button class="btn btn-primary" [disabled]="!canPay()" (click)="pagarMensualidades()">Pagar</button>
                         <button class="btn btn-primary" disabled="true">Excel</button>

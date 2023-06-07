@@ -14,16 +14,6 @@ class PrestamosService
         $this->prestamosRepository = $PrestamosRepository;
     }
 
-    public function obtenerSociosConPrestamos(){
-        $sociosPrestamos = $this->prestamosRepository->obtenerSociosConPrestamos();
-        return response()->json(
-            [
-                'mensaje' => 'Se consultaron los Socios y Prestamos con éxito',
-                'data' => $sociosPrestamos
-            ]
-        );
-    }
-
     public function obtenerSociosConRelacionEmpresas(){
         $sociosRelacionEmpresas = $this->prestamosRepository->obtenerSociosConRelacionEmpresas();
         return response()->json(
@@ -34,12 +24,34 @@ class PrestamosService
         );
     }
 
-    public function obtenerEmpresasSelectPorSocio($idSocio){
-        $empresasSelectPorSocio = $this->prestamosRepository->obtenerEmpresasSelectPorSocio($idSocio);
+    public function obtenerEmpresasPorSocioSelect($idSocio){
+        $empresasSelectPorSocio = $this->prestamosRepository->obtenerEmpresasPorSocioSelect($idSocio);
+        $opcionesSelect = [];
+
+        foreach( $empresasSelectPorSocio as $item){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombre,
+                'checked' => false
+            ];
+
+            array_push($opcionesSelect,$temp);
+        }
+
         return response()->json(
             [
                 'mensaje' => 'Se consultaron las Empresas por Socio con éxito',
-                'data' => $empresasSelectPorSocio
+                'data' => $opcionesSelect
+            ]
+        );
+    }
+
+    public function obtenerSociosConPrestamos(){
+        $sociosPrestamos = $this->prestamosRepository->obtenerSociosConPrestamos();
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron los Socios y Prestamos con éxito',
+                'data' => $sociosPrestamos
             ]
         );
     }

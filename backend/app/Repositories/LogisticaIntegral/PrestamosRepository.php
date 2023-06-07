@@ -9,38 +9,38 @@ use App\Models\TblSociosEmpresas;
 
 class PrestamosRepository
 {
-   public function obtenerSociosConPrestamos(){
-        $sociosPrestamos = TblPrestamosSocios::select(
-                                                    'tblSocios.id',
-                                                    'tblSocios.nombreSocio'
-                                              )
+     public function obtenerSociosConRelacionEmpresas(){
+          $relacionConEmpresas = TblSocios::select(
+                                                  'tblSocios.id',
+                                                  'tblSocios.nombreSocio'
+                                             )
+                                             ->join('tblSociosEmpresas','tblSocios.id','tblSociosEmpresas.fkSocio')
+                                             ->orderBy('tblSocios.nombreSocio','asc');
+          return $relacionConEmpresas->get();                                        
+     }
+
+     public function obtenerEmpresasPorSocioSelect($idSocio){
+          $empresasPorSocio = TblSociosEmpresas::select(
+                                                       'empresas.id',
+                                                       'empresas.nombre'
+                                                  )
+                                                  ->join('empresas','empresas.id','tblSociosEmpresas.fkEmpresa')
+                                                  ->where('tblSociosEmpresas.fkSocio',$idSocio);
+          return $empresasPorSocio->get();
+     }
+
+     public function obtenerSociosConPrestamos(){
+          $sociosPrestamos = TblPrestamosSocios::select(
+                                                  'tblSocios.id',
+                                                  'tblSocios.nombreSocio'
+                                             )
                                              ->join('tblSocios','tblSocios.id','prestamosSocios.id')
                                              ->orderBy('tblSocios.nombreSocio','asc')
                                              ->distinct();
-        return $sociosPrestamos->get();                                                 
-   }
+          return $sociosPrestamos->get();                                                 
+     }
 
-   public function obtenerSociosConRelacionEmpresas(){
-        $relacionConEmpresas = TblSocios::select(
-                                                'tblSocios.id',
-                                                'tblSocios.nombreSocio'
-                                         )
-                                        ->join('tblSociosEmpresas','tblSocios.id','tblSociosEmpresas.fkSocio')
-                                        ->orderBy('tblSocios.nombreSocio','asc');
-        return $relacionConEmpresas->get();                                        
-   }
-
-   public function obtenerEmpresasSelectPorSocio($idSocio){
-        $empresasPorSocio = TblSociosEmpresas::select(
-                                                    'empresas.id',
-                                                    'empresas.nombre'
-                                              )
-                                              ->join('empresas','empresas.id','tblSociosEmpresas.fkEmpresa')
-                                              ->where('tblSociosEmpresas.fkSocio',$idSocio);
-        return $empresasPorSocio->get();
-   }
-
-   public function obtenerPrestamosPorSociosYStatus($socios,$status){
+     public function obtenerPrestamosPorSociosYStatus($socios,$status){
           $sociosYStatus = TblPrestamosSocios::select(
                                                   'tblSocios.nombreSocio',
                                                   'empresas.nombre as nombreEmpresa',
@@ -54,5 +54,5 @@ class PrestamosRepository
                                              ->whereIn('prestamosSocios.idSocio',$socios)
                                              ->whereIn('prestamosSocios.estatusPrestamo',$status);
           return $sociosYStatus->get();
-   }
+     }
 }
