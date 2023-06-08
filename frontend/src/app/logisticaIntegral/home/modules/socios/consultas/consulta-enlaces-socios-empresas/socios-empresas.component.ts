@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Option from 'src/app/shared/interfaces/options.interface';
-import { EmpresasService } from '../../../../services/empresas/empresas.service';
+import { EmpresasService } from '../../../../../services/empresas/empresas.service';
 
 @Component({
   selector: 'app-socios-empresas',

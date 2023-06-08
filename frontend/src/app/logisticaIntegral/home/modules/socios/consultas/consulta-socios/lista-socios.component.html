@@ -11,15 +11,15 @@
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
-                <div class="card-body">
-                    <div class="col-md-3" style="margin-top: 10px;">
+                <div class="card-body row" style="margin-top: 10px;">
+                    <div class="form-group col-lg-3 col-md-4">
                         <label for="statusReportes" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
-                        
-                        <div class="btn-group" role="group">
+                        <div class="btn-group group-dropdown-form" role="group">
                             <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
                             <button class="btn btn-outline-primary" (click)="refreshSocios"><i class="bi bi-arrow-repeat"></i></button>
                         </div>
                     </div>
+
                     <div class="botonera">
                         <button class="btn btn-primary" [disabled]="!canSearch()" (click)="consultarSociosPorSelect()">Consultar</button>
                         <button class="btn btn-primary" disabled="true">Excel</button>
