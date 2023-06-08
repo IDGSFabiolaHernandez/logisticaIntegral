@@ -76,4 +76,19 @@ class PrestamosController extends Controller
             );
         }
     }
+
+    public function registroNuevoPrestamoSocio( Request $prestamoSocio ){
+        try{
+            return $this->prestamosService->registroNuevoPrestamoSocio($prestamoSocio->all());
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
