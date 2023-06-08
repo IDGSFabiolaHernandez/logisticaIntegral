@@ -14,12 +14,12 @@
             <div class="card">
                 <div class="card-body row" style="margin-top: 10px;">
                     <div class="form-group col-lg-3 col-md-4">
-                        <label for="statusReportes" class="form-label">Fecha pago <b style="color: brown;">*</b>:</label><br>
+                        <label for="dropDown" class="form-label">Fecha pago <b style="color: brown;">*</b>:</label><br>
                         <input type="date" class="form-control" [(ngModel)]="fechaPago">
                     </div>
 
                     <div class="form-group col-lg-3 col-md-4">
-                        <label for="statusReportes" class="form-label">Mensualidades por Pagar <b style="color: brown;">*</b>:</label><br>
+                        <label for="dropDown" class="form-label">Mensualidades por Pagar <b style="color: brown;">*</b>:</label><br>
                         <select class="form-select" [(ngModel)]="fechaMensualidadPagar">
                             <option value="" style="display: none; visibility: hidden;">Seleccionar mensualidad</option>
                             <option *ngFor="let mensualidad of opcionesMensualidadesPagar" value="{{mensualidad.fechaBase}}">{{mensualidad.mes}}</option>
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group col-lg-3 col-md-4">
-                        <label for="statusReportes" class="form-label">Total a pagar:</label><br>
+                        <label for="dropDown" class="form-label">Total a pagar:</label><br>
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
                             <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [value]="totalAPagar | number:'1.0-0'" style="text-align: center;">

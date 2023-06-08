@@ -10,6 +10,7 @@ import { SociosEmpresasComponent } from './modules/socios/consultas/consulta-enl
 import { ConsultaMensualidadesComponent } from './modules/socios/consultas/consulta-mensualidades/consulta-mensualidades.component';
 import { PagoMensualidadesComponent } from './modules/socios/consultas/pago-mensualidades/pago-mensualidades.component';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
+import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/consulta-prestamos-socios/consulta-prestamos-socios.component';
 
 @NgModule({
     imports:[
@@ -26,6 +27,7 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
         SociosEmpresasComponent,
         ConsultaMensualidadesComponent,
         PagoMensualidadesComponent,
+        ConsultaPrestamosSociosComponent,
     ]
 })
 

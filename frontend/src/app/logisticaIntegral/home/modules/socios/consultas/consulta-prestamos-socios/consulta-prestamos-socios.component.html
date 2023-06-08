@@ -1,8 +1,9 @@
 <div class="pagetitle">
-    <h1>Socios</h1>
+    <h1>Préstamos Socios</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active">Socios</li>
+            <li class="breadcrumb-item">Socios</li>
+            <li class="breadcrumb-item active">Préstamos Socios</li>
         </ol>
     </nav>
 </div>
@@ -16,7 +17,15 @@
                         <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
                         <div class="btn-group group-dropdown-form" role="group">
                             <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
-                            <button class="btn btn-outline-primary" (click)="refreshSocios"><i class="bi bi-arrow-repeat"></i></button>
+                            <button class="btn btn-outline-primary" (click)="refreshSocios()"><i class="bi bi-arrow-repeat"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-4">
+                        <label for="dropDown" class="form-label">Status Prestamos<b style="color: brown;">*</b>:</label><br>
+                        <div class="btn-group group-dropdown-form" role="group">
+                            <app-dropdown [options]="opcionesStatus" [font]="'status'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                            <button class="btn btn-outline-primary"><i class="bi bi-arrow-repeat"></i></button>
                         </div>
                     </div>
 
