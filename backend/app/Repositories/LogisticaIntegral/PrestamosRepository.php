@@ -3,9 +3,11 @@
 namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblEmpresas;
+use App\Models\TblPrestamosEmpresas;
 use App\Models\TblPrestamosSocios;
 use App\Models\TblSocios;
 use App\Models\TblSociosEmpresas;
+use Carbon\Carbon;
 
 class PrestamosRepository
 {
@@ -63,4 +65,32 @@ class PrestamosRepository
                                              ->whereIn('prestamosSocios.estatusPrestamo',$status);
           return $sociosYStatus->get();
      }
+
+     public function registroNuevoPrestamoSocio($datosPrestamos){
+          $registro = new TblPrestamosSocios();
+
+          $registro->fechaPrestamo   = Carbon::parse($datosPrestamos['fechaPrestamo']);
+          $registro->idSocio         = $datosPrestamos['idSocio'];
+          $registro->montoPrestamo   = $this->trimValidator($datosPrestamos['montoPrestamo']);
+          $registro->aCuenta         = 0;
+          $registro->estatusPrestamo = 0;
+          $registro->observaciones   = $this->trimValidator($datosPrestamos['observaciones']);
+          //$registro->usuarioAlta   = $this->trimValidator($datosPrestamos['usuarioAlta']);
+          $registro->fechaAlta       = Carbon::now();
+          $registro->save();
+
+          return $registro->id;
+     }    
+
+     public function registroDetallePrestamoEmpresa($fkPrestamo,$fkEmpresa){
+          $registro = new TblPrestamosEmpresas();
+          
+          $registro->fkPrestamo  = $fkPrestamo;
+          $registro->fkEmpresa   = $fkEmpresa;
+          $registro->save();
+     }
+
+     public function trimValidator ( $value ) {
+		return $value != null && trim($value) != '' ? trim($value) : null;
+	}
 }

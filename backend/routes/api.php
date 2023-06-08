@@ -37,3 +37,4 @@ Route::get('/prestamos/obtenerSociosConRelacionEmpresas','App\Http\Controllers\L
 Route::get('/prestamos/obtenerEmpresasSelectPorSocio/{idSocio}','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerEmpresasSelectPorSocio');
 Route::get('/prestamos/obtenerSociosConPrestamos','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerSociosConPrestamos');
 Route::post('/prestamos/obtenerPrestamosPorSociosYStatus','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerPrestamosPorSociosYStatus');
+Route::post('/prestamos/registroNuevoPrestamoSocio','App\Http\Controllers\LogisticaIntegral\PrestamosController@registroNuevoPrestamoSocio');

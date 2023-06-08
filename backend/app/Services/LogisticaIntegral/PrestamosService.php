@@ -20,7 +20,8 @@ class PrestamosService
             [
                 'mensaje' => 'Se consultaron con éxito los Socios que tienen relación con Empresas',
                 'data' => $sociosRelacionEmpresas
-            ]
+            ],
+            200
         );
     }
 
@@ -42,7 +43,8 @@ class PrestamosService
             [
                 'mensaje' => 'Se consultaron con éxito las Empresas con las que tiene relación el Socio',
                 'data' => $opcionesSelect
-            ]
+            ],
+            200
         );
     }
 
@@ -64,7 +66,8 @@ class PrestamosService
             [
                 'mensaje' => 'Se consultaron con éxito los Socios que tienen/tuvieron préstamos',
                 'data' => $opcionesSelect
-            ]
+            ],
+            200
         );
     }
 
@@ -74,7 +77,22 @@ class PrestamosService
             [
                 'mensaje' => 'Se consultaron con éxito los Socios que tienen/tuvieron préstamos',
                 'data' => $sociosYStatus
-            ]
+            ],
+            200
+        );
+    }
+
+    public function registroNuevoPrestamoSocio($prestamoSocio){
+        $idPrestamo = $this->prestamosRepository->registroNuevoPrestamoSocio($prestamoSocio['detallePrestamo']);
+        foreach($prestamoSocio['empresas'] as $idEmpresa){
+            $this->prestamosRepository->registroDetallePrestamoEmpresa($idPrestamo, $idEmpresa);
+        }
+
+        return response()->json(
+            [
+                'mensaje' => 'Se registró el préstamo del Socio con éxito'
+            ],
+            200
         );
     }
 }
