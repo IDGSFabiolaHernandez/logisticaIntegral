@@ -30,24 +30,20 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <div class="card">
-                                    <div class="card-body row">
-                                        <div class="col-sm-12" style="margin-top: 10px;">
-                                            <div class="d-flex flex-wrap">
-                                                <div class="form-group me-2" *ngIf="validarSelect('socios')">
-                                                    <label for="statusReportes" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
-                                                    <div class="btn-group" role="group">
-                                                        <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
-                                                        <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
-                                                    </div>
-                                                </div>
-                                        
-                                                <div class="form-group" *ngIf="validarSelect('empresas')">
-                                                    <label for="statusReportes" class="form-label">Empresa(s) <b style="color: brown;">*</b>:</label><br>
-                                                    <div class="btn-group" role="group">
-                                                        <app-dropdown [options]="opcionesEmpresas" [font]="'empresas'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
-                                                        <div class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></div>
-                                                    </div>
-                                                </div>
+                                    <div class="card-body row" style="margin-top: 10px;">
+                                        <div class="form-group col-lg-3 col-md-4" *ngIf="validarSelect('socios')">
+                                            <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
+                                            <div class="btn-group group-dropdown-form" role="group">
+                                                <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                                <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-3 col-md-4" *ngIf="validarSelect('empresas')">
+                                            <label for="dropDown" class="form-label">Empresa(s) <b style="color: brown;">*</b>:</label><br>
+                                            <div class="btn-group group-dropdown-form" role="group">
+                                                <app-dropdown [options]="opcionesEmpresas" [font]="'empresas'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                                <div class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></div>
                                             </div>
                                         </div>
                                           

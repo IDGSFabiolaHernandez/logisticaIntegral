@@ -1,0 +1,43 @@
+<div class="pagetitle">
+    <h1>Préstamos Socios</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Socios</li>
+            <li class="breadcrumb-item active">Préstamos Socios</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body row" style="margin-top: 10px;">
+                    <div class="form-group col-lg-3 col-md-4">
+                        <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
+                        <div class="btn-group group-dropdown-form" role="group">
+                            <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                            <button class="btn btn-outline-primary" (click)="refreshSocios()"><i class="bi bi-arrow-repeat"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-4">
+                        <label for="dropDown" class="form-label">Status Prestamos<b style="color: brown;">*</b>:</label><br>
+                        <div class="btn-group group-dropdown-form" role="group">
+                            <app-dropdown [options]="opcionesStatus" [font]="'status'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                            <button class="btn btn-outline-primary"><i class="bi bi-arrow-repeat"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="botonera">
+                        <button class="btn btn-primary" [disabled]="!canSearch()" (click)="consultarSociosPorSelect()">Consultar</button>
+                        <button class="btn btn-primary" disabled="true">Excel</button>
+                        <button class="btn btn-danger" [disabled]="!canClear()" (click)="limpiarGrid()">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <app-datatable [columnasTabla]="columnasSocio" [datosTabla]="listaSocios"></app-datatable>
+        </div>
+    </div>
+</section>

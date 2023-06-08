@@ -42,12 +42,20 @@ class PrestamosRepository
 
      public function obtenerPrestamosPorSociosYStatus($socios,$status){
           $sociosYStatus = TblPrestamosSocios::select(
+                                                  'prestamosSocios.id',
                                                   'tblSocios.nombreSocio',
                                                   'empresas.nombre as nombreEmpresa',
                                                   'prestamosSocios.montoPrestamo',
                                                   'prestamosSocios.aCuenta',
                                                   'prestamosSocios.estatusPrestamo'
                                              )
+                                             ->selectRaw("
+                                                  case
+                                                       when prestamosSocios.estatusPrestamo = 1 then 'Pagado'
+                                                       else 'Pendiente'
+                                                  end as statusPrestamo
+                                             ")
+                                             ->selectRaw("(prestamosSocios.montoPrestamo - prestamosSocios.aCuenta) as saldo")
                                              ->selectRaw("DATE_FORMAT(prestamosSocios.fechaPrestamo, '%d-%m-%Y') as fechaPrestamo")
                                              ->join('tblSocios','tblSocios.id','prestamosSocios.idSocio')
                                              ->leftJoin('empresas','empresas.id','prestamosSocios.idEmpresaMensualidad')

@@ -16,8 +16,16 @@ export class PrestamosService {
 	public obtenerSociosConRelacionEmpresas () : Observable<any> {
 		return this.http.get<any>(this.url+'/prestamos/obtenerSociosConRelacionEmpresas');
 	}
-
+	
 	public obtenerEmpresasSelectPorSocio (idSocio : number) : Observable<any> {
 		return this.http.get<any>(this.url+'/prestamos/obtenerEmpresasSelectPorSocio/'+idSocio);
+	}
+	
+	public obtenerSociosConPrestamos () : Observable<any> {
+		return this.http.get<any>(this.url+'/prestamos/obtenerSociosConPrestamos');
+	}
+
+	public obtenerPrestamosPorSociosYStatus ( datosSocios : any ) : Observable<any> {
+		return this.http.post<any>(this.url+'/prestamos/obtenerPrestamosPorSociosYStatus', datosSocios);
 	}
 }

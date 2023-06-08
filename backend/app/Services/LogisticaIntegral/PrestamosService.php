@@ -48,10 +48,22 @@ class PrestamosService
 
     public function obtenerSociosConPrestamos(){
         $sociosPrestamos = $this->prestamosRepository->obtenerSociosConPrestamos();
+        $opcionesSelect = [];
+
+        foreach( $sociosPrestamos as $item){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombreSocio,
+                'checked' => false
+            ];
+
+            array_push($opcionesSelect,$temp);
+        }
+
         return response()->json(
             [
                 'mensaje' => 'Se consultaron con éxito los Socios que tienen/tuvieron préstamos',
-                'data' => $sociosPrestamos
+                'data' => $opcionesSelect
             ]
         );
     }
