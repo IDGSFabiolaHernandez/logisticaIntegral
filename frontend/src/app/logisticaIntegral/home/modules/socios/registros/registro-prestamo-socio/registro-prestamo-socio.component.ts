@@ -122,6 +122,51 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit{
 		return Object.keys(registros).length != 0 ? true : false;
 	}
 
+	protected registrarPrestamoSocio() : void {
+		if ( !this.validaSocioExistente() ) {
+			this.mensajes.mensajeGenerico('Para continuar debe colocar un Socio existente y valido.', 'info', 'Los campos requeridos están marcados con un *');
+			return;
+		}
+
+		if ( this.empresasSeleccionadas.length == 0 ) {
+			this.mensajes.mensajeGenerico('Para continuar debe seleccionar al menos una empresa.', 'info', 'Los campos requeridos están marcados con un *');
+			return;
+		}
+
+		if (this.formNuevoPrestamo.value.montoPrestamo == 0) {
+			this.mensajes.mensajeGenerico('Para continuar debe colocar un monto mayor a 0.', 'info', 'Los campos requeridos están marcados con un *');
+			return;
+		}
+
+		if ( this.formNuevoPrestamo.invalid ) {
+			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta.', 'warning', 'Los campos requeridos están marcados con un *');
+			return;
+		}
+
+		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Registrar préstamo Socio').then(
+			respuestaMensaje => {
+				if ( respuestaMensaje.isConfirmed ) {
+					this.mensajes.mensajeEsperar();
+
+					this.formNuevoPrestamo.value.idSocio = this.obtenerSocioPorNombre(this.formNuevoPrestamo.value.nombreSocio).id;
+					
+					const dataPrestamo = {
+						detallePrestamo : this.formNuevoPrestamo.value,
+						empresas : this.empresasSeleccionadas.map(({ value }) => value)
+					};
+					
+					this.apiPrestamos.registroNuevoPrestamoSocio(dataPrestamo).subscribe(
+						respuesta => {
+							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
+						}, error => {
+							this.mensajes.mensajeGenerico('error', 'error');
+						}
+					);
+				}
+			}
+		);
+	}
+
 	limpiarFormulario() : void {
 		this.opcionesEmpresas = [];
 		this.idSocio = 0;

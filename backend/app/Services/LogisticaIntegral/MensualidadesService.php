@@ -139,33 +139,31 @@ class MensualidadesService
                     $montoAPagar = $dataPagar['montoPagar'];
 
                     foreach($prestamosActivos as $idPrestamo){
-                        $idPrestamo = $idPrestamo->id;
-                        $detallePrestamo = $this->mensualidadesRepository->obtenerDetallePrestamoSocio($idPrestamo);
-                        $deuda = 0;
-                        $aCuenta = 0;
+                        $idPrestamo       = $idPrestamo->id;
+                        $detallePrestamo  = $this->mensualidadesRepository->obtenerDetallePrestamoSocio($idPrestamo);
+                        $validarPago      = $this->mensualidadesRepository->validarPagoPrestamoPorEmpresa($idPrestamo, $enlace->fkEmpresa);
+                        $deuda            = 0;
+                        $aCuenta          = 0;
 
-                        if(
-                            $detallePrestamo['idEmpresaMensualidad'] == 0 ||
-                            $detallePrestamo['idEmpresaMensualidad'] == $enlace->fkEmpresa
-                        ){
-                            $deuda = $detallePrestamo['deuada'] - $aCuenta;
+                        if( $validarPago > 0 ){
+                            $deuda = $detallePrestamo->deuda - $aCuenta;
 
                             if($deuda >= $montoAPagar){
-                                $aCuenta = $detallePrestamo['aCuenta'] + $montoAPagar;
+                                $aCuenta = $detallePrestamo->aCuenta + $montoAPagar;
                                 $montoAPagar = 0;
                             }else{
-                                $aCuenta = $detallePrestamo['prestamo'] + $deuda;
-                                $montoAPagar -= $deuda;
+                                $aCuenta = $detallePrestamo->aCuenta + $deuda;
+                                $montoAPagar = $montoAPagar - $deuda;
                             }
 
                             $this->mensualidadesRepository->actualizarEstadoDeCuenta(
                                 $aCuenta,
-                                ($aCuenta == $detallePrestamo['montoPrestamo'] ? 1 : 0 ),
+                                ($aCuenta == $detallePrestamo->montoPrestamo ? 1 : 0 ),
                                 $idPrestamo
                             );
                         }
 
-                        if($montoAPagar == 0) break;
+                        if($montoAPagar == 0) {break;}
                     }
 
                     $mapeoDatos = [
@@ -173,7 +171,7 @@ class MensualidadesService
                         'idEmpresa'     => $enlace->fkEmpresa, 
                         'mensualidad'   => $dataPagar['fechaMensualidadPagar'], 
                         'cantidad'      => $montoAPagar, 
-                        'abonoPrestamo' => $dataPagar['montoPagar'], 
+                        'abonoPrestamo' => $dataPagar['montoPagar'] - $montoAPagar,
                         'fechaPago'     => $dataPagar['fechaPago'], 
                         //'fkUsuarioPago' => $
                     ];

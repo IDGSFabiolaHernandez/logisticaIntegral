@@ -3,6 +3,7 @@
 namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblMensualidadesSocios;
+use App\Models\TblPrestamosEmpresas;
 use App\Models\TblPrestamosSocios;
 use App\Models\TblSocios;
 use App\Models\TblSociosEmpresas;
@@ -18,7 +19,7 @@ class MensualidadesRepository
                                                     ->join('empresas', function ($join) {
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo', 1)
-                                                            ->where('empresas.status', 1);
+                                                            ->where('empresas.status', '!=', 4);
                                                     })
                                                     ->where('mesIngreso','!=','0000-00-00')
                                                     ->orderBy('tblSociosEmpresas.mesIngreso','asc')
@@ -44,10 +45,10 @@ class MensualidadesRepository
     public function obtenerMesesPosterioresAUltimoMes($ultimoMes, $filter = 'NOW()'){
         $mesesPosteriores = DB::select("
                                     SELECT
-                                        DATE_FORMAT(DATE_ADD('".$ultimoMes."', INTERVAL n MONTH), '%Y-%m-%d') AS fechaBase,
-                                        DATE_FORMAT(DATE_ADD('".$ultimoMes."', INTERVAL n MONTH), '%M %Y') AS mes
+                                        DATE_FORMAT(DATE_ADD('".$ultimoMes."', INTERVAL n MONTH), '%Y-%m-%d') as fechaBase,
+                                        DATE_FORMAT(DATE_ADD('".$ultimoMes."', INTERVAL n MONTH), '%M %Y') as mes
                                     FROM (
-                                        SELECT @row := @row + 1 AS n
+                                        SELECT @row := @row + 1 as n
                                         FROM (
                                             SELECT 0 UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
                                             SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
@@ -71,7 +72,7 @@ class MensualidadesRepository
                                                    ->join('empresas',function ($join){
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo',1)
-                                                            ->where('empresas.status',1);
+                                                            ->where('empresas.status', '!=', 4);
                                                    })
                                                    ->where([
                                                        ['tblSociosEmpresas.mesIngreso','!=','0000-00-00'],
@@ -117,26 +118,24 @@ class MensualidadesRepository
 
     public function obtenerMensualidadesPagarPorMensualidad ( $fechaBase, $socios, $empresas) {
         $mensualidadesPorPagar = TblSocios::select(
-                                                'tblSocios.id',
-                                                'tblSocios.nombreSocio',
-                                                'tblSocios.status AS activoSocio'
+                                               'tblSocios.id',
+                                               'tblSocios.nombreSocio',
+                                               'tblSocios.status as activoSocio'
                                             )
-                                          ->selectRaw('COUNT(tblSociosEmpresas.id) AS numEmpresas')
-                                          ->selectRaw('COUNT(prestamosSocios.id) AS numPrestamos')
-                                          ->selectRaw('SUM(prestamosSocios.montoPrestamo) AS importeTotalPrestamo')
-                                          ->selectRaw('SUM(prestamosSocios.montoPrestamo - prestamosSocios.aCuenta) AS restantePrestamo')
-                                          ->join('tblSociosEmpresas', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
-                                          ->join('empresas', function($join){
-                                              $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
-                                                   ->where('empresas.Activo',1)
-                                                   ->where('empresas.status',1);
+                                          ->selectRaw('COUNT(empresas.id) as numEmpresas')
+                                          ->selectRaw('(SELECT COUNT(prestamosSocios.id) FROM prestamosSocios WHERE prestamosSocios.idSocio = tblSocios.id AND estatusPrestamo = 0) as numPrestamos')
+                                          ->selectRaw('(SELECT SUM(prestamosSocios.montoPrestamo) FROM prestamosSocios WHERE prestamosSocios.idSocio = tblSocios.id AND estatusPrestamo = 0) as importeTotalPrestamo')
+                                          ->selectRaw('(SELECT SUM((prestamosSocios.montoPrestamo - prestamosSocios.aCuenta)) FROM prestamosSocios WHERE prestamosSocios.idSocio = tblSocios.id AND estatusPrestamo = 0) as restantePrestamo')
+                                          ->join('tblSociosEmpresas', function ( $join ) use ( $fechaBase ) {
+                                               $join->on('tblSociosEmpresas.fkSocio', 'tblSocios.id')
+                                                    ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
+                                                    ->where('tblSociosEmpresas.mesIngreso', '<=', $fechaBase);
                                           })
-                                          ->leftJoin('prestamosSocios', function ($join) {
-                                              $join->on('tblSocios.id', 'prestamosSocios.idSocio')
-                                                  ->where('prestamosSocios.estatusPrestamo', 0);
+                                          ->join('empresas', function ($join) {
+                                              $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
+                                                  ->where('empresas.Activo', 1)
+                                                  ->where('empresas.status', '!=', 4);
                                           })
-                                          ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
-                                          ->where('tblSociosEmpresas.mesIngreso', '<=', $fechaBase)
                                           ->whereIn('tblSocios.id', $socios)
                                           ->whereIn('tblSociosEmpresas.fkEmpresa', $empresas)
                                           ->groupBy('tblSocios.id', 'tblSocios.nombreSocio', 'tblSocios.status')
@@ -158,7 +157,7 @@ class MensualidadesRepository
                                              ->join('empresas', function($join){
                                                 $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                      ->where('empresas.Activo',1)
-                                                     ->where('empresas.status',1);
+                                                     ->where('empresas.status', '!=', 4);
                                              })
                                              ->where('tblSocios.id',$idSocio)
                                              ->orderBy('tblSocios.nombreSocio','asc');
@@ -174,6 +173,15 @@ class MensualidadesRepository
         return $prestamosSociosActivos->get();                                                    
     }
 
+    public function validarPagoPrestamoPorEmpresa ( $idPrestamo, $idEmpresa ) {
+        $empresas = TblPrestamosEmpresas::where([
+                                            ['fkPrestamo', $idPrestamo],
+                                            ['fkEmpresa', $idEmpresa]
+                                        ]);
+
+        return $empresas->count();
+    }
+
     public function obtenerDetallePrestamoSocio($idPrestamo){
         $prestamosSociosActivos = TblPrestamosSocios::select(
                                                         'id',
@@ -185,7 +193,7 @@ class MensualidadesRepository
                                                     ->selectRaw('(montoPrestamo - aCuenta) as deuda')
                                                     ->where('prestamosSocios.id',$idPrestamo)
                                                     ->where('estatusPrestamo',0);
-        return $prestamosSociosActivos->get()[0];                                                    
+        return $prestamosSociosActivos->get()[0] ?? null;
     }
 
     public function actualizarEstadoDeCuenta($aCuenta,$estatusPrestamo,$idPrestamo){

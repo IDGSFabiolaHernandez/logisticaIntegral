@@ -28,7 +28,7 @@ class EmpresasRepository
                                             when empresas.status = 1 then 'Activa'
                                             when empresas.status = 2 then 'X suspender'
                                             when empresas.status = 3 then 'En proceso'
-                                            when empresas.status = 4 then 'Inactiva'
+                                            when empresas.status = 4 then 'Suspendida'
                                             when empresas.status = 5 then 'Maquila cliente'
                                             when empresas.status = 6 then 'Cuenta bancaria'
                                             end as status")
