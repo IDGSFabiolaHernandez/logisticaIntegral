@@ -25,9 +25,9 @@ class SociosRepository
                                         else 'Inactivo'
                                     end as status
                                 ")
-                                ->selectRaw('COALESCE(ne.numEmpresas, 0) AS numEmpresas')
+                                ->selectRaw('COALESCE(ne.numEmpresas, 0) as numEmpresas')
                                 ->join('tblIntermediariosSocios', 'tblIntermediariosSocios.id', 'tblSocios.fkIntermediario')
-                                ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) AS numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id')
+                                ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) as numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id')
                                 ->whereIn('tblSocios.id', $socios);
 
         return $listaSocios->get();
@@ -107,13 +107,13 @@ class SociosRepository
                                                         when empresas.status = 1 then 'Activa'
                                                         when empresas.status = 2 then 'X suspender'
                                                         when empresas.status = 3 then 'En proceso'
-                                                        when empresas.status = 4 then 'Inactiva'
+                                                        when empresas.status = 4 then 'Suspendida'
                                                         when empresas.status = 5 then 'Maquila cliente'
                                                         when empresas.status = 6 then 'Cuenta bancaria'
                                                     end as status
                                                 ")
-                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesIngreso, '%M %Y' ) AS mesIngreso")
-                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesSalida, '%M %Y' ) AS mesSalida")
+                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesIngreso, '%M %Y' ) as mesIngreso")
+                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesSalida, '%M %Y' ) as mesSalida")
                                                 ->join('tblSocios', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
                                                 ->join('empresas', 'empresas.id', 'tblSociosEmpresas.fkEmpresa')
                                                 ->orderBy('nombreSocio','asc');
@@ -167,9 +167,10 @@ class SociosRepository
         $mensualidadesSelect = TblMensualidadesSocios::select(
                                                             'tblSocios.id',
                                                             'tblSocios.nombreSocio'
-                                                        )
-                                                      ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
-                                                      ->orderBy('tblSocios.nombreSocio','asc');
+                                                       )
+                                                     ->distinct()
+                                                     ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
+                                                     ->orderBy('tblSocios.nombreSocio','asc');
         return $mensualidadesSelect->get();
     }
 

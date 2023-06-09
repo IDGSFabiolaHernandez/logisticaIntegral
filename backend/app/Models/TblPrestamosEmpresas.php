@@ -10,7 +10,7 @@ class TblPrestamosEmpresas extends Model
     use HasFactory;
     public $timestamps = false;
     protected $primaryKey = 'fkPrestamo';
-    protected $table = 'prestamosEmpresas';
+    protected $table = 'prestamoEmpresas';
     protected $fillable = 
     [
         'fkPrestamo',

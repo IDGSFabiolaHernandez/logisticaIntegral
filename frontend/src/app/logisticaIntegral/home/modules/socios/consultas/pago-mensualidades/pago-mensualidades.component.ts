@@ -108,7 +108,7 @@ export class PagoMensualidadesComponent implements OnInit {
 	}
 
 	private async actualizarGridDespuesPago () : Promise<void> {
-		await this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(this.fechaMensualidadPagar).toPromise().then(
+		await this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(this.fechaMensualidadPagarEnvio).toPromise().then(
 			respuesta => {
 				this.listaMensualidadesPagar = respuesta.data ?? [];
 			}, error => {
