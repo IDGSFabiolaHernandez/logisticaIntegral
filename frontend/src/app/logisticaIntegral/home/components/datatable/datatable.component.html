@@ -1,0 +1,91 @@
+<div class="card recent-sales overflow-auto">
+    <div class="card-body">
+        <br>
+        <div class="d-flex justify-content-center">
+            <div class="btn-group" role="group">
+                <button class="btn btn-light" disabled="true">Mostrar</button>
+                <select id="itemsPerPageSelect" class="form-select" [(ngModel)]="itemsPerPage" (ngModelChange)="onItemsPerPageChange()">
+                    <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+                </select>
+                <button class="btn btn-light" disabled="true">Registros</button>
+            </div>
+        </div>
+        
+        <br>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)" (click)="onItemsPerPageChange()" style="vertical-align: middle;">
+                        {{ columnasTabla[columna] }}
+                        <span *ngIf="sortBy === columna && !sortDesc && !tableConfig[columna]?.checkColumn">&#9650;</span>
+                        <span *ngIf="sortBy === columna && sortDesc && !tableConfig[columna]?.checkColumn">&#9660;</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td *ngFor="let columna of getColumnKeys()">
+                        <input *ngIf="!tableConfig[columna]?.checkColumn" type="text" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                    </td>
+                </tr>
+                <tr *ngFor="let item of paginatedItems">
+                    <td *ngFor="let columna of getColumnKeys()" class="check-column">
+                        <ng-container *ngIf="tableConfig[columna]?.checkColumn; else texto">
+                            <label class="form-check form-switch d-flex justify-content-center align-items-center check-column-item">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    [value]="item[tableConfig[columna].value]"
+                                    [checked]="isCheckboxSelected(item[tableConfig[columna].value])"
+                                    (change)="toggleCheckboxSelection($event, item[tableConfig[columna].value])"
+                                >
+                            </label>
+                        </ng-container>
+                        <ng-template #texto>
+                            <span>{{ item[columna] }}</span>
+                        </ng-template>
+                    </td>
+                </tr>                  
+            </tbody>
+        </table>
+          
+        <nav class="d-flex justify-content-center" style="margin-bottom: -15px;">
+            <ul class="pagination">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <a class="page-link" (click)="goToPage(1)" aria-label="First">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="visually-hidden">First</span>
+                    </a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" [class.active]="page === currentPage" *ngFor="let page of pagesArray">
+                    <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <a class="page-link" (click)="goToPage(totalPages)" aria-label="Last">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="visually-hidden">Last</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="col-sm-12 text-center">
+            <span *ngIf="datosTabla.length > 0">
+                <br>
+                Mostrando registros del {{ getStartIndex() }} al {{ getEndIndex() }} de un total de {{ datosTabla.length }} registros
+            </span>
+        </div>
+    </div>
+</div>

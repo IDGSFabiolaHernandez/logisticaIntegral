@@ -1,0 +1,82 @@
+<div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="pagetitle">
+                <h1>Nuevo préstamo Socio</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">Socios</li>
+                        <li class="breadcrumb-item active">Nuevo préstamo Socio</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <section class="section profile formsWTitle">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body pt-3">
+                                <h5 class="card-title" align="center">Nuevo préstamo Socio</h5>
+
+                                <form class="row g-3" autocomplete="off" [formGroup]="formNuevoPrestamo">
+                                    <div class="col-lg-6">
+                                        <label for="fechaPrestamo" class="form-label required">Fecha del préstamo:</label>
+                                        <input formControlName="fechaPrestamo" type="date" class="form-control" id="fechaPrestamo">
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="nombreSocio" class="form-label required">Socio:</label>
+                                        <div class="btn-group col-sm-12" role="group">
+                                            <input
+                                                list="socios"
+                                                class="form-control border-right-none"
+                                                id="nombreSocio"
+                                                formControlName="nombreSocio"
+                                                placeholder="Socio"
+                                                (keypress)="soloLetras($event)"
+                                                (input)="mostrarOpcionesSocio()"
+                                                maxlength="255"
+                                            >
+                                            <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
+                                        </div>
+    
+                                        <datalist id="socios" *ngIf="this.mostrarOpcionesSocios">
+                                            <option *ngFor="let socio of this.datosSocios" value="{{socio.nombreSocio}}">
+                                        </datalist>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="montoPrestamo" class="form-label required">Monto del préstamo:</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input formControlName="montoPrestamo" type="text" class="form-control" id="montoPrestamo" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe()">
+                                            <span class="input-group-text">.00</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="empresasMensualidad" class="form-label required">Empresa(s) mensualidad:</label>
+                                        <div class="btn-group group-dropdown-form" role="group">
+                                            <app-dropdown [options]="opcionesEmpresas" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                            <button class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <label for="observaciones" class="form-label">Observaciones:</label>
+                                        <textarea formControlName="observaciones" class="form-control" id="observaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="modal-footer" style="text-align: center;">
+            <button type="button" class="btn btn-primary" (click)="registrarPrestamoSocio()"><b>Registrar préstamo</b></button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="limpiarFormulario()"><b>Cancelar</b></button>
+        </div>
+    </div>
+</div>

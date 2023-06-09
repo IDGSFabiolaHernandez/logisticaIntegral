@@ -1,0 +1,77 @@
+<div class="pagetitle">
+    <h1>Consulta de mensualidades</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Consulta de mensualidades</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body" style="margin-top: 10px;">
+                    <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                        <li class="nav-item flex-fill" role="presentation" (click)="cambioGrid(0)">
+                            <button class="nav-link w-100 active" id="socios-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-socios" type="button" role="tab" aria-controls="socios" aria-selected="false">Consulta por Socio</button>
+                        </li>
+                        <li class="nav-item flex-fill" role="presentation" (click)="cambioGrid(1)">
+                            <button class="nav-link w-100" id="empresas-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-empresas" type="button" role="tab" aria-controls="empresas" aria-selected="false" tabindex="-1">Consulta por Empresa</button>
+                        </li>
+                    </ul>
+
+                    <br>
+                    <section class="section dashboard" style="margin-bottom: -30px;">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body row" style="margin-top: 10px;">
+                                        <div class="form-group col-lg-3 col-md-4" *ngIf="validarSelect('socios')">
+                                            <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
+                                            <div class="btn-group group-dropdown-form" role="group">
+                                                <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                                <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-3 col-md-4" *ngIf="validarSelect('empresas')">
+                                            <label for="dropDown" class="form-label">Empresa(s) <b style="color: brown;">*</b>:</label><br>
+                                            <div class="btn-group group-dropdown-form" role="group">
+                                                <app-dropdown [options]="opcionesEmpresas" [font]="'empresas'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                                <div class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-3 col-md-4">
+                                            <label for="dropDown" class="form-label">Mensualidad(es) <b style="color: brown;">*</b>:</label><br>
+                                            <div class="btn-group group-dropdown-form" role="group">
+                                                <app-dropdown [options]="opcionesMensualidades" [font]="'mensualidades'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                                                <div class="btn btn-outline-primary" (click)="refresh('Mensualidades')"><i class="bi bi-arrow-repeat"></i></div>
+                                            </div>
+                                        </div>
+                                          
+                                        <div class="botonera">
+                                            <button class="btn btn-primary" [disabled]="!canSearch()" (click)="consultarOptionProgress()">Consultar</button>
+                                            <button class="btn btn-primary" disabled="true">Excel</button>
+                                            <button class="btn btn-danger" [disabled]="!canClear()" (click)="limpiarGrid()">Limpiar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="tab-content pt-2" id="borderedTabJustifiedContent" style="margin-top: -10px;">
+                <div class="tab-pane fade active show" id="bordered-justified-socios" role="tabpanel" aria-labelledby="socios-tab">
+                    <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesSocios"></app-datatable>
+                </div>
+                <div class="tab-pane fade" id="bordered-justified-empresas" role="tabpanel" aria-labelledby="empresas-tab">
+                    <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesEmpresas"></app-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
