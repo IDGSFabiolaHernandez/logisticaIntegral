@@ -88,7 +88,7 @@ class PrestamosRepository
           return $sociosYStatus->get();
      }
 
-     public function registroNuevoPrestamoSocio($datosPrestamos){
+     public function registroNuevoPrestamoSocio($datosPrestamos, $idUsuario){
           $registro = new TblPrestamosSocios();
           $registro->fechaPrestamo   = Carbon::parse($datosPrestamos['fechaPrestamo']);
           $registro->idSocio         = $datosPrestamos['idSocio'];
@@ -96,16 +96,15 @@ class PrestamosRepository
           $registro->aCuenta         = 0;
           $registro->estatusPrestamo = 0;
           $registro->observaciones   = $this->trimValidator($datosPrestamos['observaciones']);
-          //$registro->usuarioAlta   = $this->trimValidator($datosPrestamos['usuarioAlta']);
+          $registro->usuarioAlta     = $idUsuario;
           $registro->fechaAlta       = Carbon::now();
           $registro->save();
 
           return $registro->id;
      }    
 
-     public function registroDetallePrestamoEmpresa($fkPrestamo,$fkEmpresa){
+     public function registroDetallePrestamoEmpresa($fkPrestamo, $fkEmpresa){
           $registro = new TblPrestamosEmpresas();
-          
           $registro->fkPrestamo  = $fkPrestamo;
           $registro->fkEmpresa   = $fkEmpresa;
           $registro->save();
