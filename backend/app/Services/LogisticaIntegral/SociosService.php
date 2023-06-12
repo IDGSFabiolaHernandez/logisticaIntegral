@@ -3,18 +3,22 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\SociosRepository;
+use App\Repositories\LogisticaIntegral\UsuariosRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SociosService
 {
     protected $sociosRepository;
+    protected $usuariosRepository;
 
     public function __construct(
-        SociosRepository $SociosRepository
+        SociosRepository $SociosRepository,
+        UsuariosRepository $UsuariosRepository
     )
     {
         $this->sociosRepository = $SociosRepository;
+        $this->usuariosRepository = $UsuariosRepository;
     }
 
     public function obtenerListaSocios($socios){
@@ -60,7 +64,7 @@ class SociosService
     }
 
     public function registroNuevoSocio($datosSocios){
-        $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocios);
+        $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocios['socio']);
 
         if( $validarSocio > 0 ){
             return response()->json(
@@ -73,12 +77,13 @@ class SociosService
         }
 
         DB::beginTransaction();
-            $this->sociosRepository->registroNuevoSocio($datosSocios);
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($datosSocios['token']);
+            $this->sociosRepository->registroNuevoSocio($datosSocios['socio'], $usuario->id);
         DB::commit();
 
         return response()->json(
             [
-                'mensaje' => 'Se registró el Socio con éxito'      
+                'mensaje' => 'Se registró el nuevo Socio con éxito'      
             ],
             200
         );
@@ -95,6 +100,9 @@ class SociosService
     }
 
     public function generarEnlaceSocioEmpresa($datosSociosEmpresas){
+        $datosSociosEmpresas = $datosSociosEmpresas['enlace'];
+        $token = $datosSociosEmpresas['token'];
+
         $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSociosEmpresas['fkSocio'], $datosSociosEmpresas['fkEmpresa']);
 
         if($enlaceExistente > 0){
@@ -108,7 +116,8 @@ class SociosService
         }
 
         DB::beginTransaction();
-            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas);
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($token);
+            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas, $usuario->id);
         DB::commit();
 
         return response()->json(

@@ -151,7 +151,12 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 					this.formEnlaceSocioEmpresa.value.fkSocio = this.obtenerSocioPorNombre(this.formEnlaceSocioEmpresa.value.nombreSocio).id;
 					this.formEnlaceSocioEmpresa.value.fkEmpresa = this.obtenerEmpresaPorNombre(this.formEnlaceSocioEmpresa.value.nombreEmpresa).id;
 
-					this.apiSocios.generarEnlaceSocioEmpresa(this.formEnlaceSocioEmpresa.value).subscribe(
+					const dataEnlace = {
+						'enlace' : this.formEnlaceSocioEmpresa.value,
+						'token'  : localStorage.getItem('token')
+					};
+
+					this.apiSocios.generarEnlaceSocioEmpresa(dataEnlace).subscribe(
 						respuesta => {
 							if ( respuesta.status == 409 ) {
 								this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
