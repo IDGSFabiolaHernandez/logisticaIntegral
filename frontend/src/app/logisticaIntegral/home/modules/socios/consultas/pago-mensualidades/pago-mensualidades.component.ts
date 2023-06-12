@@ -85,24 +85,31 @@ export class PagoMensualidadesComponent implements OnInit {
 	}
 
 	protected pagarMensualidades () : void {
-		this.mensajes.mensajeEsperar();
+		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Pagar Mensualidad(es)').then(
+			respuestaMensaje => {
+				if ( respuestaMensaje.isConfirmed ) {
+					this.mensajes.mensajeEsperar();
 
-		const dataMensualidadesPagar = {
-			fechaPago : this.fechaPago,
-			fechaMensualidadPagar : this.fechaMensualidadPagarEnvio,
-			montoPagar : this.montoPagar,
-			sociosAPagar : this.mensualidadesPagar
-		};
-
-		this.apiMensualidades.pagarMensualidadEmpresaSocio(dataMensualidadesPagar).subscribe(
-			respuesta => {
-				this.actualizarGridDespuesPago().then(() => {
-					this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
-					return;
-				});
-				return;
-			}, error => {
-				this.mensajes.mensajeGenerico('error', 'error');
+					const dataMensualidadesPagar = {
+						fechaPago             : this.fechaPago,
+						fechaMensualidadPagar : this.fechaMensualidadPagarEnvio,
+						montoPagar            : this.montoPagar,
+						sociosAPagar          : this.mensualidadesPagar,
+						token                 : localStorage.getItem('token')
+					};
+			
+					this.apiMensualidades.pagarMensualidadEmpresaSocio(dataMensualidadesPagar).subscribe(
+						respuesta => {
+							this.actualizarGridDespuesPago().then(() => {
+								this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
+								return;
+							});
+							return;
+						}, error => {
+							this.mensajes.mensajeGenerico('error', 'error');
+						}
+					);
+				}
 			}
 		);
 	}

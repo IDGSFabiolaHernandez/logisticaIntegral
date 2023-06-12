@@ -120,9 +120,12 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 					this.formDatosIdentificacionSocio.value.fkIntermediario = this.obtenerIntermediarioPorNombre(this.formDatosIdentificacionSocio.value.nombreIntermediario).id;
 
 					const datosSocio = {
-						...this.formDatosPersonalesSocio.value,
-						...this.formDetalleDomicilioSocio.value,
-						...this.formDatosIdentificacionSocio.value
+						socio : {
+							...this.formDatosPersonalesSocio.value,
+							...this.formDetalleDomicilioSocio.value,
+							...this.formDatosIdentificacionSocio.value
+						},
+						token : localStorage.getItem('token')
 					};
 
 					this.apiSocios.registrarSocio( datosSocio ).subscribe(

@@ -3,17 +3,22 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\PrestamosRepository;
+use App\Repositories\LogisticaIntegral\UsuariosRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PrestamosService
 {
     protected $prestamosRepository;
+    protected $usuariosRepository;
+
     public function __construct(
-        PrestamosRepository $PrestamosRepository
+        PrestamosRepository $PrestamosRepository,
+        UsuariosRepository $UsuariosRepository
     )
     {
         $this->prestamosRepository = $PrestamosRepository;
+        $this->usuariosRepository = $UsuariosRepository;
     }
 
     public function obtenerSociosConRelacionEmpresas(){
@@ -87,7 +92,8 @@ class PrestamosService
 
     public function registroNuevoPrestamoSocio($prestamoSocio){
         DB::beginTransaction();
-            $idPrestamo = $this->prestamosRepository->registroNuevoPrestamoSocio($prestamoSocio['detallePrestamo']);
+            $usuario    = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($prestamoSocio['token']);
+            $idPrestamo = $this->prestamosRepository->registroNuevoPrestamoSocio($prestamoSocio['detallePrestamo'], $usuario->id);
 
             foreach($prestamoSocio['empresas'] as $idEmpresa){
                 $this->prestamosRepository->registroDetallePrestamoEmpresa($idPrestamo, $idEmpresa);

@@ -3,17 +3,22 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\MensualidadesRepository;
+use App\Repositories\LogisticaIntegral\UsuariosRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MensualidadesService
 {
     protected $mensualidadesRepository;
+    protected $usuariosRepository;
+
     public function __construct(
-        MensualidadesRepository $MensualidadesRepository
+        MensualidadesRepository $MensualidadesRepository,
+        UsuariosRepository $UsuariosRepository
     )
     {
         $this->mensualidadesRepository = $MensualidadesRepository;
+        $this->usuariosRepository = $UsuariosRepository;
     }
 
     public function obtenerMensualidadesPagadasSelect () {
@@ -131,6 +136,8 @@ class MensualidadesService
 
     public function pagarMensualidadEmpresaSocio($dataPagar){
         DB::beginTransaction();
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($dataPagar['token']);
+
             foreach($dataPagar['sociosAPagar'] as $idSocio){
                 $enlacesSocioEmpresas = $this->mensualidadesRepository->obtenerEnlacesSocioEmpresas($dataPagar['fechaMensualidadPagar'],$idSocio);
 
@@ -173,7 +180,7 @@ class MensualidadesService
                         'cantidad'      => $montoAPagar, 
                         'abonoPrestamo' => $dataPagar['montoPagar'] - $montoAPagar,
                         'fechaPago'     => $dataPagar['fechaPago'], 
-                        //'fkUsuarioPago' => $
+                        'fkUsuarioPago' => $usuario->id
                     ];
 
                     $this->mensualidadesRepository->registrarPagoMensualidadEmpresaSocio($mapeoDatos);

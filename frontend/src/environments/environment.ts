@@ -1,3 +1,3 @@
 export const environment = {
-    api : 'http://localhost:8000/api'
+    api : 'https://logisticaintegral.com.mx/back/api'
 }
