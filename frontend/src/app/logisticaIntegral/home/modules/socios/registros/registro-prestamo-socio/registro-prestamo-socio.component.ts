@@ -152,7 +152,8 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit{
 					
 					const dataPrestamo = {
 						detallePrestamo : this.formNuevoPrestamo.value,
-						empresas : this.empresasSeleccionadas.map(({ value }) => value)
+						empresas 		: this.empresasSeleccionadas.map(({ value }) => value),
+						token    		: localStorage.getItem('token')
 					};
 					
 					this.apiPrestamos.registroNuevoPrestamoSocio(dataPrestamo).subscribe(
