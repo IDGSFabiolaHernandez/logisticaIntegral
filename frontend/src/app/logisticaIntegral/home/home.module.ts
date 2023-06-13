@@ -11,6 +11,8 @@ import { ConsultaMensualidadesComponent } from './modules/socios/consultas/consu
 import { PagoMensualidadesComponent } from './modules/socios/consultas/pago-mensualidades/pago-mensualidades.component';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/consulta-prestamos-socios/consulta-prestamos-socios.component';
+import { ModificacionSocioComponent } from './modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
     imports:[
@@ -18,7 +20,8 @@ import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/con
         RouterModule.forChild(HomeRoutes),
         FormsModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        ModalModule.forChild()
     ],
     declarations: [
         InicioComponent,
@@ -28,6 +31,7 @@ import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/con
         ConsultaMensualidadesComponent,
         PagoMensualidadesComponent,
         ConsultaPrestamosSociosComponent,
+        ModificacionSocioComponent,
     ]
 })
 

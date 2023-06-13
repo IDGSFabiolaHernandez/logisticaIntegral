@@ -14,6 +14,7 @@ import { SidebarComponent } from './logisticaIntegral/home/components/sidebar/si
 import { FooterComponent } from './logisticaIntegral/home/components/footer/footer.component';
 import { InvalidRouteComponent } from './shared/invalid-route/invalid-route.component';
 import { SharedModule } from './shared/modules/shared.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SharedModule } from './shared/modules/shared.module';
     RouterModule.forRoot(AppRoutes),
     HttpClientModule,
     HomeModule,
-    SharedModule
+    SharedModule,
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

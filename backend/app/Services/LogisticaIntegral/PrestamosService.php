@@ -93,7 +93,7 @@ class PrestamosService
     public function registroNuevoPrestamoSocio($prestamoSocio){
         DB::beginTransaction();
             $usuario    = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($prestamoSocio['token']);
-            $idPrestamo = $this->prestamosRepository->registroNuevoPrestamoSocio($prestamoSocio['detallePrestamo'], $usuario->id);
+            $idPrestamo = $this->prestamosRepository->registroNuevoPrestamoSocio($prestamoSocio['detallePrestamo'], $usuario[0]->id);
 
             foreach($prestamoSocio['empresas'] as $idEmpresa){
                 $this->prestamosRepository->registroDetallePrestamoEmpresa($idPrestamo, $idEmpresa);

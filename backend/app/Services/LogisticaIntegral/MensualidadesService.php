@@ -180,7 +180,7 @@ class MensualidadesService
                         'cantidad'      => $montoAPagar, 
                         'abonoPrestamo' => $dataPagar['montoPagar'] - $montoAPagar,
                         'fechaPago'     => $dataPagar['fechaPago'], 
-                        'fkUsuarioPago' => $usuario->id
+                        'fkUsuarioPago' => $usuario[0]->id
                     ];
 
                     $this->mensualidadesRepository->registrarPagoMensualidadEmpresaSocio($mapeoDatos);
