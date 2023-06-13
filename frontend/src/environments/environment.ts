@@ -1,3 +1,3 @@
 export const environment = {
-    api : 'https://logisticaintegral.com.mx/back/api'
+    api : 'https://backlogistica.galasoftsolutions.com/public/api'
 }
