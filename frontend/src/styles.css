@@ -1395,3 +1395,27 @@ button {
   margin-bottom: 0px !important;
   padding-bottom: 0px !important;
 }
+
+.custom-modal .modal-content {
+  overflow-y: auto !important;
+  max-height: 90vh !important;
+}
+
+.custom-modal .modal-footer {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
+}
+
+.table .thead-dark th {
+  color: #fff;
+  background-color: #212529;
+  border-color: #32383e;
+}
+
+.table .thead-light th {
+  color: #495057;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}

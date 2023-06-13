@@ -78,9 +78,14 @@ export class PagoMensualidadesComponent implements OnInit {
 
 	protected obtenerSociosAPagar(data: any): void {
 		this.mensualidadesPagar = data.selectedOptions;
-	  
+	
+		const sumatoria = this.mensualidadesPagar.reduce((acumulador, id) => {
+			const empresa = this.listaMensualidadesPagar.find(e => e.id === id);
+			return acumulador + (empresa ? empresa.numEmpresas : 0);
+		}, 0);
+	
 		setTimeout(() => {
-		  	this.totalAPagar = this.mensualidadesPagar.length * this.montoPagar;
+			this.totalAPagar = sumatoria * this.montoPagar;
 		});
 	}
 

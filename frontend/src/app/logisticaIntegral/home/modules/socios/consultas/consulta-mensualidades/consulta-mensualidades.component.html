@@ -27,7 +27,7 @@
                             <div class="col-xl-12">
                                 <div class="card">
                                     <div class="card-body row" style="margin-top: 10px;">
-                                        <div class="form-group col-lg-3 col-md-4" *ngIf="validarSelect('socios')">
+                                        <div class="form-group col-lg-3 col-md-4 col-sm-6" *ngIf="validarSelect('socios')">
                                             <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
                                             <div class="btn-group group-dropdown-form" role="group">
                                                 <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
@@ -35,7 +35,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group col-lg-3 col-md-4" *ngIf="validarSelect('empresas')">
+                                        <div class="form-group col-lg-3 col-md-4 col-sm-6" *ngIf="validarSelect('empresas')">
                                             <label for="dropDown" class="form-label">Empresa(s) <b style="color: brown;">*</b>:</label><br>
                                             <div class="btn-group group-dropdown-form" role="group">
                                                 <app-dropdown [options]="opcionesEmpresas" [font]="'empresas'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
@@ -43,7 +43,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group col-lg-3 col-md-4">
+                                        <div class="form-group col-lg-3 col-md-4 col-sm-6">
                                             <label for="dropDown" class="form-label">Mensualidad(es) <b style="color: brown;">*</b>:</label><br>
                                             <div class="btn-group group-dropdown-form" role="group">
                                                 <app-dropdown [options]="opcionesMensualidades" [font]="'mensualidades'" (selectionChange)="onSelectionChange($event)"></app-dropdown>

@@ -63,8 +63,8 @@ class SociosService
         );
     }
 
-    public function registroNuevoSocio($datosSocios){
-        $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocios['socio']);
+    public function registroNuevoSocio($datosSocio){
+        $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocio['socio']);
 
         if( $validarSocio > 0 ){
             return response()->json(
@@ -77,8 +77,8 @@ class SociosService
         }
 
         DB::beginTransaction();
-            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($datosSocios['token']);
-            $this->sociosRepository->registroNuevoSocio($datosSocios['socio'], $usuario->id);
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($datosSocio['token']);
+            $this->sociosRepository->registroNuevoSocio($datosSocio['socio'], $usuario[0]->id);
         DB::commit();
 
         return response()->json(
@@ -117,7 +117,7 @@ class SociosService
 
         DB::beginTransaction();
             $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($token);
-            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas, $usuario->id);
+            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas, $usuario[0]->id);
         DB::commit();
 
         return response()->json(
@@ -128,8 +128,8 @@ class SociosService
         );
     }
 
-    public function obtenerDetalldeSocio($idSocio){
-        $detalleSocio = $this->sociosRepository->obtenerDetalldeSocio($idSocio);
+    public function obtenerDetalleSocioPorId($idSocio){
+        $detalleSocio = $this->sociosRepository->obtenerDetalleSocioPorId($idSocio);
         return response()->json(
             [
                 'mensaje' => 'Se consultó el detalle de Socio con éxito',
@@ -177,6 +177,32 @@ class SociosService
                 'mensaje' => 'Se consultó el detalle del Socio-Empresas con éxito',
                 'data' =>  $detalleSocioEmpresas
             ]
+        );
+    }
+
+    public function modificarSocio ( $datosSocio ) {
+        $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocio['socioModificado'], $datosSocio['idSocio']);
+
+        if( $validarSocio > 0 ){
+            return response()->json(
+                [
+                    'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor validar la información',
+                    'status' => 409
+                ],
+                200
+            );
+        }
+
+        DB::beginTransaction();
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($datosSocio['token']);
+            $this->sociosRepository->modificarSocio($datosSocio['socioModificado'], $datosSocio['idSocio'], $usuario[0]->id);
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se modificó el Socio con éxito'
+            ],
+            200
         );
     }
 }

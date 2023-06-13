@@ -12,8 +12,8 @@
         </div>
         
         <br>
-        <table class="table table-hover">
-            <thead>
+        <table class="table table-hover data-table-border">
+            <thead class="thead-light">
                 <tr>
                     <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)" (click)="onItemsPerPageChange()" style="vertical-align: middle;">
                         {{ columnasTabla[columna] }}
@@ -30,7 +30,7 @@
                 </tr>
                 <tr *ngFor="let item of paginatedItems">
                     <td *ngFor="let columna of getColumnKeys()" class="check-column">
-                        <ng-container *ngIf="tableConfig[columna]?.checkColumn; else texto">
+                        <ng-container *ngIf="tableConfig[columna]?.checkColumn; else update">
                             <label class="form-check form-switch d-flex justify-content-center align-items-center check-column-item">
                                 <input
                                     type="checkbox"
@@ -41,11 +41,21 @@
                                 >
                             </label>
                         </ng-container>
-                        <ng-template #texto>
+                        <ng-template #update>
+                            <ng-container *ngIf="tableConfig[columna]?.updateColumn; else detail">
+                                <span (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal)">{{ item[columna] }}</span>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #detail>
+                            <ng-container *ngIf="tableConfig[columna]?.detailColumn; else deafult">
+
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #deafult>
                             <span>{{ item[columna] }}</span>
                         </ng-template>
                     </td>
-                </tr>                  
+                </tr>
             </tbody>
         </table>
           
