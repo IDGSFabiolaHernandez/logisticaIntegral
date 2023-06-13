@@ -1,0 +1,216 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Modificación de Socio</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Socios</li>
+                <li class="breadcrumb-item active">Modificación de Socio</li>
+            </ol>
+        </nav>
+    </div>
+    
+    <section class="section profile formsWTitle">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+                    
+                        <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="MborderedTabJustified" role="tablist">
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100 active" id="Mhome-tab" data-bs-toggle="tab" data-bs-target="#Mprofile-mod-informacion" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                    Información personal
+                                </button>
+                            </li>
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="Mprofile-tab" data-bs-toggle="tab" data-bs-target="#Mprofile-mod-direccion" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
+                                    Detalles de domicilio
+                                </button>
+                            </li>
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="Mprofile-tab" data-bs-toggle="tab" data-bs-target="#Mprofile-mod-identificacion" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
+                                    Datos de identificación
+                                </button>
+                            </li>
+                        </ul>
+        
+                        <div class="tab-content pt-2">
+                            <div class="tab-pane fade show active profile-edit" id="Mprofile-mod-informacion">
+                                <h5 class="card-title" align="center" style="margin-top: 15px;">Información personal</h5>
+                
+                                <form class="row g-3" autocomplete="off" [formGroup]="formModDatosPersonalesSocio">
+                                    <div class="col-md-6">
+                                        <label for="MnombreSocio" class="form-label required">Nombre(s):</label>
+                                        <input formControlName="nombreSocio" type="text" class="form-control" id="MnombreSocio" placeholder="Nombre(s)" (keypress)="soloLetras($event)" maxlength="255">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="Mstatus" class="form-label required">Status Socio:</label>
+                                        <section style="text-align: center;">
+                                            <input class="form-check-input" type="radio" formControlName="status" id="MstatusSocioA" value="1">
+                                            <label class="form-check-label" for="MstatusSocioA">&nbsp;Activo</label>
+                                            &nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" formControlName="status" id="MstatusSocioI" value="0">
+                                            <label class="form-check-label" for="MstatusSocioI">&nbsp;Inactivo</label>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="MfechaNacimiento" class="form-label required">Fecha Nacimiento:</label>
+                                        <input formControlName="fechaNacimiento" type="date" class="form-control" id="MfechaNacimiento">
+                                    </div>
+                
+                                    <div class="col-md-6">
+                                        <label for="McurpSocio" class="form-label required">CURP:</label>
+                                        <input formControlName="curpSocio" type="text" class="form-control" id="McurpSocio" placeholder="CURP" (keypress)="soloTexto($event)" maxlength="18">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="MrfcSocio" class="form-label required">RFC:</label>
+                                        <input formControlName="rfcSocio" type="text" class="form-control" id="MrfcSocio" placeholder="RFC" (keypress)="soloTexto($event)" maxlength="13">
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <label for="MestadoCivilSocio" class="form-label required">Estado Civil:</label>
+                                        <select formControlName="estadoCivilSocio" id="MestadoCivilSocio" class="form-control">
+                                            <option value="" style="display: none; visibility: hidden;">Seleccione una estado</option>
+                                            <option value="1">Solter@</option>
+                                            <option value="2">Casad@</option>
+                                            <option value="3">Divorciad@</option>
+                                            <option value="4">Separación en proceso judicial</option>
+                                            <option value="5">Viud@</option>
+                                            <option value="6">Concubinato</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="Mtelefono" class="form-label">Teléfono:</label>
+                                        <input formControlName="telefono" type="text" class="form-control" id="Mtelefono" placeholder="Teléfono" (keypress)="soloNumeros($event)" maxlength="10">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="MlugarNacimiento" class="form-label required">Lugar de Nacimiento:</label>
+                                        <input formControlName="lugarNacimiento" type="text" class="form-control" id="MlugarNacimiento" placeholder="Lugar de Nacimiento" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+                
+                                    <div class="col-md-6">
+                                        <label for="Mocupacion" class="form-label required">Ocupación:</label>
+                                        <input formControlName="ocupacion" type="text" class="form-control" id="Mocupacion" placeholder="Ocupación" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+                                </form>
+                            </div>
+        
+                            <div class="tab-pane fade pt-3 profile-edit" id="Mprofile-mod-direccion">
+                                <h5 class="card-title" align="center">Detalles de domicilio</h5>
+                
+                                <form class="row g-3" autocomplete="off" [formGroup]="formModDetalleDomicilioSocio">
+                                    <div class="col-md-6">
+                                        <label for="Mdireccion" class="form-label required">Dirección:</label>
+                                        <input formControlName="direccion" type="text" class="form-control" id="Mdireccion" placeholder="Dirección" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="Mcolonia" class="form-label required">Colonia:</label>
+                                        <input formControlName="colonia" type="text" class="form-control" id="Mcolonia" placeholder="Colonia" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="Mcp" class="form-label required">CP:</label>
+                                        <input formControlName="cp" type="text" class="form-control" id="Mcp" placeholder="CP" (keypress)="soloNumeros($event)" maxlength="5">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="Mlocalidad" class="form-label required">Localidad:</label>
+                                        <input formControlName="localidad" type="text" class="form-control" id="Mlocalidad" placeholder="Localidad" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="Mestado" class="form-label required">Estado:</label>
+                                        <input formControlName="estado" type="text" class="form-control" id="Mestado" placeholder="Estado" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade pt-3 profile-edit" id="Mprofile-mod-identificacion">
+                                <h5 class="card-title" align="center">Datos de identificación</h5>
+                
+                                <form class="row g-3" autocomplete="off" [formGroup]="formModDatosIdentificacionSocio">
+                                    <div class="col-lg-6">
+                                        <label for="MnombreIntermediario" class="form-label required">Intermediario:</label>
+                                        <div class="btn-group col-sm-12" role="group">
+                                            <input
+                                                list="browsers"
+                                                class="form-control border-right-none"
+                                                id="MnombreIntermediario"
+                                                formControlName="nombreIntermediario"
+                                                placeholder="Intermediario"
+                                                (keypress)="soloLetras($event)"
+                                                (input)="mostrarOpcionesIntermediarios()"
+                                                maxlength="255"
+                                            >
+                                            <button class="btn btn-outline-primary" (click)="refresh()"><i class="bi bi-arrow-repeat"></i></button>
+                                        </div>
+    
+                                        <datalist id="Mbrowsers" *ngIf="this.mostrarOpciones">
+                                            <option *ngFor="let intermediario of this.intermediarios" value="{{intermediario.nombreIntermediario}}">
+                                        </datalist>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-12">
+                                        <label for="MtipoIdentificacion" class="form-label required">Tipo de identificación:</label>
+                                        <section style="text-align: center;">
+                                            <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="MINE" value="1">
+                                            <label class="form-check-label" for="MINE">&nbsp;INE</label>&nbsp;&nbsp;&nbsp;
+                                            <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="MPasaporte" value="2">
+                                            <label class="form-check-label" for="MPasaporte">&nbsp;Pasaporte</label>&nbsp;&nbsp;&nbsp;
+                                            <input class="form-check-input" type="radio" formControlName="tipoIdentificacion" id="MLicenciaManejo" value="3">
+                                            <label class="form-check-label" for="MLicenciaManejo">&nbsp;Licencia de manejo</label>
+                                        </section>
+                                    </div>
+                
+                                    <div class="col-md-6">
+                                        <label for="MnumeroIdentificacion" class="form-label required">No. identificación:</label>
+                                        <input formControlName="numeroIdentificacion" type="text" class="form-control" id="MnumeroIdentificacion" placeholder="Número de identificación" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="Mvigencia" class="form-label required">Vigencia INE:</label>
+                                        <input formControlName="vigencia" type="text" class="form-control" id="Mvigencia" placeholder="Vigencia INE" (keypress)="soloTexto($event)" maxlength="255">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12">
+                                        <label for="Mfiel" class="form-label required">Fiel:</label>
+                                        <section style="text-align: center;">
+                                            <input class="form-check-input" type="radio" formControlName="fiel" id="MfielA" value="1">
+                                            <label class="form-check-label" for="MfielA">&nbsp;Activo</label>&nbsp;&nbsp;&nbsp;
+                                            <input class="form-check-input" type="radio" formControlName="fiel" id="MfielI" value="0">
+                                            <label class="form-check-label" for="MfielI">&nbsp;Inactivo</label>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6">
+                                        <label for="MfechaInicio" class="form-label">Fecha Inicio:</label>
+                                        <input formControlName="fechaInicio" type="date" class="form-control" id="MfechaInicio">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6">
+                                        <label for="MfechaFin" class="form-label">Fecha Fin:</label>
+                                        <input formControlName="fechaFin" type="date" class="form-control" id="MfechaFin">
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <label for="Mobservaciones" class="form-label">Observaciones:</label>
+                                        <textarea formControlName="observaciones" class="form-control" id="Mobservaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-primary" (click)="modificarSocio()"><b>Modificar Socio</b></button>
+    <button type="button" class="btn btn-danger" (click)="cancelarModificacion()"><b>Cancelar</b></button>
+</div>
