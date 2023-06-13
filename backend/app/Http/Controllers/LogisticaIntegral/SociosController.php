@@ -108,9 +108,9 @@ class SociosController extends Controller
         }
     }
 
-    public function obtenerDetalldeSocio($idSocio){
+    public function obtenerDetalleSocioPorId($idSocio){
         try{
-            return $this->sociosService->obtenerDetalldeSocio($idSocio);
+            return $this->sociosService->obtenerDetalleSocioPorId($idSocio);
         }catch( \Exception $error ){
             Log::alert($error);
             return response()->json(
@@ -125,7 +125,7 @@ class SociosController extends Controller
 
     public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
         try{
-            return $this->sociosService->obtenerDetalldeSocio($idEnlace);
+            return $this->sociosService->obtenerDetalleEnlaceSocioEmpresa($idEnlace);
         }catch( \Exception $error ){
             Log::alert($error);
             return response()->json(
@@ -152,10 +152,25 @@ class SociosController extends Controller
             );
         }
     }
-
+    
     public function obtenerDetalleSocioEmpresas($idSocioEmpresas){
         try{
             return $this->sociosService->obtenerDetalleSocioEmpresas($idSocioEmpresas);
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function modificarSocio( Request $request ){
+        try{
+            return $this->sociosService->modificarSocio( $request->all() );
         } catch ( \Exception $error ){
             Log::alert($error);
             return response()->json(

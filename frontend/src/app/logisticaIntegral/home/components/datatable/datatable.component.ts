@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModificacionSocioComponent } from '../../modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
 
 @Component({
   	selector: 'app-datatable',
@@ -22,7 +24,9 @@ export class DatatableComponent implements OnInit, OnChanges {
 
 	public filterValues : { [key: string]: string } = {};
 
-	constructor () {}
+	constructor (
+		private modalService: BsModalService
+	) {}
 
 	ngOnInit(): void {
 		this.selectedCheckboxes = [];
@@ -36,6 +40,31 @@ export class DatatableComponent implements OnInit, OnChanges {
 		this.selectedCheckboxes = [];
 		this.emitirDatos();
 		this.onItemsPerPageChange();
+	}
+
+	abrirModalModificacion(idDetalle: number, idModal: string) {
+		const data = {
+		  idDetalle: idDetalle
+		};
+	  
+		const configModal: any = {
+			backdrop: false,
+			ignoreBackdropClick: true,
+			keyboard: false,
+			animated: true,
+			class: 'modal-xl modal-dialog-centered modal-dialog-scrollable custom-modal',
+			initialState: data,
+			style: {
+				'background-color': 'transparent',
+				'overflow-y': 'auto'
+			}
+		};
+	  
+		switch (idModal) {
+		  	case 'modificacionSocio':
+				const modalRef: BsModalRef = this.modalService.show(ModificacionSocioComponent, configModal);
+			break;
+		}
 	}
 
 	get paginatedItems() {

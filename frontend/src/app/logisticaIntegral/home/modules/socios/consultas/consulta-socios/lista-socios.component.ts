@@ -22,6 +22,14 @@ export class ListaSociosComponent {
 		'nombreIntermediario' : 'Intermediario'
 	};
 
+	protected tableConfig : any = {
+		"nombreSocio" : {
+			"updateColumn" : true,
+			"value" : "id",
+			"idModal" : "modificacionSocio"
+		}
+	};
+
 	protected listaSocios : any[] = [];
 
 	constructor (

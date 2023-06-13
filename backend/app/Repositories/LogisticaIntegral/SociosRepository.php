@@ -39,42 +39,43 @@ class SociosRepository
         return $sociosGenerales->get();
     }
 
-    public function registroNuevoSocio($datosSocios, $idSocio){
-        $fechaInicio = Carbon::parse($datosSocios['fechaInicio']) ?? null;
+    public function registroNuevoSocio($datosSocio, $idSocio){
+        $fechaInicio = Carbon::parse($datosSocio['fechaInicio']) ?? null;
         $registro = new TblSocios();
-        $registro->nombreSocio            = $this->trimValidator($datosSocios['nombreSocio']);
-        $registro->curpSocio              = $this->trimValidator($datosSocios['curpSocio']);
-        $registro->rfcSocio               = $this->trimValidator($datosSocios['rfcSocio']);
-        $registro->estadoCivilSocio       = $this->trimValidator($datosSocios['estadoCivilSocio']);
-        $registro->lugarNacimiento        = $this->trimValidator($datosSocios['lugarNacimiento']);
-        $registro->ocupacion              = $this->trimValidator($datosSocios['ocupacion']);
-        $registro->direccion              = $this->trimValidator($datosSocios['direccion']);
-        $registro->colonia                = $this->trimValidator($datosSocios['colonia']);
-        $registro->cp                     = $this->trimValidator($datosSocios['cp']);
-        $registro->localidad              = $this->trimValidator($datosSocios['localidad']);
-        $registro->estado                 = $this->trimValidator($datosSocios['estado']);
-        $registro->telefono               = $this->trimValidator($datosSocios['telefono']);
-        $registro->fkIntermediario        = $this->trimValidator($datosSocios['fkIntermediario']);
-        $registro->observaciones          = $this->trimValidator($datosSocios['observaciones']);
-        $registro->tipoIdentificacion     = $this->trimValidator($datosSocios['tipoIdentificacion']);
-        $registro->numeroIdentificacion   = $this->trimValidator($datosSocios['numeroIdentificacion']);
-        $registro->vigencia               = $this->trimValidator($datosSocios['vigencia']);
-        $registro->fechaNacimiento        = Carbon::parse($datosSocios['fechaNacimiento']);
-        $registro->fiel                   = $this->trimValidator($datosSocios['fiel']);
+        $registro->nombreSocio            = $this->trimValidator($datosSocio['nombreSocio']);
+        $registro->curpSocio              = $this->trimValidator($datosSocio['curpSocio']);
+        $registro->rfcSocio               = $this->trimValidator($datosSocio['rfcSocio']);
+        $registro->estadoCivilSocio       = $this->trimValidator($datosSocio['estadoCivilSocio']);
+        $registro->lugarNacimiento        = $this->trimValidator($datosSocio['lugarNacimiento']);
+        $registro->ocupacion              = $this->trimValidator($datosSocio['ocupacion']);
+        $registro->direccion              = $this->trimValidator($datosSocio['direccion']);
+        $registro->colonia                = $this->trimValidator($datosSocio['colonia']);
+        $registro->cp                     = $this->trimValidator($datosSocio['cp']);
+        $registro->localidad              = $this->trimValidator($datosSocio['localidad']);
+        $registro->estado                 = $this->trimValidator($datosSocio['estado']);
+        $registro->telefono               = $this->trimValidator($datosSocio['telefono']);
+        $registro->fkIntermediario        = $this->trimValidator($datosSocio['fkIntermediario']);
+        $registro->observaciones          = $this->trimValidator($datosSocio['observaciones']);
+        $registro->tipoIdentificacion     = $this->trimValidator($datosSocio['tipoIdentificacion']);
+        $registro->numeroIdentificacion   = $this->trimValidator($datosSocio['numeroIdentificacion']);
+        $registro->vigencia               = $this->trimValidator($datosSocio['vigencia']);
+        $registro->fechaNacimiento        = Carbon::parse($datosSocio['fechaNacimiento']);
+        $registro->fiel                   = $this->trimValidator($datosSocio['fiel']);
         $registro->fechaInicio            = $fechaInicio;
         $registro->fechaFin               = $fechaInicio->addyears(4) ?? null;
-        $registro->status                 = $this->trimValidator($datosSocios['status']);
+        $registro->status                 = $this->trimValidator($datosSocio['status']);
         $registro->fkUsuarioAlta          = $idSocio;
         $registro->fechaAltaRegistro      = Carbon::now();
         $registro->save();
     }
 
-    public function validarSocioExistente($datosSocios){
-        $validarSocio = TblSocios::orWhere(function ($query) use ($datosSocios) {
-                                       $query->where('nombreSocio', $datosSocios['nombreSocio'])
-                                             ->orWhere('curpSocio', $datosSocios['curpSocio'])
-                                             ->orWhere('rfcSocio', $datosSocios['rfcSocio']);
-                                   });
+    public function validarSocioExistente($datosSocio, $idSocio = 0){
+        $validarSocio = TblSocios::where(function ($query) use ($datosSocio) {
+                                     $query->where('nombreSocio', $datosSocio['nombreSocio'])
+                                           ->orWhere('curpSocio', $datosSocio['curpSocio'])
+                                           ->orWhere('rfcSocio', $datosSocio['rfcSocio']);
+                                 })
+                                 ->where('id', '!=', $idSocio);
 
         return $validarSocio->count();
     }
@@ -151,8 +152,10 @@ class SociosRepository
         $registro->save();
     }
 
-    public function obtenerDetalldeSocio($idSocio){
-        $detalleSocio = TblSocios::where('id',$idSocio);
+    public function obtenerDetalleSocioPorId($idSocio){
+        $detalleSocio = TblSocios::select('tblSocios.*', 'tblIntermediariosSocios.nombreIntermediario')
+                                 ->join('tblIntermediariosSocios', 'tblIntermediariosSocios.id', 'tblSocios.fkIntermediario')
+                                 ->where('tblSocios.id',$idSocio);
 
         return $detalleSocio->get();
     }
@@ -184,4 +187,33 @@ class SociosRepository
     public function trimValidator ( $value ) {
 		return $value != null && trim($value) != '' ? trim($value) : null;
 	}
+
+    public function modificarSocio ( $datosSocio, $idSocio, $idUsuario ) {
+        TblSocios::where('id', $idSocio)
+                 ->update([
+                    'nombreSocio'          => $this->trimValidator($datosSocio['nombreSocio']),
+                    'curpSocio'            => $this->trimValidator($datosSocio['curpSocio']),
+                    'rfcSocio'             => $this->trimValidator($datosSocio['rfcSocio']),
+                    'estadoCivilSocio'     => $this->trimValidator($datosSocio['estadoCivilSocio']),
+                    'lugarNacimiento'      => $this->trimValidator($datosSocio['lugarNacimiento']),
+                    'ocupacion'            => $this->trimValidator($datosSocio['ocupacion']),
+                    'direccion'            => $this->trimValidator($datosSocio['direccion']),
+                    'colonia'              => $this->trimValidator($datosSocio['colonia']),
+                    'cp'                   => $this->trimValidator($datosSocio['cp']),
+                    'localidad'            => $this->trimValidator($datosSocio['localidad']),
+                    'estado'               => $this->trimValidator($datosSocio['estado']),
+                    'telefono'             => $this->trimValidator($datosSocio['telefono']),
+                    'fkIntermediario'      => $this->trimValidator($datosSocio['fkIntermediario']),
+                    'observaciones'        => $this->trimValidator($datosSocio['observaciones']),
+                    'tipoIdentificacion'   => $this->trimValidator($datosSocio['tipoIdentificacion']),
+                    'numeroIdentificacion' => $this->trimValidator($datosSocio['numeroIdentificacion']),
+                    'vigencia'             => $this->trimValidator($datosSocio['vigencia']),
+                    'fechaNacimiento'      => Carbon::parse($datosSocio['fechaNacimiento']),
+                    'fiel'                 => $this->trimValidator($datosSocio['fiel']),
+                    'fechaInicio'          => Carbon::parse($datosSocio['fechaInicio']) ?? null,
+                    'fechaFin'             => Carbon::parse($datosSocio['fechaFin']) ?? null,
+                    'status'               => $this->trimValidator($datosSocio['status']),
+                    'fechaActualizacion'   => Carbon::now()
+                 ]);
+    }
 }
