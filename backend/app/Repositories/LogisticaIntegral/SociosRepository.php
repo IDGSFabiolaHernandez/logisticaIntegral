@@ -215,6 +215,22 @@ class SociosRepository
                                                     'tblSociosEmpresas.numeroInstrumento',
                                                     'tblSociosEmpresas.observaciones'
                                                 )
+                                                ->selectRaw("
+                                                    case
+                                                        when tblSocios.status = 1 then 'Activo'
+                                                        else 'Inactivo'
+                                                    end as statusSocio
+                                                ")
+                                                ->selectRaw("
+                                                    case
+                                                        when empresas.status = 1 then 'Activa'
+                                                        when empresas.status = 2 then 'X suspender'
+                                                        when empresas.status = 3 then 'En proceso'
+                                                        when empresas.status = 4 then 'Suspendida'
+                                                        when empresas.status = 5 then 'Maquila cliente'
+                                                        when empresas.status = 6 then 'Cuenta bancaria'
+                                                    end as statusEmpresa
+                                                ")
                                                 ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesIngreso, '%Y-%m' ) as mesIngreso")
                                                 ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesSalida, '%Y-%m' ) as mesSalida")
                                                 ->join('tblSocios', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
