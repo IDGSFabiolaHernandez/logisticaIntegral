@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { EmpresasService } from 'src/app/logisticaIntegral/services/empresas/empresas.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
-  	selector: 'app-registro-enlace-socios-empresas',
-  	templateUrl: './registro-enlace-socios-empresas.component.html',
-  	styleUrls: ['./registro-enlace-socios-empresas.component.css']
+  	selector: 'app-modificacion-enlace-socio-empresa',
+  	templateUrl: './modificacion-enlace-socio-empresa.component.html',
+  	styleUrls: ['./modificacion-enlace-socio-empresa.component.css']
 })
-export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnInit {
-	protected formEnlaceSocioEmpresa! : FormGroup;
+export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnInit, OnDestroy{
+	@Input() idDetalle: number = 0;
+
+	protected formModEnlaceSocioEmpresa! : FormGroup;
 
 	public mostrarOpcionesSocios : boolean = false;
 	public mostrarOpcionesEmpresas : boolean = false;
@@ -36,42 +39,38 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		'Cuenta bancaria'
 	];
 
+	protected detalleSocioEmpresa : any;
+
 	constructor (
 		private fb : FormBuilder,
 		private mensajes : MensajesService,
 		private apiSocios  : SociosService,
-		private apiEmpresas : EmpresasService
+		private apiEmpresas : EmpresasService,
+		private bsModalRef: BsModalRef
 	) {
 		super();
 	}
 
 	async ngOnInit () : Promise<void> {
+		this.mensajes.mensajeEsperar();
 		this.crearFormEnlaceSocioEmpresa();
 		await Promise.all([
 			this.obtenerSocios(),
-			this.obtenerEmpresas()
+			this.obtenerEmpresas(),
+			this.obtenerDetalleSocioEmpresaPorId(this.idDetalle)
 		]);
 	}
 
 	private crearFormEnlaceSocioEmpresa () : void {
-		this.formEnlaceSocioEmpresa = this.fb.group({
+		this.formModEnlaceSocioEmpresa = this.fb.group({
 			nombreSocio : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
 			nombreEmpresa : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
 			mesIngreso : ['', [Validators.required]],
+			mesSalida : ['', []],
 			tipoInstrumento : ['', [Validators.required]],
 			numeroInstrumento : ['', [Validators.required, Validators.pattern('[0-9]*')]],
 			observaciones : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
-	}
-
-	async refresh ( op : string ) : Promise<void> {
-		this.mensajes.mensajeEsperar();
-		if ( op == 'Socios' ){
-			await this.obtenerSocios();
-		} else if ( op == 'Empresas' ) {
-			await this.obtenerEmpresas();
-		}
-		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
 	}
 
 	private obtenerSocios () : Promise<any> {
@@ -94,8 +93,40 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		);
 	}
 
+	async refresh ( op : string ) : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		if ( op == 'Socios' ){
+			await this.obtenerSocios();
+		} else if ( op == 'Empresas' ) {
+			await this.obtenerEmpresas();
+		}
+		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
+	}
+
+	private obtenerDetalleSocioEmpresaPorId ( idSocio : number ) : Promise<any> {
+		return this.apiSocios.obtenerDetalleSocioEmpresaPorId( idSocio ).toPromise().then(
+			respuesta => {
+				this.detalleSocioEmpresa = respuesta.data[0];
+				this.cargarFormularioModificacion();
+				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
+	}
+
+	private cargarFormularioModificacion () : void {
+		this.formModEnlaceSocioEmpresa.get('nombreSocio')?.setValue(this.detalleSocioEmpresa.nombreSocio);
+		this.formModEnlaceSocioEmpresa.get('nombreEmpresa')?.setValue(this.detalleSocioEmpresa.nombreEmpresa);
+		this.formModEnlaceSocioEmpresa.get('mesIngreso')?.setValue(this.detalleSocioEmpresa.mesIngreso);
+		this.formModEnlaceSocioEmpresa.get('mesSalida')?.setValue(this.detalleSocioEmpresa.mesSalida);
+		this.formModEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue(this.detalleSocioEmpresa.tipoInstrumento);
+		this.formModEnlaceSocioEmpresa.get('numeroInstrumento')?.setValue(this.detalleSocioEmpresa.numeroInstrumento);
+		this.formModEnlaceSocioEmpresa.get('observaciones')?.setValue(this.detalleSocioEmpresa.observaciones);
+	}
+
 	mostrarOpciones ( op : string ) : void {
-		const campoNombre : any = this.formEnlaceSocioEmpresa.get( 'nombre'+op )?.value;
+		const campoNombre : any = this.formModEnlaceSocioEmpresa.get( 'nombre'+op )?.value;
 		if ( op == 'Socio' ) {
 			this.mostrarOpcionesSocios = campoNombre.length > 0;
 			this.statusSocio = this.validaSocioExistente() ?
@@ -107,7 +138,7 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 								 this.opStatusEmpresa[this.obtenerEmpresaPorNombre(campoNombre.trim()).status - 1] :
 								 '';
 		}
-		this.formEnlaceSocioEmpresa.get( 'nombre'+op )?.setValue( campoNombre.trim() );
+		this.formModEnlaceSocioEmpresa.get( 'nombre'+op )?.setValue( campoNombre.trim() );
 	}
 
 	obtenerSocioPorNombre ( nombre : any ) : any {
@@ -128,7 +159,7 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		return resultado.length > 0 ? resultado[0] : {};
 	}
 
-	protected registrarEnlaceSocioEmpresa () : void {
+	protected modificarEnlaceSocioEmpresa () : void {
 		if ( !this.validaSocioExistente() ) {
 			this.mensajes.mensajeGenerico('Para continuar debe colocar un Socio existente y valido.', 'info', 'Los campos requeridos están marcados con un *');
 			return;
@@ -139,31 +170,32 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 			return;
 		}
 
-		if ( this.formEnlaceSocioEmpresa.invalid ) {
+		if ( this.formModEnlaceSocioEmpresa.invalid ) {
 			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta.', 'warning', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
-		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Registrar enlace Socio-Empresa').then(
+		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Modificar enlace Socio-Empresa').then(
 			respuestaMensaje => {
 				if ( respuestaMensaje.isConfirmed ) {
 					this.mensajes.mensajeEsperar();
-					this.formEnlaceSocioEmpresa.value.fkSocio = this.obtenerSocioPorNombre(this.formEnlaceSocioEmpresa.value.nombreSocio).id;
-					this.formEnlaceSocioEmpresa.value.fkEmpresa = this.obtenerEmpresaPorNombre(this.formEnlaceSocioEmpresa.value.nombreEmpresa).id;
+					this.formModEnlaceSocioEmpresa.value.fkSocio = this.obtenerSocioPorNombre(this.formModEnlaceSocioEmpresa.value.nombreSocio).id;
+					this.formModEnlaceSocioEmpresa.value.fkEmpresa = this.obtenerEmpresaPorNombre(this.formModEnlaceSocioEmpresa.value.nombreEmpresa).id;
 
 					const dataEnlace = {
-						'enlace' : this.formEnlaceSocioEmpresa.value,
-						'token'  : localStorage.getItem('token')
+						'enlace'   : this.formModEnlaceSocioEmpresa.value,
+						'token'    : localStorage.getItem('token'),
+						'idEnlace' : this.idDetalle
 					};
 
-					this.apiSocios.generarEnlaceSocioEmpresa(dataEnlace).subscribe(
+					this.apiSocios.modificarEnlaceSocioEmpresa(dataEnlace).subscribe(
 						respuesta => {
 							if ( respuesta.status == 409 ) {
 								this.mensajes.mensajeGenerico(respuesta.mensaje, 'warning');
 								return;
 							}
 
-							this.limpiarFormulario();
+							this.cancelarModificacion();
 							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
 							return;
 						}, error => {
@@ -176,21 +208,32 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 	}
 
 	private validaSocioExistente () : boolean {
-		const campoNombre = this.formEnlaceSocioEmpresa.get('nombreSocio')?.value;
+		const campoNombre = this.formModEnlaceSocioEmpresa.get('nombreSocio')?.value;
 		const registros = this.obtenerSocioPorNombre( campoNombre );
 		
 		return Object.keys(registros).length != 0 ? true : false;
 	}
 
 	private validaEmpresaExistente () : boolean {
-		const campoNombre = this.formEnlaceSocioEmpresa.get('nombreEmpresa')?.value;
+		const campoNombre = this.formModEnlaceSocioEmpresa.get('nombreEmpresa')?.value;
 		const registros = this.obtenerEmpresaPorNombre( campoNombre );
 		
 		return Object.keys(registros).length != 0 ? true : false;
 	}
 
 	limpiarFormulario() : void {
-		this.formEnlaceSocioEmpresa.reset();
-		this.formEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue('');
+		this.formModEnlaceSocioEmpresa.reset();
+		this.formModEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue('');
+	}
+
+	cancelarModificacion() {
+		this.limpiarFormulario();
+		this.idDetalle = 0;
+        this.bsModalRef.hide();
+    }
+
+	ngOnDestroy(): void {
+		this.limpiarFormulario();
+		this.idDetalle = 0;
 	}
 }

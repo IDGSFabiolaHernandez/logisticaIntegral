@@ -18,8 +18,9 @@ Route::post('/socios/generarEnlaceSocioEmpresa','App\Http\Controllers\LogisticaI
 Route::get('/socios/obtenerDetalleSocioPorId/{idSocio}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioPorId');
 Route::get('/socios/obtenerDetalleEnlaceSocioEmpresa/{idEnlace}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleEnlaceSocioEmpresa');
 Route::get('/socios/obtenerSociosMensualidadesSelect', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosMensualidadesSelect');
-Route::get('/socios/obtenerDetalleSocioEmpresas/{idSocioEmpresas}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioEmpresas');
 Route::post('/socios/modificarSocio','App\Http\Controllers\LogisticaIntegral\SociosController@modificarSocio');
+Route::get('/socios/obtenerDetalleSocioEmpresaPorId/{idSocioEmpresa}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioEmpresaPorId');
+Route::post('/socios/modificarEnlaceSocioEmpresa','App\Http\Controllers\LogisticaIntegral\SociosController@modificarEnlaceSocioEmpresa');
 
 Route::get('/intermediarios/intermediariosSocios', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@obtenerIntermediariosSocios');
 

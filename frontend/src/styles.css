@@ -1419,3 +1419,28 @@ button {
   background-color: #e9ecef;
   border-color: #dee2e6;
 }
+
+.link-modal {
+  text-align: center;
+}
+
+.link-modal:hover {
+  background-color: #ff771d !important;
+  color : white !important;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.custom-width {
+  min-width: 90vw !important;
+}
+
+.modal-draggable .modal-dialog {
+  position: fixed;
+  z-index: 1050;
+  transition: none;
+}
+
+.modal-draggable .modal-content {
+  cursor: move;
+}
