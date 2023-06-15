@@ -19,7 +19,7 @@ class MensualidadesRepository
                                                     ->join('empresas', function ($join) {
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo', 1)
-                                                            ->where('empresas.status', '!=', 4);
+                                                            ->whereNotIn('empresas.status', [3, 4]);
                                                     })
                                                     ->where('mesIngreso','!=','0000-00-00')
                                                     ->orderBy('tblSociosEmpresas.mesIngreso','asc')
@@ -72,7 +72,7 @@ class MensualidadesRepository
                                                    ->join('empresas',function ($join){
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo',1)
-                                                            ->where('empresas.status', '!=', 4);
+                                                            ->whereNotIn('empresas.status', [3, 4]);
                                                    })
                                                    ->where([
                                                        ['tblSociosEmpresas.mesIngreso','!=','0000-00-00'],
@@ -134,7 +134,7 @@ class MensualidadesRepository
                                           ->join('empresas', function ($join) {
                                               $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
                                                   ->where('empresas.Activo', 1)
-                                                  ->where('empresas.status', '!=', 4);
+                                                  ->whereNotIn('empresas.status', [3, 4]);
                                           })
                                           ->whereIn('tblSocios.id', $socios)
                                           ->whereIn('tblSociosEmpresas.fkEmpresa', $empresas)
@@ -157,7 +157,7 @@ class MensualidadesRepository
                                              ->join('empresas', function($join){
                                                 $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                      ->where('empresas.Activo',1)
-                                                     ->where('empresas.status', '!=', 4);
+                                                     ->whereNotIn('empresas.status', [3, 4]);
                                              })
                                              ->where('tblSocios.id',$idSocio)
                                              ->orderBy('tblSocios.nombreSocio','asc');
