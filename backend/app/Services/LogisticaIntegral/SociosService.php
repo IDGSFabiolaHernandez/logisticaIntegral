@@ -99,11 +99,11 @@ class SociosService
         );
     }
 
-    public function generarEnlaceSocioEmpresa($datosSociosEmpresas){
-        $datosSociosEmpresas = $datosSociosEmpresas['enlace'];
-        $token = $datosSociosEmpresas['token'];
+    public function generarEnlaceSocioEmpresa($datosSocioEmpresa){
+        $token = $datosSocioEmpresa['token'];
+        $datosSocioEmpresa = $datosSocioEmpresa['enlace'];
 
-        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSociosEmpresas['fkSocio'], $datosSociosEmpresas['fkEmpresa']);
+        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSocioEmpresa['fkSocio'], $datosSocioEmpresa['fkEmpresa']);
 
         if($enlaceExistente > 0){
             return response()->json(
@@ -117,12 +117,12 @@ class SociosService
 
         DB::beginTransaction();
             $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($token);
-            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas, $usuario[0]->id);
+            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSocioEmpresa, $usuario[0]->id);
         DB::commit();
 
         return response()->json(
             [
-                'mensaje' => 'Se registró el nuevo Enlace con éxito'      
+                'mensaje' => 'Se registró el nuevo enlace con éxito'      
             ],
             200
         );
@@ -170,16 +170,6 @@ class SociosService
         );
     }
 
-    public function obtenerDetalleSocioEmpresas($idSocioEmpresas){
-        $detalleSocioEmpresas = $this->sociosRepository->obtenerDetalleSocioEmpresas($idSocioEmpresas);
-        return response()->json(
-            [
-                'mensaje' => 'Se consultó el detalle del Socio-Empresas con éxito',
-                'data' =>  $detalleSocioEmpresas
-            ]
-        );
-    }
-
     public function modificarSocio ( $datosSocio ) {
         $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocio['socioModificado'], $datosSocio['idSocio']);
 
@@ -201,6 +191,46 @@ class SociosService
         return response()->json(
             [
                 'mensaje' => 'Se modificó el Socio con éxito'
+            ],
+            200
+        );
+    }
+
+    public function obtenerDetalleSocioEmpresaPorId($idSocioEmpresa){
+        $detalleSocioEmpresa = $this->sociosRepository->obtenerDetalleSocioEmpresaPorId($idSocioEmpresa);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle del enlace Socio-Empresa con éxito',
+                'data' =>  $detalleSocioEmpresa
+            ]
+        );
+    }
+
+    public function modificarEnlaceSocioEmpresa ( $datosSocioEmpresa ) {
+        $token    = $datosSocioEmpresa['token'];
+        $idEnlace = $datosSocioEmpresa['idEnlace'];
+        $datosSocioEmpresa = $datosSocioEmpresa['enlace'];
+
+        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSocioEmpresa['fkSocio'], $datosSocioEmpresa['fkEmpresa'], $idEnlace);
+
+        if($enlaceExistente > 0){
+            return response()->json(
+                [
+                    'mensaje' => 'Upss! Al parecer ya existe un enlace de este Socio con la misma empresa. Por favor validar la información',
+                    'status' => 409
+                ],
+                200
+            );
+        }
+
+        DB::beginTransaction();
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($token);
+            $this->sociosRepository->modificarEnlaceSocioEmpresa($datosSocioEmpresa, $idEnlace);
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se actualizó el enlace con éxito'
             ],
             200
         );

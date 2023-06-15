@@ -1434,3 +1434,13 @@ button {
 .custom-width {
   min-width: 90vw !important;
 }
+
+.modal-draggable .modal-dialog {
+  position: fixed;
+  z-index: 1050;
+  transition: none;
+}
+
+.modal-draggable .modal-content {
+  cursor: move;
+}

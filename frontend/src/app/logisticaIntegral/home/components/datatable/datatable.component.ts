@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModificacionSocioComponent } from '../../modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
 import { DetalleEnlaceSocioEmpresasComponent } from '../../modules/socios/detalles/detalle-enlace-socio-empresas/detalle-enlace-socio-empresas.component';
+import { ModificacionEnlaceSocioEmpresaComponent } from '../../modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 
 @Component({
   	selector: 'app-datatable',
@@ -53,19 +54,25 @@ export class DatatableComponent implements OnInit, OnChanges {
 			ignoreBackdropClick: true,
 			keyboard: false,
 			animated: true,
-			class: 'modal-xl modal-dialog-centered modal-dialog-scrollable custom-modal',
+			class: 'modal-xl modal-dialog-centered custom-modal',
 			initialState: data,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
 			}
 		};
-	  
+		
+		let op : any = undefined;
 		switch (idModal) {
 		  	case 'modificacionSocio':
-				const modalRef: BsModalRef = this.modalService.show(ModificacionSocioComponent, configModalModificacion);
+				op = this.modalService.show(ModificacionSocioComponent, configModalModificacion);
+			break;
+			case 'modificacionEnlaceSocioEmpresa':
+				op = this.modalService.show(ModificacionEnlaceSocioEmpresaComponent, configModalModificacion);
 			break;
 		}
+
+		const modalRef: BsModalRef = op;
 	}
 
 	abrirModalDetalle(idDetalle: number, idModal: string) {

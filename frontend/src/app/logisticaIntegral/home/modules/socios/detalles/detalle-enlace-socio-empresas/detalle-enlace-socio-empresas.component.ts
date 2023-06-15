@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
@@ -8,7 +8,7 @@ import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
   	templateUrl: './detalle-enlace-socio-empresas.component.html',
   	styleUrls: ['./detalle-enlace-socio-empresas.component.css']
 })
-export class DetalleEnlaceSocioEmpresasComponent implements OnInit {
+export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 	@Input() idDetalle: number = 0;
 	
 	protected columnasSocioEmpresas : any = {
@@ -22,6 +22,14 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit {
 		'numeroInstrumento' : 'Número instrumento',
 		'mesSalida' 		: 'Salida',
 		'observaciones' 	: 'Observaciones'
+	};
+
+	protected tableConfig : any = {
+		"nombreSocio" : {
+			"updateColumn" : true,
+			"value" : "id",
+			"idModal" : "modificacionEnlaceSocioEmpresa"
+		}
 	};
 
 	protected listaSocioEmpresas : any[] = [];
@@ -56,5 +64,10 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit {
 
 	cancelarModificacion() {
         this.bsModalRef.hide();
+		this.idDetalle = 0;
     }
+
+	ngOnDestroy(): void {
+		this.idDetalle = 0;
+	}
 }

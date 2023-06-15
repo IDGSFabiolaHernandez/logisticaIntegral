@@ -14,6 +14,7 @@ import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/con
 import { ModificacionSocioComponent } from './modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { DetalleEnlaceSocioEmpresasComponent } from './modules/socios/detalles/detalle-enlace-socio-empresas/detalle-enlace-socio-empresas.component';
+import { ModificacionEnlaceSocioEmpresaComponent } from './modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 
 @NgModule({
     imports:[
@@ -34,6 +35,7 @@ import { DetalleEnlaceSocioEmpresasComponent } from './modules/socios/detalles/d
         ConsultaPrestamosSociosComponent,
         ModificacionSocioComponent,
         DetalleEnlaceSocioEmpresasComponent,
+        ModificacionEnlaceSocioEmpresaComponent,
     ]
 })
 
