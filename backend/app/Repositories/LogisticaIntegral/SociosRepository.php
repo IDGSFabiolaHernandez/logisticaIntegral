@@ -209,10 +209,14 @@ class SociosRepository
 
     public function obtenerDetalleSocioEmpresaPorId($idEnlace){
         $detalleSocioEmpresa = TblSociosEmpresas::select(
-                                                    'tblSociosEmpresas.*',
                                                     'tblSocios.nombreSocio',
-                                                    'empresas.nombre as nombreEmpresa'
+                                                    'empresas.nombre as nombreEmpresa',
+                                                    'tblSociosEmpresas.tipoInstrumento',
+                                                    'tblSociosEmpresas.numeroInstrumento',
+                                                    'tblSociosEmpresas.observaciones'
                                                 )
+                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesIngreso, '%Y-%m' ) as mesIngreso")
+                                                ->selectRaw("DATE_FORMAT( tblSociosEmpresas.mesSalida, '%Y-%m' ) as mesSalida")
                                                 ->join('tblSocios', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
                                                 ->join('empresas', 'empresas.id', 'tblSociosEmpresas.fkEmpresa')
                                                 ->where('tblSociosEmpresas.id', $idEnlace);
