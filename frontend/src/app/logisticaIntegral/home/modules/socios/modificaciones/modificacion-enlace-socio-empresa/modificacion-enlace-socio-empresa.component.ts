@@ -239,6 +239,10 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 	cancelarModificacion() {
 		this.limpiarFormulario();
 		this.idDetalle = 0;
+		this.statusSocio = '';
+		this.statusEmpresa = '';
+		this.mostrarOpcionesSocios = false;
+		this.mostrarOpcionesEmpresas = false;
         this.bsModalRef.hide();
     }
 
