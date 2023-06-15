@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 class MensualidadesRepository
 {
     public function obtenerUltimoMesSociosEmpresas(){
-        $ultimoMesSociosEmpresas = TblSociosEmpresas::select('mesIngreso')
+        $ultimoMesSociosEmpresas = TblSociosEmpresas::select('tblSociosEmpresas.mesIngreso')
                                                     ->distinct()
                                                     ->join('empresas', function ($join) {
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
@@ -76,7 +76,7 @@ class MensualidadesRepository
                                                    })
                                                    ->where([
                                                        ['tblSociosEmpresas.mesIngreso','!=','0000-00-00'],
-                                                       ['tblSociosEmpresas.mesIngreso','<=',$fecha]
+                                                       [DB::raw('DATE_FORMAT(tblSociosEmpresas.mesIngreso, "%m-%Y")'),'<=',Carbon::parse($fecha)->format('m-Y')]
                                                    ])
                                                    ->orderBy('tblSociosEmpresas.mesIngreso','asc');
         return $socioEmpresaHastaFecha->get();
@@ -129,7 +129,7 @@ class MensualidadesRepository
                                           ->join('tblSociosEmpresas', function ( $join ) use ( $fechaBase ) {
                                                $join->on('tblSociosEmpresas.fkSocio', 'tblSocios.id')
                                                     ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
-                                                    ->where('tblSociosEmpresas.mesIngreso', '<=', $fechaBase);
+                                                    ->where(DB::raw('DATE_FORMAT(tblSociosEmpresas.mesIngreso, "%m-%Y")'),'<=',Carbon::parse($fechaBase)->format('m-Y'));
                                           })
                                           ->join('empresas', function ($join) {
                                               $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
@@ -152,7 +152,7 @@ class MensualidadesRepository
                                              ->join('tblSociosEmpresas', function ($join) use ($mensualidadPagar){
                                                 $join->on('tblSocios.id','tblSociosEmpresas.fkSocio')
                                                      ->where('tblSociosEmpresas.mesIngreso','!=','0000-00-00')
-                                                     ->where('tblSociosEmpresas.mesIngreso','<=',$mensualidadPagar);
+                                                     ->where(DB::raw('DATE_FORMAT(tblSociosEmpresas.mesIngreso, "%m-%Y")'),'<=',Carbon::parse($mensualidadPagar)->format('m-Y'));
                                              })
                                              ->join('empresas', function($join){
                                                 $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
