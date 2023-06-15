@@ -29,6 +29,14 @@ export class SociosEmpresasComponent {
 		'observaciones' 	: 'Observaciones'
 	};
 
+	protected tableConfig : any = {
+		"nombreSocio" : {
+			"updateColumn" : true,
+			"value" : "id",
+			"idModal" : "modificacionEnlaceSocioEmpresa"
+		}
+	};
+
 	protected listaSociosEmpresasGeneral : any[] = [];
 	protected listaSociosEmpresasSocios : any[] = [];
 	protected listaSociosEmpresasEmpresas : any[] = [];
