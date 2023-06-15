@@ -191,6 +191,10 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 
 	limpiarFormulario() : void {
 		this.formEnlaceSocioEmpresa.reset();
+		this.statusSocio = '';
+		this.statusEmpresa = '';
+		this.mostrarOpcionesSocios = false;
+		this.mostrarOpcionesEmpresas = false;
 		this.formEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue('');
 	}
 }
