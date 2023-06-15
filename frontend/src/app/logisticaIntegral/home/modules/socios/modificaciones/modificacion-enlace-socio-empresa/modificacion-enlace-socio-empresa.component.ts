@@ -244,6 +244,9 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		this.mostrarOpcionesSocios = false;
 		this.mostrarOpcionesEmpresas = false;
         this.bsModalRef.hide();
+		document.body.classList.remove('modal-open');
+		document.body.style.paddingRight = '';
+		document.body.style.overflow = '';
     }
 
 	ngOnDestroy(): void {
