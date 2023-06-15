@@ -224,6 +224,9 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 		this.limpiarFormularios();
 		this.idDetalle = 0;
         this.bsModalRef.hide();
+		document.body.classList.remove('modal-open');
+		document.body.style.paddingRight = '';
+		document.body.style.overflow = '';
     }
 
 	ngOnDestroy(): void {

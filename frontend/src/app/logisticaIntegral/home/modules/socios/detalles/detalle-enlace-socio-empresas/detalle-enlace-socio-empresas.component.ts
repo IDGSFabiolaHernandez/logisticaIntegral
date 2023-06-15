@@ -69,6 +69,9 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 
 	cancelarModificacion() {
         this.bsModalRef.hide();
+		document.body.classList.remove('modal-open');
+		document.body.style.paddingRight = '';
+		document.body.style.overflow = '';
 		this.idDetalle = 0;
 		this.listaSocioEmpresas = [];
     }
