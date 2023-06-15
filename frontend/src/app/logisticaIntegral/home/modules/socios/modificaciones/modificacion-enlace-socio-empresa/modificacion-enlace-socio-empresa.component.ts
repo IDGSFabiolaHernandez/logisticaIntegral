@@ -117,9 +117,9 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 
 	private cargarFormularioModificacion () : void {
 		this.formModEnlaceSocioEmpresa.get('nombreSocio')?.setValue(this.detalleSocioEmpresa.nombreSocio);
-		this.mostrarOpciones('Socio');
+		this.obtenerStatusSocio(this.detalleSocioEmpresa.nombreSocio);
 		this.formModEnlaceSocioEmpresa.get('nombreEmpresa')?.setValue(this.detalleSocioEmpresa.nombreEmpresa);
-		this.mostrarOpciones('Empresa');
+		this.obtenerStatusEmpresa(this.detalleSocioEmpresa.nombreEmpresa);
 		this.formModEnlaceSocioEmpresa.get('mesIngreso')?.setValue(this.detalleSocioEmpresa.mesIngreso);
 		this.formModEnlaceSocioEmpresa.get('mesSalida')?.setValue(this.detalleSocioEmpresa.mesSalida);
 		this.formModEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue(this.detalleSocioEmpresa.tipoInstrumento);
@@ -131,16 +131,24 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		const campoNombre : any = this.formModEnlaceSocioEmpresa.get( 'nombre'+op )?.value;
 		if ( op == 'Socio' ) {
 			this.mostrarOpcionesSocios = campoNombre.length > 0;
-			this.statusSocio = this.validaSocioExistente() ?
-							   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status - 1] :
-							   '';
+			this.obtenerStatusSocio(campoNombre);
 		} else if ( op == 'Empresa' ) {
 			this.mostrarOpcionesEmpresas = campoNombre.length > 0;
-			this.statusEmpresa = this.validaEmpresaExistente() ?
-								 this.opStatusEmpresa[this.obtenerEmpresaPorNombre(campoNombre.trim()).status - 1] :
-								 '';
+			this.obtenerStatusEmpresa(campoNombre);
 		}
 		this.formModEnlaceSocioEmpresa.get( 'nombre'+op )?.setValue( campoNombre.trim() );
+	}
+
+	private obtenerStatusSocio ( campoNombre : string ) {
+		this.statusSocio = this.validaSocioExistente() ?
+						   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status - 1] :
+						   '';
+	}
+
+	private obtenerStatusEmpresa ( campoNombre : string ) {
+		this.statusEmpresa = this.validaEmpresaExistente() ?
+							 this.opStatusEmpresa[this.obtenerEmpresaPorNombre(campoNombre.trim()).status - 1] :
+							 '';
 	}
 
 	obtenerSocioPorNombre ( nombre : any ) : any {
