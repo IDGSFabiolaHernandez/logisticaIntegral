@@ -1,0 +1,106 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Modificación de enlace Socio-Empresa</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Socios</li>
+                <li class="breadcrumb-item active">Modificación de enlace Socio-Empresa</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile formsWTitle">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <h5 class="card-title" align="center">Modificación de enlace Socio-Empresa</h5>
+                
+                        <form class="row g-3" autocomplete="off" [formGroup]="formModEnlaceSocioEmpresa">
+                            <div class="col-lg-6">
+                                <label for="nombreSocio" class="form-label required">Socio:</label>
+                                <span>&nbsp;<b>{{this.statusSocio}}</b></span>
+                                <div class="btn-group col-sm-12" role="group">
+                                    <input
+                                        list="Msocios"
+                                        class="form-control border-right-none"
+                                        id="MnombreSocio"
+                                        formControlName="nombreSocio"
+                                        placeholder="Socio"
+                                        (keypress)="soloLetras($event)"
+                                        (input)="mostrarOpciones('Socio')"
+                                        maxlength="255"
+                                    >
+                                    <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
+                                </div>
+
+                                <datalist id="Msocios" *ngIf="this.mostrarOpcionesSocios">
+                                    <option *ngFor="let socio of this.datosSocios" value="{{socio.nombreSocio}}">
+                                </datalist>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="nombreEmpresa" class="form-label required">Empresa:</label>
+                                <span>&nbsp;<b>{{this.statusEmpresa}}</b></span>
+                                <div class="btn-group col-sm-12" role="group">
+                                    <input
+                                        list="Mempresas"
+                                        class="form-control border-right-none"
+                                        id="MnombreEmpresa"
+                                        formControlName="nombreEmpresa"
+                                        placeholder="Empresa"
+                                        (keypress)="soloLetras($event)"
+                                        (input)="mostrarOpciones('Empresa')"
+                                        maxlength="255"
+                                    >
+                                    <button class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></button>
+                                </div>
+
+                                <datalist id="Mempresas" *ngIf="this.mostrarOpcionesEmpresas">
+                                    <option *ngFor="let empresa of this.datosEmpresas" value="{{empresa.nombre}}">
+                                </datalist>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <label for="mesIngreso" class="form-label required">Mes de Ingreso:</label>
+                                <input formControlName="mesIngreso" type="month" class="form-control" id="MmesIngreso">
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <label for="mesSalida" class="form-label">Mes de Salida:</label>
+                                <input formControlName="mesSalida" type="month" class="form-control" id="MmesSalida">
+                            </div>
+
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <label for="tipoInstrumento" class="form-label required">Tipo de Instrumento:</label>
+                                <select formControlName="tipoInstrumento" id="MtipoInstrumento" class="form-control">
+                                    <option value="" style="display: none; visibility: hidden;">Seleccione una estado</option>
+                                    <option value="1">Acta Constitutiva</option>
+                                    <option value="2">Acta Asamblea Extraordinaria</option>
+                                    <option value="3">Poder</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label for="numeroInstrumento" class="form-label required">Número de Instrumento:</label>
+                                <input formControlName="numeroInstrumento" type="text" class="form-control" id="MnumeroInstrumento" placeholder="Número de Instrumento" (keypress)="soloNumeros($event)" maxlength="15">
+                            </div>
+
+                            
+        
+                            <div class="col-sm-12">
+                                <label for="observaciones" class="form-label">Observaciones:</label>
+                                <textarea formControlName="observaciones" class="form-control" id="Mobservaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-primary" (click)="modificarEnlaceSocioEmpresa()"><b>Modificar Enlace</b></button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="cancelarModificacion()"><b>Cancelar</b></button>
+</div>

@@ -1,0 +1,19 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Detalle enlaces Socio - Empresas</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Socios</li>
+                <li class="breadcrumb-item active">Enlaces Socio Empresas</li>
+            </ol>
+        </nav>
+    </div>
+    
+    <br>
+    <app-datatable [columnasTabla]="columnasSocioEmpresas" [datosTabla]="listaSocioEmpresas" [tableConfig]="tableConfig"></app-datatable>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-primary" disabled="true"><b>Exportar</b></button>
+    <button type="button" class="btn btn-danger" (click)="cancelarModificacion()"><b>Cerrar</b></button>
+</div>

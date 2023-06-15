@@ -48,4 +48,12 @@ export class SociosService {
 	public modificarSocio ( socioModificado : any ) : Observable<any> {
 		return this.http.post<any>(this.url+'/socios/modificarSocio', socioModificado);
 	}
+
+	public obtenerDetalleSocioEmpresaPorId ( idEnlace : number ) : Observable<any> {
+		return this.http.get<any>(this.url+'/socios/obtenerDetalleSocioEmpresaPorId/'+idEnlace);
+	}
+
+	public modificarEnlaceSocioEmpresa ( enlaceModificado : any ) : Observable<any> {
+		return this.http.post<any>(this.url+'/socios/modificarEnlaceSocioEmpresa', enlaceModificado);
+	}
 }
