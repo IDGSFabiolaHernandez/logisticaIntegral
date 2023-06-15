@@ -55,6 +55,11 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 		return this.apiSocios.obtenerSociosEmpresas(datosConsulta).toPromise().then(
 			respuesta => {
 				this.listaSocioEmpresas = respuesta.data;
+				if ( this.listaSocioEmpresas.length == 0 ) {
+					this.mensajes.mensajeGenericoToast('No hay información para mostrar', 'warning');
+					this.cancelarModificacion();
+					return;
+				}
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
@@ -65,9 +70,11 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 	cancelarModificacion() {
         this.bsModalRef.hide();
 		this.idDetalle = 0;
+		this.listaSocioEmpresas = [];
     }
 
 	ngOnDestroy(): void {
 		this.idDetalle = 0;
+		this.listaSocioEmpresas = [];
 	}
 }
