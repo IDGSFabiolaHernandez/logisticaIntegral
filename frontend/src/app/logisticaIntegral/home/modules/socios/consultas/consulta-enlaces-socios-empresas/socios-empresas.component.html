@@ -62,13 +62,13 @@
 
             <div class="tab-content pt-2" id="borderedTabJustifiedContent" style="margin-top: -10px;">
                 <div class="tab-pane fade active show" id="bordered-justified-general" role="tabpanel" aria-labelledby="general-tab">
-                    <app-datatable [columnasTabla]="columnasSociosEmpresas" [datosTabla]="listaSociosEmpresasGeneral"></app-datatable>
+                    <app-datatable [columnasTabla]="columnasSociosEmpresas" [datosTabla]="listaSociosEmpresasGeneral" [tableConfig]="tableConfig"></app-datatable>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-socios" role="tabpanel" aria-labelledby="socios-tab">
-                    <app-datatable [columnasTabla]="columnasSociosEmpresas" [datosTabla]="listaSociosEmpresasSocios"></app-datatable>
+                    <app-datatable [columnasTabla]="columnasSociosEmpresas" [datosTabla]="listaSociosEmpresasSocios" [tableConfig]="tableConfig"></app-datatable>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-empresas" role="tabpanel" aria-labelledby="empresas-tab">
-                    <app-datatable [columnasTabla]="columnasSociosEmpresas" [datosTabla]="listaSociosEmpresasEmpresas"></app-datatable>
+                    <app-datatable [columnasTabla]="columnasSociosEmpresas" [datosTabla]="listaSociosEmpresasEmpresas" [tableConfig]="tableConfig"></app-datatable>
                 </div>
             </div>
         </div>
