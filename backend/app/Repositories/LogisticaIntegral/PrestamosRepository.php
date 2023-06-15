@@ -22,7 +22,7 @@ class PrestamosRepository
                                              ->join('empresas', function($join){
                                                   $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                        ->where('empresas.Activo',1)
-                                                       ->where('empresas.status', '!=', 4);
+                                                       ->whereNotIn('empresas.status', [3, 4]);
                                              })
                                              ->orderBy('tblSocios.nombreSocio','asc');
           return $relacionConEmpresas->get();
@@ -36,7 +36,7 @@ class PrestamosRepository
                                                   ->join('empresas', function($join){
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo',1)
-                                                            ->where('empresas.status', '!=', 4);
+                                                            ->whereNotIn('empresas.status', [3, 4]);
                                                    })
                                                   ->where('tblSociosEmpresas.fkSocio',$idSocio);
           return $empresasPorSocio->get();
