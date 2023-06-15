@@ -27,6 +27,11 @@ export class ListaSociosComponent {
 			"updateColumn" : true,
 			"value" : "id",
 			"idModal" : "modificacionSocio"
+		},
+		"numEmpresas" : {
+			"detailColumn" : true,
+			"value" : "id",
+			"idModal" : "detalleEnlaceSocioEmpresas"
 		}
 	};
 
