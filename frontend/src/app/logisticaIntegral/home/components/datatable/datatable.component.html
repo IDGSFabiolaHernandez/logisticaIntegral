@@ -25,7 +25,7 @@
             <tbody>
                 <tr>
                     <td *ngFor="let columna of getColumnKeys()">
-                        <input *ngIf="!tableConfig[columna]?.checkColumn" type="text" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                        <input *ngIf="!tableConfig[columna]?.checkColumn" type="search" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
                     </td>
                 </tr>
                 <tr *ngFor="let item of paginatedItems">
@@ -43,16 +43,20 @@
                         </ng-container>
                         <ng-template #update>
                             <ng-container *ngIf="tableConfig[columna]?.updateColumn; else detail">
-                                <span (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal)">{{ item[columna] }}</span>
+                                <div class="link-modal" (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal)">
+                                    <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                </div>
                             </ng-container>
                         </ng-template>
                         <ng-template #detail>
                             <ng-container *ngIf="tableConfig[columna]?.detailColumn; else deafult">
-
+                                <div class="link-modal" (click)="abrirModalDetalle(item[tableConfig[columna].value], tableConfig[columna].idModal)">
+                                    <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                </div>
                             </ng-container>
                         </ng-template>
                         <ng-template #deafult>
-                            <span>{{ item[columna] }}</span>
+                            <span>{{ item[columna] ?? 'Sin información'}}</span>
                         </ng-template>
                     </td>
                 </tr>

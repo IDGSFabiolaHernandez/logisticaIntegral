@@ -13,6 +13,8 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/consulta-prestamos-socios/consulta-prestamos-socios.component';
 import { ModificacionSocioComponent } from './modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { DetalleEnlaceSocioEmpresasComponent } from './modules/socios/detalles/detalle-enlace-socio-empresas/detalle-enlace-socio-empresas.component';
+import { ModificacionEnlaceSocioEmpresaComponent } from './modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 
 @NgModule({
     imports:[
@@ -32,6 +34,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
         PagoMensualidadesComponent,
         ConsultaPrestamosSociosComponent,
         ModificacionSocioComponent,
+        DetalleEnlaceSocioEmpresasComponent,
+        ModificacionEnlaceSocioEmpresaComponent,
     ]
 })
 

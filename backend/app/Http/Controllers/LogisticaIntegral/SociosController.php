@@ -152,10 +152,25 @@ class SociosController extends Controller
             );
         }
     }
-    
-    public function obtenerDetalleSocioEmpresas($idSocioEmpresas){
+
+    public function modificarSocio( Request $request ){
         try{
-            return $this->sociosService->obtenerDetalleSocioEmpresas($idSocioEmpresas);
+            return $this->sociosService->modificarSocio( $request->all() );
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+    
+    public function obtenerDetalleSocioEmpresaPorId($idSocioEmpresas){
+        try{
+            return $this->sociosService->obtenerDetalleSocioEmpresaPorId($idSocioEmpresas);
         } catch ( \Exception $error ){
             Log::alert($error);
             return response()->json(
@@ -168,9 +183,9 @@ class SociosController extends Controller
         }
     }
 
-    public function modificarSocio( Request $request ){
+    public function modificarEnlaceSocioEmpresa( Request $request ){
         try{
-            return $this->sociosService->modificarSocio( $request->all() );
+            return $this->sociosService->modificarEnlaceSocioEmpresa( $request->all() );
         } catch ( \Exception $error ){
             Log::alert($error);
             return response()->json(
