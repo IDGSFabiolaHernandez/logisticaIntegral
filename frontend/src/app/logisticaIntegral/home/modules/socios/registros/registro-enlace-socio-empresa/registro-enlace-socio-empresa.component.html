@@ -64,7 +64,7 @@
                                     </div>
 
                                     <div class="col-lg-3 col-md-5 col-sm-5">
-                                        <label for="mesIngreso" class="form-label required">Mes de Ingreso:</label>
+                                        <label for="mesIngreso" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Mes de Ingreso:</label>
                                         <input formControlName="mesIngreso" type="month" class="form-control" id="mesIngreso">
                                     </div>
 
@@ -79,7 +79,7 @@
                                     </div>
 
                                     <div class="col-lg-4 col-md-12">
-                                        <label for="numeroInstrumento" class="form-label required">Número de Instrumento:</label>
+                                        <label for="numeroInstrumento" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Número de Instrumento:</label>
                                         <input formControlName="numeroInstrumento" type="text" class="form-control" id="numeroInstrumento" placeholder="Número de Instrumento" (keypress)="soloNumeros($event)" maxlength="15">
                                     </div>
                 
