@@ -40,7 +40,7 @@ class SociosRepository
     }
 
     public function registroNuevoSocio($datosSocio, $idSocio){
-        $fechaInicio = Carbon::parse($datosSocio['fechaInicio']) ?? null;
+        $fechaInicio = $datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' ? Carbon::parse($datosSocio['fechaInicio']) : null;
         $registro = new TblSocios();
         $registro->nombreSocio            = $this->trimValidator($datosSocio['nombreSocio']);
         $registro->curpSocio              = $this->trimValidator($datosSocio['curpSocio']);
@@ -141,10 +141,11 @@ class SociosRepository
     }
 
     public function registrarNuevoEnlaceSocioEmpresa($datosSocioEmpresa, $idUsuario){
+        $mesIngreso = $datosSocioEmpresa['mesIngreso'] != null && $datosSocioEmpresa['mesIngreso'] != '' ? Carbon::parse($datosSocioEmpresa['mesIngreso']) : null;
         $registro = new TblSociosEmpresas();
         $registro->fkSocio           = $this->trimValidator($datosSocioEmpresa['fkSocio']);
         $registro->fkEmpresa         = $this->trimValidator($datosSocioEmpresa['fkEmpresa']);
-        $registro->mesIngreso        = Carbon::parse($datosSocioEmpresa['mesIngreso']);
+        $registro->mesIngreso        = $mesIngreso;
         $registro->tipoInstrumento   = $this->trimValidator($datosSocioEmpresa['tipoInstrumento']);
         $registro->numeroInstrumento = $this->trimValidator($datosSocioEmpresa['numeroInstrumento']);
         $registro->observaciones     = $this->trimValidator($datosSocioEmpresa['observaciones']);
@@ -240,14 +241,17 @@ class SociosRepository
     }
 
     public function modificarEnlaceSocioEmpresa ( $datosSocioEmpresa, $idEnlace ) {
+        $mesIngreso = $datosSocioEmpresa['mesIngreso'] != null && $datosSocioEmpresa['mesIngreso'] != '' ? Carbon::parse($datosSocioEmpresa['mesIngreso']) : null;
+        $mesSalida  = $datosSocioEmpresa['mesSalida'] != null && $datosSocioEmpresa['mesSalida'] != '' ? Carbon::parse($datosSocioEmpresa['mesSalida']) : null;
+
         TblSociosEmpresas::where('id', $idEnlace)
                          ->update([
                             'fkSocio'            => $this->trimValidator($datosSocioEmpresa['fkSocio']),
                             'fkEmpresa'          => $this->trimValidator($datosSocioEmpresa['fkEmpresa']),
-                            'mesIngreso'         => Carbon::parse($datosSocioEmpresa['mesIngreso']),
+                            'mesIngreso'         => $mesIngreso,
                             'tipoInstrumento'    => $this->trimValidator($datosSocioEmpresa['tipoInstrumento']),
                             'numeroInstrumento'  => $this->trimValidator($datosSocioEmpresa['numeroInstrumento']),
-                            'mesSalida'          => Carbon::parse($datosSocioEmpresa['mesSalida']),
+                            'mesSalida'          => $mesSalida,
                             'observaciones'      => $this->trimValidator($datosSocioEmpresa['observaciones']),
                             'fechaActualizacion' => Carbon::now()
                          ]);
