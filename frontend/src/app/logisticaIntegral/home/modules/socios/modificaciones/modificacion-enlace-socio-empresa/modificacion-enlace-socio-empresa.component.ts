@@ -132,7 +132,7 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		if ( op == 'Socio' ) {
 			this.mostrarOpcionesSocios = campoNombre.length > 0;
 			this.statusSocio = this.validaSocioExistente() ?
-							   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status - 1] :
+							   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status] :
 							   '';
 		} else if ( op == 'Empresa' ) {
 			this.mostrarOpcionesEmpresas = campoNombre.length > 0;
@@ -141,6 +141,22 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 								 '';
 		}
 		this.formModEnlaceSocioEmpresa.get( 'nombre'+op )?.setValue( campoNombre.trim() );
+
+		this.validaStatusEmpresa();
+	}
+
+	private validaStatusEmpresa () : void {
+		if ( this.statusEmpresa != 'En proceso' ) {
+			this.formModEnlaceSocioEmpresa.get('mesIngreso')?.setValidators([Validators.required]);
+			this.formModEnlaceSocioEmpresa.get('mesIngreso')?.updateValueAndValidity();
+			this.formModEnlaceSocioEmpresa.get('numeroInstrumento')?.setValidators([Validators.required, Validators.pattern('[0-9]*')]);
+			this.formModEnlaceSocioEmpresa.get('numeroInstrumento')?.updateValueAndValidity();
+		} else {
+			this.formModEnlaceSocioEmpresa.get('mesIngreso')?.clearValidators();
+			this.formModEnlaceSocioEmpresa.get('mesIngreso')?.updateValueAndValidity();
+			this.formModEnlaceSocioEmpresa.get('numeroInstrumento')?.clearValidators();
+			this.formModEnlaceSocioEmpresa.get('numeroInstrumento')?.updateValueAndValidity();
+		}
 	}
 
 	obtenerSocioPorNombre ( nombre : any ) : any {

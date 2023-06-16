@@ -57,9 +57,9 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		this.formEnlaceSocioEmpresa = this.fb.group({
 			nombreSocio : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
 			nombreEmpresa : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
-			mesIngreso : ['', [Validators.required]],
+			mesIngreso : ['', []],
 			tipoInstrumento : ['', [Validators.required]],
-			numeroInstrumento : ['', [Validators.required, Validators.pattern('[0-9]*')]],
+			numeroInstrumento : ['', []],
 			observaciones : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
@@ -99,7 +99,7 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		if ( op == 'Socio' ) {
 			this.mostrarOpcionesSocios = campoNombre.length > 0;
 			this.statusSocio = this.validaSocioExistente() ?
-							   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status - 1] :
+							   this.opStatusSocio[this.obtenerSocioPorNombre(campoNombre.trim()).status] :
 							   '';
 		} else if ( op == 'Empresa' ) {
 			this.mostrarOpcionesEmpresas = campoNombre.length > 0;
@@ -108,6 +108,22 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 								 '';
 		}
 		this.formEnlaceSocioEmpresa.get( 'nombre'+op )?.setValue( campoNombre.trim() );
+
+		this.validaStatusEmpresa();
+	}
+
+	private validaStatusEmpresa () : void {
+		if ( this.statusEmpresa != 'En proceso' ) {
+			this.formEnlaceSocioEmpresa.get('mesIngreso')?.setValidators([Validators.required]);
+			this.formEnlaceSocioEmpresa.get('mesIngreso')?.updateValueAndValidity();
+			this.formEnlaceSocioEmpresa.get('numeroInstrumento')?.setValidators([Validators.required, Validators.pattern('[0-9]*')]);
+			this.formEnlaceSocioEmpresa.get('numeroInstrumento')?.updateValueAndValidity();
+		} else {
+			this.formEnlaceSocioEmpresa.get('mesIngreso')?.clearValidators();
+			this.formEnlaceSocioEmpresa.get('mesIngreso')?.updateValueAndValidity();
+			this.formEnlaceSocioEmpresa.get('numeroInstrumento')?.clearValidators();
+			this.formEnlaceSocioEmpresa.get('numeroInstrumento')?.updateValueAndValidity();
+		}
 	}
 
 	obtenerSocioPorNombre ( nombre : any ) : any {
