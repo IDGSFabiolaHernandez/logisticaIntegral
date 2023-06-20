@@ -1,10 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EmpresasService } from 'src/app/logisticaIntegral/services/empresas/empresas.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { RegistroSociosComponent } from '../registro-socio/registro-socio.component';
+import { RegistoEmpresaComponent } from '../../../empresas/registros/registo-empresa/registo-empresa.component';
 
 @Component({
   	selector: 'app-registro-enlace-socio-empresa',
@@ -44,6 +46,7 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		private mensajes : MensajesService,
 		private apiSocios  : SociosService,
 		private apiEmpresas : EmpresasService,
+		private modalService: BsModalService,
 		private bsModalRef: BsModalRef
 	) {
 		super();
@@ -96,6 +99,38 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
+	}
+
+	protected abrirModalRegistro ( idModal : string ) : void {
+		const data = {
+			noQuitClass : true
+		};
+
+		let configModalRegistro: any = {
+			backdrop: false,
+			ignoreBackdropClick: true,
+			keyboard: false,
+			animated: true,
+			initialState: data,
+			class: 'modal-xl modal-dialog-centered custom-modal',
+			style: {
+				'background-color': 'transparent',
+				'overflow-y': 'auto'
+			}
+		};
+
+		let op : any = undefined;
+		switch (idModal) {
+		  	case 'registroSocio':
+				op = this.modalService.show(RegistroSociosComponent, configModalRegistro);
+			break;
+			case 'registroEmpresa':
+				configModalRegistro.class = 'modal-lg modal-dialog-centered custom-modal';
+				op = this.modalService.show(RegistoEmpresaComponent, configModalRegistro);
+			break;
+		}
+
+		const modalRef: BsModalRef = op;
 	}
 
 	mostrarOpciones ( op : string ) : void {

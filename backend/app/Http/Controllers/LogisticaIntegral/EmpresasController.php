@@ -62,4 +62,19 @@ class EmpresasController extends Controller
             );
         }
     }
+
+    public function registrarEmpresa( Request $request ){
+        try{
+            return $this->empresasService->registrarEmpresa( $request->all() );
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }

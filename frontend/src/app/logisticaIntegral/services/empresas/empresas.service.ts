@@ -24,4 +24,8 @@ export class EmpresasService {
   	public obtenerEmpresasGenerales () : Observable<any> {
     	return this.http.get<any>(this.url+'/empresas/obtenerEmpresasGenerales');
   	}
+
+	public registrarEmpresa ( datosEmpresa : any ) : Observable<any> {
+		return this.http.post<any>(this.url+'/empresas/registrarEmpresa', datosEmpresa);
+	}
 }

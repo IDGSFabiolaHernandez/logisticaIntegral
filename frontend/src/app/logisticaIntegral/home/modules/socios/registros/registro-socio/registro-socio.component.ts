@@ -5,7 +5,7 @@ import { IntermediariosService } from 'src/app/logisticaIntegral/services/interm
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
-import { RegistroIntermediarioSociosComponent } from '../registro-intermediario-socios/registro-intermediario-socios.component';
+import { RegistroIntermediarioSociosComponent } from '../../../intermediarios/registros/registro-intermediario-socios/registro-intermediario-socios.component';
 
 @Component({
   	selector: 'app-registro-socios',
@@ -103,7 +103,7 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 			keyboard: false,
 			animated: true,
 			initialState: data,
-			class: 'modal-xl modal-dialog-centered custom-modal',
+			class: 'modal-lg modal-dialog-centered custom-modal',
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'

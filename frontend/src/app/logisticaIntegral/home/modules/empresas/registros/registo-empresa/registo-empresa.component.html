@@ -1,0 +1,47 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Registro de Empresa</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Empresas</li>
+                <li class="breadcrumb-item active">Registro de Empresa</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile formsWTitle">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <h5 class="card-title" align="center">Registro de Empresa</h5>
+
+                        <form class="row g-3" autocomplete="off" [formGroup]="formNuevaEmpresa">
+                            <div class="col-lg-6">
+                                <label for="nombreEmpresa" class="form-label required">Nombre de la empresa:</label>
+                                <input formControlName="nombreEmpresa" type="text" class="form-control" id="nombreEmpresa" placeholder="Nombre de la empresa" (keypress)="soloLetras($event)">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="statusEmpresa" class="form-label required">Status de la empresa:</label>
+                                <select formControlName="statusEmpresa" class="form-control" id="statusEmpresa">
+                                    <option value="" style="display: none; visibility: hidden;">Seleccione un status</option>
+                                    <option value="1">Activa</option>
+                                    <option value="2">X suspender</option>
+                                    <option value="3">En proceso</option>
+                                    <option value="4">Inactiva</option>
+                                    <option value="5">Maquila cliente</option>
+                                    <option value="6">Cuenta bancaria</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-primary" (click)="registrarEmpresa()"><b>Registrar Empresa</b></button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="cancelarRegistro()"><b>Cancelar</b></button>
+</div>

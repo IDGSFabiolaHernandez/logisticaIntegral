@@ -29,6 +29,7 @@ Route::post('/intermediarios/registrarIntermediario', 'App\Http\Controllers\Logi
 Route::get('/empresas/obtenerEmpresasGenerales','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasGenerales');
 Route::get('/empresas/obtenerEmpresasSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasSelect');
 Route::get('/empresas/obtenerEmpresasMensualidadesSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasMensualidadesSelect');
+Route::post('/empresas/registrarEmpresa','App\Http\Controllers\LogisticaIntegral\EmpresasController@registrarEmpresa');
 
 Route::get('/mensualidades/obtenerMensualidadesPagadasSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasSelect');
 Route::post('/mensualidades/obtenerMensualidadesPagadasEmpresaSocios','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasEmpresaSocios');

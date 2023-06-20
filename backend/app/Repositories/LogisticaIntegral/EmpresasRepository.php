@@ -4,6 +4,7 @@ namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblEmpresas;
 use App\Models\TblMensualidadesSocios;
+use Carbon\Carbon;
 
 class EmpresasRepository
 {
@@ -47,4 +48,28 @@ class EmpresasRepository
                                                 ->orderBy('empresas.nombre','asc');
         return $empresasSelect->get();
     }
+
+    public function validarEmpresaExistente ( $datosEmpresa, $idEmpresa = 0 ) {
+        $empresa = TblEmpresas::where([
+                                          ['nombre', 'like', '%'.$datosEmpresa['nombreEmpresa'].'%'],
+                                          ['id', '!=', $idEmpresa]
+                                      ]);
+
+        return $empresa->count();
+    }
+
+    public function registrarEmpresa ( $datosEmpresa, $idUsuario ) {
+        $registro = new TblEmpresas;
+        $registro->nombre    = $this->trimValidator($datosEmpresa['nombreEmpresa']);
+        $registro->status    = $datosEmpresa['statusEmpresa'];
+        $registro->IdUsuario = $idUsuario;
+        $registro->Fecha     = Carbon::now();
+        $registro->Hora      = Carbon::now();
+        $registro->activo    = 1;
+        $registro->save();
+    }
+
+    public function trimValidator ( $value ) {
+		return $value != null && trim($value) != '' ? trim($value) : null;
+	}
 }
