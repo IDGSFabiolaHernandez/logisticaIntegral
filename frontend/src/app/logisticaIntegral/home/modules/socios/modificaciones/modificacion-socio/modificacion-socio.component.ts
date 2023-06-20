@@ -5,7 +5,7 @@ import { IntermediariosService } from 'src/app/logisticaIntegral/services/interm
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
-import { RegistroIntermediarioSociosComponent } from '../../registros/registro-intermediario-socios/registro-intermediario-socios.component';
+import { RegistroIntermediarioSociosComponent } from '../../../intermediarios/registros/registro-intermediario-socios/registro-intermediario-socios.component';
 
 @Component({
   	selector: 'app-modificacion-socio',

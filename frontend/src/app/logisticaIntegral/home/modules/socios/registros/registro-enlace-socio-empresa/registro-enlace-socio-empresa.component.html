@@ -32,6 +32,7 @@
                                         maxlength="255"
                                     >
                                     <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
+                                    <button class="btn btn-outline-success" (click)="abrirModalRegistro('registroSocio')"><b>+</b></button>
                                 </div>
 
                                 <datalist id="socios" *ngIf="this.mostrarOpcionesSocios">
@@ -54,6 +55,7 @@
                                         maxlength="255"
                                     >
                                     <button class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></button>
+                                    <button class="btn btn-outline-success" (click)="abrirModalRegistro('registroEmpresa')"><b>+</b></button>
                                 </div>
 
                                 <datalist id="empresas" *ngIf="this.mostrarOpcionesEmpresas">

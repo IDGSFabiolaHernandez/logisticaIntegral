@@ -31,9 +31,9 @@ class IntermediariosService
     }
 
     public function registrarIntermediario ( $datos ) {
-        $validaIntermediario = $this->intermediariosRepository->validarIntermediarioExistente( $datos['intermediario'] );
+        $validarIntermediario = $this->intermediariosRepository->validarIntermediarioExistente( $datos['intermediario'] );
 
-        if( $validaIntermediario > 0 ){
+        if( $validarIntermediario > 0 ){
             return response()->json(
                 [
                     'mensaje' => 'Upss! Al parecer ya existe un Intermediario con el mismo nombre. Por favor validar la información',
