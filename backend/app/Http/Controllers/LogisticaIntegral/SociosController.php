@@ -21,7 +21,7 @@ class SociosController extends Controller
     public function obtenerListaSocios( Request $socios ){
         try{
             return $this->sociosService->obtenerListaSocios( $socios->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -36,7 +36,7 @@ class SociosController extends Controller
     public function obtenerSociosGenerales( Request $request ){
         try{
             return $this->sociosService->obtenerSociosGenerales( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -51,7 +51,7 @@ class SociosController extends Controller
     public function obtenerOpcionesSocios( Request $request ){
         try{
             return $this->sociosService->obtenerOpcionesSocios( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -66,7 +66,7 @@ class SociosController extends Controller
     public function registroNuevoSocio( Request $request ){
         try{
             return $this->sociosService->registroNuevoSocio( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -81,7 +81,7 @@ class SociosController extends Controller
     public function obtenerSociosEmpresas( Request $request ){
         try{
             return $this->sociosService->obtenerSociosEmpresas( $request->all() );
-        }catch ( \Exception $error ){
+        }catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -96,7 +96,7 @@ class SociosController extends Controller
     public function generarEnlaceSocioEmpresa(Request $request){
         try{
             return $this->sociosService->generarEnlaceSocioEmpresa( $request->all() );
-        }catch ( \Exception $error ){
+        }catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -111,7 +111,7 @@ class SociosController extends Controller
     public function obtenerDetalleSocioPorId($idSocio){
         try{
             return $this->sociosService->obtenerDetalleSocioPorId($idSocio);
-        }catch( \Exception $error ){
+        }catch( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -126,7 +126,7 @@ class SociosController extends Controller
     public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
         try{
             return $this->sociosService->obtenerDetalleEnlaceSocioEmpresa($idEnlace);
-        }catch( \Exception $error ){
+        }catch( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -141,7 +141,7 @@ class SociosController extends Controller
     public function obtenerSociosMensualidadesSelect( Request $request ){
         try{
             return $this->sociosService->obtenerSociosMensualidadesSelect( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -156,7 +156,7 @@ class SociosController extends Controller
     public function modificarSocio( Request $request ){
         try{
             return $this->sociosService->modificarSocio( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -171,7 +171,7 @@ class SociosController extends Controller
     public function obtenerDetalleSocioEmpresaPorId($idSocioEmpresas){
         try{
             return $this->sociosService->obtenerDetalleSocioEmpresaPorId($idSocioEmpresas);
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -186,7 +186,7 @@ class SociosController extends Controller
     public function modificarEnlaceSocioEmpresa( Request $request ){
         try{
             return $this->sociosService->modificarEnlaceSocioEmpresa( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [

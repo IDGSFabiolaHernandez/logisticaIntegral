@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { EmpresasService } from 'src/app/logisticaIntegral/services/empresas/empresas.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
@@ -10,7 +11,9 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   	templateUrl: './registro-enlace-socio-empresa.component.html',
   	styleUrls: ['./registro-enlace-socio-empresa.component.css']
 })
-export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnInit {
+export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnInit, OnDestroy{
+	@Input() noQuitClass : boolean = false;
+	
 	protected formEnlaceSocioEmpresa! : FormGroup;
 
 	public mostrarOpcionesSocios : boolean = false;
@@ -40,7 +43,8 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		private fb : FormBuilder,
 		private mensajes : MensajesService,
 		private apiSocios  : SociosService,
-		private apiEmpresas : EmpresasService
+		private apiEmpresas : EmpresasService,
+		private bsModalRef: BsModalRef
 	) {
 		super();
 	}
@@ -212,5 +216,19 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		this.mostrarOpcionesSocios = false;
 		this.mostrarOpcionesEmpresas = false;
 		this.formEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue('');
+	}
+
+	cancelarRegistro() {
+		this.limpiarFormulario();
+        this.bsModalRef.hide();
+		if ( !this.noQuitClass ) {
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}
+    }
+
+	ngOnDestroy(): void {
+		this.cancelarRegistro();
 	}
 }

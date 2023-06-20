@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IntermediariosService } from 'src/app/logisticaIntegral/services/intermediarios/intermediarios.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { RegistroIntermediarioSociosComponent } from '../../registros/registro-intermediario-socios/registro-intermediario-socios.component';
 
 @Component({
   	selector: 'app-modificacion-socio',
@@ -28,7 +29,8 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 		private apiIntermediarios : IntermediariosService,
 		private apiSocios : SociosService,
 		private fb : FormBuilder,
-		private bsModalRef: BsModalRef
+		private bsModalRef: BsModalRef,
+		private modalService: BsModalService
 	) {
 		super();
 	}
@@ -95,6 +97,27 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 		this.mensajes.mensajeEsperar();
 		await this.obtenerIntermediarios();
 		this.mensajes.mensajeGenericoToast('Se actualizó la lista de Socios', 'success');
+	}
+
+	abrirModalRegistroIntermediario () {
+		const data = {
+			noQuitClass : true
+		};
+
+		const configModalModificacion: any = {
+			backdrop: false,
+			ignoreBackdropClick: true,
+			keyboard: false,
+			animated: true,
+			initialState: data,
+			class: 'modal-lg modal-dialog-centered custom-modal',
+			style: {
+				'background-color': 'transparent',
+				'overflow-y': 'auto'
+			}
+		};
+
+		const modalRef: BsModalRef = this.modalService.show(RegistroIntermediarioSociosComponent, configModalModificacion);
 	}
 
 	private obtenerDetalleSocioPorId ( idSocio : number ) : Promise<any> {

@@ -43,7 +43,7 @@
                         </ng-container>
                         <ng-template #update>
                             <ng-container *ngIf="tableConfig[columna]?.updateColumn; else detail">
-                                <div class="link-modal" (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal)">
+                                <div class="link-modal" (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal, (tableConfig[columna].noQuitClass ?? false))">
                                     <span>{{ item[columna] ?? 'Sin información'}}</span>
                                 </div>
                             </ng-container>

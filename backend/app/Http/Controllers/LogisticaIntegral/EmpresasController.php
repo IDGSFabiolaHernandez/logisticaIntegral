@@ -21,7 +21,7 @@ class EmpresasController extends Controller
     public function obtenerEmpresasGenerales(){
         try{
             return $this->empresasService->obtenerEmpresasGenerales();
-        } catch (\Exception $error ){
+        } catch (\Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -36,7 +36,7 @@ class EmpresasController extends Controller
     public function obtenerEmpresasSelect( Request $request ){
         try{
             return $this->empresasService->obtenerEmpresasSelect( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -51,7 +51,7 @@ class EmpresasController extends Controller
     public function obtenerEmpresasMensualidadesSelect(){
         try{
             return $this->empresasService->obtenerEmpresasMensualidadesSelect();
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [

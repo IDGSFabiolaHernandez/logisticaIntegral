@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IntermediariosService } from 'src/app/logisticaIntegral/services/intermediarios/intermediarios.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { RegistroIntermediarioSociosComponent } from '../registro-intermediario-socios/registro-intermediario-socios.component';
 
 @Component({
   	selector: 'app-registro-socios',
   	templateUrl: './registro-socio.component.html',
   	styleUrls: ['./registro-socio.component.css']
 })
-export class RegistroSociosComponent extends Grid implements OnInit {
+export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
+	@Input() noQuitClass : boolean = false;
+
 	protected formDatosPersonalesSocio! : FormGroup;
   	protected formDetalleDomicilioSocio! : FormGroup;
 	protected formDatosIdentificacionSocio! : FormGroup;
@@ -22,7 +26,9 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 		private mensajes : MensajesService,
 		private apiIntermediarios : IntermediariosService,
 		private apiSocios : SociosService,
-		private fb : FormBuilder
+		private fb : FormBuilder,
+		private modalService: BsModalService,
+		private bsModalRef: BsModalRef
 	) {
 		super();
 	}
@@ -70,12 +76,6 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 		});
 	}
 
-	async refresh ( op : string ) : Promise<void> {
-		this.mensajes.mensajeEsperar();
-		await this.obtenerIntermediarios();
-		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
-	}
-
 	private obtenerIntermediarios () : Promise<any> {
 		return this.apiIntermediarios.obtenerListaSocios().toPromise().then(
 			respuesta => {
@@ -84,6 +84,33 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
+	}
+
+	async refresh ( op : string ) : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		await this.obtenerIntermediarios();
+		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
+	}
+
+	abrirModalRegistroIntermediario () {
+		const data = {
+			noQuitClass : true
+		};
+
+		const configModalModificacion: any = {
+			backdrop: false,
+			ignoreBackdropClick: true,
+			keyboard: false,
+			animated: true,
+			initialState: data,
+			class: 'modal-xl modal-dialog-centered custom-modal',
+			style: {
+				'background-color': 'transparent',
+				'overflow-y': 'auto'
+			}
+		};
+
+		const modalRef: BsModalRef = this.modalService.show(RegistroIntermediarioSociosComponent, configModalModificacion);
 	}
 
 	mostrarOpcionesIntermediarios () : void {
@@ -171,5 +198,19 @@ export class RegistroSociosComponent extends Grid implements OnInit {
 		this.formDatosPersonalesSocio.get('estadoCivilSocio')?.setValue('');
 		this.formDatosIdentificacionSocio.get('tipoIdentificacion')?.setValue('1');
 		this.formDatosIdentificacionSocio.get('fiel')?.setValue('1');
+	}
+
+	cancelarRegistro() {
+		this.limpiarFormularios();
+        this.bsModalRef.hide();
+		if ( !this.noQuitClass ) {
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}
+    }
+
+	ngOnDestroy(): void {
+		this.cancelarRegistro();
 	}
 }

@@ -44,9 +44,10 @@ export class DatatableComponent implements OnInit, OnChanges {
 		this.onItemsPerPageChange();
 	}
 
-	abrirModalModificacion(idDetalle: number, idModal: string) {
+	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass : boolean = false) {
 		const data = {
-		  idDetalle: idDetalle
+		  idDetalle: idDetalle,
+		  noQuitClass: noQuitClass
 		};
 	  
 		const configModalModificacion: any = {

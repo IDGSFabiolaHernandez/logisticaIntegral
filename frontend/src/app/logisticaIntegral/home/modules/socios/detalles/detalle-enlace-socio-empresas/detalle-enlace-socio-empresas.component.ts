@@ -28,7 +28,8 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 		"nombreSocio" : {
 			"updateColumn" : true,
 			"value" : "id",
-			"idModal" : "modificacionEnlaceSocioEmpresa"
+			"idModal" : "modificacionEnlaceSocioEmpresa",
+			"noQuitClass" : true
 		}
 	};
 
