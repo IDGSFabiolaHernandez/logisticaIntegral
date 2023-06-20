@@ -95,7 +95,7 @@ class EmpresasService
 
         return response()->json(
             [
-                'mensaje' => 'Se registró le nueva Empresa con éxito'      
+                'mensaje' => 'Se registró le nueva Empresa con éxito'
             ],
             200
         );

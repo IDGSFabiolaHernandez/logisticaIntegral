@@ -22,7 +22,7 @@
 
                     <div class="botonera">
                         <button class="btn btn-primary" [disabled]="!canSearch()" (click)="consultarSociosPorSelect()">Consultar</button>
-                        <button class="btn btn-primary" disabled="true">Excel</button>
+                        <button class="btn btn-primary" [disabled]="!canExport()" (click)="exportarTabla()">Excel</button>
                         <button class="btn btn-danger" [disabled]="!canClear()" (click)="limpiarGrid()">Limpiar</button>
                     </div>
                 </div>
