@@ -13,6 +13,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
 })
 export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnInit, OnDestroy{
 	@Input() idDetalle: number = 0;
+	@Input() noQuitClass: boolean = false;
 
 	protected formModEnlaceSocioEmpresa! : FormGroup;
 
@@ -252,9 +253,11 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		this.mostrarOpcionesSocios = false;
 		this.mostrarOpcionesEmpresas = false;
         this.bsModalRef.hide();
-		document.body.classList.remove('modal-open');
-		document.body.style.paddingRight = '';
-		document.body.style.overflow = '';
+		if ( !this.noQuitClass ) {
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}
     }
 
 	ngOnDestroy(): void {

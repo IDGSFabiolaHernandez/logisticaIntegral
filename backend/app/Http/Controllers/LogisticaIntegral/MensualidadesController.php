@@ -21,7 +21,7 @@ class MensualidadesController extends Controller
     public function obtenerMensualidadesPagadasSelect(){
         try{
             return $this->mensualidadesService->obtenerMensualidadesPagadasSelect();
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -36,7 +36,7 @@ class MensualidadesController extends Controller
     public function obtenerMensualidadesPagadasEmpresaSocios( Request $request ){
         try{
             return $this->mensualidadesService->obtenerMensualidadesPagadasEmpresaSocios( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -51,7 +51,7 @@ class MensualidadesController extends Controller
     public function obtenerMensualidadesPagarSelect () {
         try{
             return $this->mensualidadesService->obtenerMensualidadesPagarSelect();
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -66,7 +66,7 @@ class MensualidadesController extends Controller
     public function obtenerMensualidadesPagarPorMensualidad ( Request $request ) {
         try{
             return $this->mensualidadesService->obtenerMensualidadesPagarPorMensualidad( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -81,7 +81,7 @@ class MensualidadesController extends Controller
     public function pagarMensualidadEmpresaSocio( Request $request){
         try{
             return $this->mensualidadesService->pagarMensualidadEmpresaSocio( $request->all() );
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [

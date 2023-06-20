@@ -1,0 +1,35 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Registro de Intermediario</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Intermediarios</li>
+                <li class="breadcrumb-item active">Registro de Intermediario</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile formsWTitle">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <h5 class="card-title" align="center">Registro de Intermediario</h5>
+
+                        <form class="row g-3" autocomplete="off" [formGroup]="formNuevoIntermediario">
+                            <div class="col-lg-12">
+                                <label for="nombreIntermediario" class="form-label required">Nombre del Intermediario:</label>
+                                <input formControlName="nombreIntermediario" type="text" class="form-control" id="nombreIntermediario" placeholder="Nombre del Intermediario" (keypress)="soloLetras($event)">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-primary" (click)="registrarIntermediario()"><b>Registrar Intermediario</b></button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="cancelarModificacion()"><b>Cancelar</b></button>
+</div>

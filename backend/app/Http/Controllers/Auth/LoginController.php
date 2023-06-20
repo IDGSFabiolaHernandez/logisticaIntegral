@@ -21,7 +21,7 @@ class LoginController extends Controller
     public function login( Request $request ) {
         try {
             return $this->loginService->login( $request->all() );
-        } catch ( \Exception $error ) {
+        } catch ( \Throwable $error ) {
             Log::alert($error);
             return response()->json(
                 [
@@ -36,7 +36,7 @@ class LoginController extends Controller
     public function auth( Request $request ){
         try{
             return $this->loginService->auth( $request->all());
-        } catch ( \Exception $error ) {
+        } catch ( \Throwable $error ) {
             Log::alert($error);
             return response()->json(
                 [
@@ -51,7 +51,7 @@ class LoginController extends Controller
     public function logout( Request $request ){
         try{
             return $this->loginService->logout( $request->all());
-        } catch ( \Exception $error ) {
+        } catch ( \Throwable $error ) {
             Log::alert($error);
             return response()->json(
                 [

@@ -39,7 +39,7 @@ class SociosRepository
         return $sociosGenerales->get();
     }
 
-    public function registroNuevoSocio($datosSocio, $idSocio){
+    public function registroNuevoSocio($datosSocio, $idUsuario){
         $fechaInicio = $datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' ? Carbon::parse($datosSocio['fechaInicio']) : null;
         $registro = new TblSocios();
         $registro->nombreSocio            = $this->trimValidator($datosSocio['nombreSocio']);
@@ -64,7 +64,7 @@ class SociosRepository
         $registro->fechaInicio            = $fechaInicio;
         $registro->fechaFin               = $fechaInicio->addyears(4) ?? null;
         $registro->status                 = $this->trimValidator($datosSocio['status']);
-        $registro->fkUsuarioAlta          = $idSocio;
+        $registro->fkUsuarioAlta          = $idUsuario;
         $registro->fechaAltaRegistro      = Carbon::now();
         $registro->save();
     }

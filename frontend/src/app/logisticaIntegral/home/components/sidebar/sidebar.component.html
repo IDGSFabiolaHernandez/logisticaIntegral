@@ -13,7 +13,7 @@
         <i class="bi bi-people"></i><span>Socios</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav-clientes" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li data-bs-toggle="modal" data-bs-target="#nuevoSocio">
+        <li (click)="abrirModalRegistro('registroSocio')">
           <a>
             <i class="bi bi-circle"></i><span>Registro de Socios</span>
           </a>
@@ -30,7 +30,7 @@
                 <i class="bi bi-bank"></i><span>Socios Empresas</span><i class="bi bi-chevron-down ms-auto"></i>
               </a>
               <ul id="components-nav-socioes-empresas" class="nav-content collapse " data-bs-parent="#sidebar-nav-socios-empresas">
-                <li data-bs-toggle="modal" data-bs-target="#nuevoEnlaceSocioEmpresa">
+                <li (click)="abrirModalRegistro('registroEnlaceSocioEmpresa')">
                   <a>
                     <i class="bi bi-circle"></i><span>Nuevo enlace</span>
                   </a>
@@ -72,7 +72,7 @@
                 <i class="bi bi-currency-dollar"></i><span>Préstamos</span><i class="bi bi-chevron-down ms-auto"></i>
               </a>
               <ul id="components-nav-prestamos" class="nav-content collapse " data-bs-parent="#sidebar-nav-prestamos">
-                <li data-bs-toggle="modal" data-bs-target="#nuevoPrestamoSocio">
+                <li (click)="abrirModalRegistro('registroPrestamoSocio')">
                   <a>
                     <i class="bi bi-circle"></i><span>Nuevo préstamo</span>
                   </a>
@@ -90,15 +90,3 @@
     </li>
   </ul>
 </aside>
-
-<div class="modal fade section profile" id="nuevoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
-  <app-registro-socios></app-registro-socios>
-</div>
-
-<div class="modal fade section profile" id="nuevoEnlaceSocioEmpresa" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
-  <app-registro-enlace-socio-empresa></app-registro-enlace-socio-empresa>
-</div>
-
-<div class="modal fade section profile" id="nuevoPrestamoSocio" tabindex="-1" data-bs-backdrop="false" style="display: none;" aria-hidden="true">
-  <app-registro-prestamo-socio></app-registro-prestamo-socio>
-</div>

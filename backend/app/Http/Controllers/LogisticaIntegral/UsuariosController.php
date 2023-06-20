@@ -21,7 +21,7 @@ class UsuariosController extends Controller
     public function obtenerInformacionUsuarioPorToken( Request $request ){
         try{
             return $this->usuariosService->obtenerInformacionUsuarioPorToken( $request->all() );
-        } catch( \Exception $error ) {
+        } catch( \Throwable $error ) {
             Log::alert($error);
             return response()->json(
                 [

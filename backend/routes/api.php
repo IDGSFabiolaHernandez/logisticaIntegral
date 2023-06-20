@@ -24,6 +24,7 @@ Route::get('/socios/obtenerDetalleSocioEmpresaPorId/{idSocioEmpresa}','App\Http\
 Route::post('/socios/modificarEnlaceSocioEmpresa','App\Http\Controllers\LogisticaIntegral\SociosController@modificarEnlaceSocioEmpresa');
 
 Route::get('/intermediarios/intermediariosSocios', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@obtenerIntermediariosSocios');
+Route::post('/intermediarios/registrarIntermediario', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@registrarIntermediario');
 
 Route::get('/empresas/obtenerEmpresasGenerales','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasGenerales');
 Route::get('/empresas/obtenerEmpresasSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasSelect');
