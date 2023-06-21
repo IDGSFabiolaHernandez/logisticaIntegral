@@ -2,6 +2,7 @@
 
 namespace App\Services\LogisticaIntegral;
 
+use App\Repositories\LogisticaIntegral\PrestamosRepository;
 use App\Repositories\LogisticaIntegral\SociosRepository;
 use App\Repositories\LogisticaIntegral\UsuariosRepository;
 use Illuminate\Support\Facades\DB;
@@ -11,14 +12,17 @@ class SociosService
 {
     protected $sociosRepository;
     protected $usuariosRepository;
+    protected $prestamosRepository;
 
     public function __construct(
         SociosRepository $SociosRepository,
-        UsuariosRepository $UsuariosRepository
+        UsuariosRepository $UsuariosRepository,
+        PrestamosRepository $PrestamosRepository
     )
     {
         $this->sociosRepository = $SociosRepository;
         $this->usuariosRepository = $UsuariosRepository;
+        $this->prestamosRepository = $PrestamosRepository;
     }
 
     public function obtenerListaSocios($socios){
@@ -90,7 +94,16 @@ class SociosService
     }
 
     public function obtenerSociosEmpresas($datosSociosEmpresas){
-        $sociosEmpresasAmbos = $this->sociosRepository->obtenerSociosEmpresas($datosSociosEmpresas['socios'] ?? null, $datosSociosEmpresas['empresas'] ?? null);
+        $socio    = $datosSociosEmpresas['socios'] ?? null;
+        $empresas = $datosSociosEmpresas['empresas'] ?? null;
+
+        if ($datosSociosEmpresas['datosPrestamo']) {
+            $idDetalle = $datosSociosEmpresas['socios'][0];
+            $socio    = $this->sociosRepository->obtenerSocioPorIdPrestamo($idDetalle);
+            $empresas = $this->sociosRepository->obtenerEmpresasPorIdPrestamo($idDetalle);
+        }
+
+        $sociosEmpresasAmbos = $this->sociosRepository->obtenerSociosEmpresas($socio, $empresas);
         return response()->json(
             [
                 'mensaje' => 'Se consultarón los enlaces Socios-Empresas con éxito',
