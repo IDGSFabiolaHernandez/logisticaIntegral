@@ -5,13 +5,17 @@ import { RegistroSociosComponent } from 'src/app/logisticaIntegral/home/modules/
 import { RegistroEnlaceSociosEmpresasComponent } from 'src/app/logisticaIntegral/home/modules/socios/registros/registro-enlace-socio-empresa/registro-enlace-socio-empresa.component';
 import { RegistroPrestamoSocioComponent } from 'src/app/logisticaIntegral/home/modules/socios/registros/registro-prestamo-socio/registro-prestamo-socio.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegistroIntermediarioSociosComponent } from 'src/app/logisticaIntegral/home/modules/intermediarios/registros/registro-intermediario-socios/registro-intermediario-socios.component';
+import { RegistoEmpresaComponent } from 'src/app/logisticaIntegral/home/modules/empresas/registros/registo-empresa/registo-empresa.component';
 
 @NgModule({
   declarations: [
     DropdownComponent,
     RegistroSociosComponent,
     RegistroEnlaceSociosEmpresasComponent,
-    RegistroPrestamoSocioComponent
+    RegistroPrestamoSocioComponent,
+    RegistroIntermediarioSociosComponent,
+    RegistoEmpresaComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +26,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DropdownComponent,
     RegistroSociosComponent,
     RegistroEnlaceSociosEmpresasComponent,
-    RegistroPrestamoSocioComponent
+    RegistroPrestamoSocioComponent,
+    RegistroIntermediarioSociosComponent,
+    RegistoEmpresaComponent
   ]
 })
 export class SharedModule { }

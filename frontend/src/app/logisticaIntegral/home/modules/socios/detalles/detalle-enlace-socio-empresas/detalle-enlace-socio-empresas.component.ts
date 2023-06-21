@@ -2,14 +2,17 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
+import { ExcelService } from 'src/app/shared/util/excel.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   	selector: 'app-detalle-enlace-socio-empresas',
   	templateUrl: './detalle-enlace-socio-empresas.component.html',
   	styleUrls: ['./detalle-enlace-socio-empresas.component.css']
 })
-export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
+export class DetalleEnlaceSocioEmpresasComponent extends Grid implements OnInit, OnDestroy{
 	@Input() idDetalle: number = 0;
+	@Input() datosPrestamo: boolean = false;
 	
 	protected columnasSocioEmpresas : any = {
 		'id' 				: '#',
@@ -28,7 +31,8 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 		"nombreSocio" : {
 			"updateColumn" : true,
 			"value" : "id",
-			"idModal" : "modificacionEnlaceSocioEmpresa"
+			"idModal" : "modificacionEnlaceSocioEmpresa",
+			"noQuitClass" : true
 		}
 	};
 
@@ -37,9 +41,10 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 	constructor (
 		private bsModalRef : BsModalRef,
 		private apiSocios : SociosService,
-		private mensajes : MensajesService
+		private mensajes : MensajesService,
+		private excelService : ExcelService
 	) {
-
+		super();
 	}
 
 	async ngOnInit () : Promise<void> {
@@ -50,7 +55,10 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 	}
 
 	private obtenerSocioEmpresas () : Promise<any> {
-		const datosConsulta = { socios: [this.idDetalle] };
+		const datosConsulta = {
+			socios: [this.idDetalle],
+			datosPrestamo : this.datosPrestamo
+		};
 
 		return this.apiSocios.obtenerSociosEmpresas(datosConsulta).toPromise().then(
 			respuesta => {
@@ -65,6 +73,22 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
+	}
+
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Detalle enlace Socio - Empresa: ' + this.getNowString();
+
+		this.excelService.exportarExcel(
+			this.listaSocioEmpresas,
+			this.columnasSocioEmpresas,
+			nombreExcel
+		);
+	}
+
+	protected canExport () : boolean {
+		return this.listaSocioEmpresas.length != 0;
 	}
 
 	cancelarModificacion() {

@@ -20,7 +20,7 @@ class PrestamosController extends Controller
     public function obtenerSociosConRelacionEmpresas(){
         try{
             return $this->prestamosService->obtenerSociosConRelacionEmpresas();
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -35,7 +35,7 @@ class PrestamosController extends Controller
     public function obtenerEmpresasSelectPorSocio($idSocio){
         try{
             return $this->prestamosService->obtenerEmpresasPorSocioSelect($idSocio);
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -50,7 +50,7 @@ class PrestamosController extends Controller
     public function obtenerSociosConPrestamos(){
         try{
             return $this->prestamosService->obtenerSociosConPrestamos();
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -65,7 +65,7 @@ class PrestamosController extends Controller
     public function obtenerPrestamosPorSociosYStatus( Request $request){
         try{
             return $this->prestamosService->obtenerPrestamosPorSociosYStatus($request->all());
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -80,7 +80,7 @@ class PrestamosController extends Controller
     public function registroNuevoPrestamoSocio( Request $prestamoSocio ){
         try{
             return $this->prestamosService->registroNuevoPrestamoSocio($prestamoSocio->all());
-        } catch ( \Exception $error ){
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [

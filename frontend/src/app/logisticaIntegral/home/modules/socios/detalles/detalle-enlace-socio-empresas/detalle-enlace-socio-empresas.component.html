@@ -14,6 +14,6 @@
 </div>
 
 <div class="modal-footer" style="text-align: center;">
-    <button type="button" class="btn btn-primary" disabled="true"><b>Exportar</b></button>
+    <button class="btn btn-success" [disabled]="!canExport()" (click)="exportarExcel()">Excel</button>
     <button type="button" class="btn btn-danger" (click)="cancelarModificacion()"><b>Cerrar</b></button>
 </div>

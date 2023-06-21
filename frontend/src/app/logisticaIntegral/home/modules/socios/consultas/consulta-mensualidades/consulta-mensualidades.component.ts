@@ -4,13 +4,15 @@ import { MensualidadesService } from 'src/app/logisticaIntegral/services/mensual
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Option from 'src/app/shared/interfaces/options.interface';
+import { ExcelService } from 'src/app/shared/util/excel.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   selector: 'app-consulta-mensualidades',
   templateUrl: './consulta-mensualidades.component.html',
   styleUrls: ['./consulta-mensualidades.component.css']
 })
-export class ConsultaMensualidadesComponent {
+export class ConsultaMensualidadesComponent extends Grid{
   	protected opcionesSocios : Option[] = [];
 	protected sociosSeleccionados : any[] = [];
 
@@ -41,8 +43,11 @@ export class ConsultaMensualidadesComponent {
 		private mensajes : MensajesService,
 		private apiSocios : SociosService,
 		private apiEmpresas : EmpresasService,
-		private apiMensualidades : MensualidadesService
-	) {}
+		private apiMensualidades : MensualidadesService,
+		private excelService : ExcelService
+	) {
+		super();
+	}
 
 	async ngOnInit () : Promise<void> {
 		this.mensajes.mensajeEsperar();
@@ -152,6 +157,29 @@ export class ConsultaMensualidadesComponent {
 		}
 	}
 
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Mensualidades Pagadas: ' + this.getNowString();
+
+		let datos = [];
+
+		switch (this.optionProgress) {
+			case 'socios':
+				datos = this.listaMensualidadesSocios;
+			break;
+			case 'empresas':
+				datos = this.listaMensualidadesEmpresas;
+			break;
+		}
+
+		this.excelService.exportarExcel(
+			datos,
+			this.columnasMensualidades,
+			nombreExcel
+		);
+	}
+
 	limpiarGrid () : void {
 		switch (this.optionProgress) {
 			case 'socios':
@@ -167,6 +195,17 @@ export class ConsultaMensualidadesComponent {
 		return this.optionProgress == 'socios' ?
 			   (this.sociosSeleccionados.length != 0 && this.mensualidadesSeleccionadas.length != 0) :
 			   (this.sociosSeleccionados.length != 0 && this.mensualidadesSeleccionadas.length != 0);
+	}
+
+	protected canExport () : boolean {
+		switch (this.optionProgress) {
+			case 'socios':
+				return this.listaMensualidadesSocios.length !== 0;
+			case 'empresas':
+				return this.listaMensualidadesEmpresas.length !== 0;
+			default:
+				return false;
+		}
 	}
 
 	protected canClear(): boolean {

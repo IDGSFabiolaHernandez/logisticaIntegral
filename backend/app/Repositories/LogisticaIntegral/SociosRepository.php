@@ -3,6 +3,8 @@
 namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblMensualidadesSocios;
+use App\Models\TblPrestamosEmpresas;
+use App\Models\TblPrestamosSocios;
 use App\Models\TblSocios;
 use App\Models\TblSociosEmpresas;
 use Carbon\Carbon;
@@ -39,7 +41,7 @@ class SociosRepository
         return $sociosGenerales->get();
     }
 
-    public function registroNuevoSocio($datosSocio, $idSocio){
+    public function registroNuevoSocio($datosSocio, $idUsuario){
         $fechaInicio = $datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' ? Carbon::parse($datosSocio['fechaInicio']) : null;
         $registro = new TblSocios();
         $registro->nombreSocio            = $this->trimValidator($datosSocio['nombreSocio']);
@@ -64,7 +66,7 @@ class SociosRepository
         $registro->fechaInicio            = $fechaInicio;
         $registro->fechaFin               = $fechaInicio->addyears(4) ?? null;
         $registro->status                 = $this->trimValidator($datosSocio['status']);
-        $registro->fkUsuarioAlta          = $idSocio;
+        $registro->fkUsuarioAlta          = $idUsuario;
         $registro->fechaAltaRegistro      = Carbon::now();
         $registro->save();
     }
@@ -78,6 +80,25 @@ class SociosRepository
                                  ->where('id', '!=', $idSocio);
 
         return $validarSocio->count();
+    }
+
+    public function obtenerSocioPorIdPrestamo ( $idPrestamo ) {
+        $socio = TblPrestamosSocios::select('tblSocios.id')
+                                   ->join('tblSocios', 'tblSocios.id', 'prestamosSocios.idSocio')
+                                   ->where('prestamosSocios.id', $idPrestamo);
+
+        $socio = json_decode($socio->get()[0]);
+        return array_values((array) $socio);
+    }
+
+    public function obtenerEmpresasPorIdPrestamo($idPrestamo) {
+        $empresas = TblPrestamosEmpresas::select('fkEmpresa')
+                                        ->where('fkPrestamo', $idPrestamo)
+                                        ->get()
+                                        ->pluck('fkEmpresa')
+                                        ->toArray();
+
+        return $empresas;
     }
 
     public function obtenerSociosEmpresas($socios, $empresas){

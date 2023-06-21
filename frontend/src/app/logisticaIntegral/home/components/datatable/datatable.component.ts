@@ -44,9 +44,10 @@ export class DatatableComponent implements OnInit, OnChanges {
 		this.onItemsPerPageChange();
 	}
 
-	abrirModalModificacion(idDetalle: number, idModal: string) {
+	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass : boolean = false) {
 		const data = {
-		  idDetalle: idDetalle
+		  idDetalle: idDetalle,
+		  noQuitClass: noQuitClass
 		};
 	  
 		const configModalModificacion: any = {
@@ -63,6 +64,7 @@ export class DatatableComponent implements OnInit, OnChanges {
 		};
 		
 		let op : any = undefined;
+		
 		switch (idModal) {
 		  	case 'modificacionSocio':
 				op = this.modalService.show(ModificacionSocioComponent, configModalModificacion);
@@ -77,23 +79,31 @@ export class DatatableComponent implements OnInit, OnChanges {
 
 	abrirModalDetalle(idDetalle: number, idModal: string) {
 		const data = {
-		  idDetalle: idDetalle
+		  	idDetalle: idDetalle
 		};
 	  
-		const configModalDetalle: any = {
-		  backdrop: false,
-		  ignoreBackdropClick: true,
-		  keyboard: false,
-		  animated: true,
-		  class: 'modal-dialog-centered custom-modal custom-width',
-		  initialState: data
+		let configModalDetalle: any = {
+		  	backdrop: false,
+		  	ignoreBackdropClick: true,
+		  	keyboard: false,
+		  	animated: true,
+		  	class: 'modal-dialog-centered custom-modal custom-width',
+		  	initialState: data
 		};
+
+		let op : any = undefined;
 	  
 		switch (idModal) {
-		  case 'detalleEnlaceSocioEmpresas':
-			const modalRef: BsModalRef = this.modalService.show(DetalleEnlaceSocioEmpresasComponent, configModalDetalle);
+		  	case 'detalleEnlaceSocioEmpresas':
+				op = this.modalService.show(DetalleEnlaceSocioEmpresasComponent, configModalDetalle);
+			break;
+			case 'detalleEnlaceSocioEmpresasPrestamo':
+				configModalDetalle.initialState.datosPrestamo = true;
+				op = this.modalService.show(DetalleEnlaceSocioEmpresasComponent, configModalDetalle);
 			break;
 		}
+
+		const modalRef: BsModalRef = op;
 	}
 
 	get paginatedItems() {

@@ -21,7 +21,22 @@ class IntermediariosController extends Controller
     public function obtenerIntermediariosSocios(){
         try{
             return $this->intermediariosService->obtenerIntermediariosSocios();
-        } catch (\Exception $error){
+        } catch (\Throwable $error){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function registrarIntermediario( Request $request ){
+        try{
+            return $this->intermediariosService->registrarIntermediario( $request->all() );
+        } catch (\Throwable $error){
             Log::alert($error);
             return response()->json(
                 [

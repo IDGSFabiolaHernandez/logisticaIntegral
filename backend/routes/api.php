@@ -8,6 +8,8 @@ Route::post('/auth', 'App\Http\Controllers\Auth\LoginController@auth');
 Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout');
 
 Route::post('/usuarios/obtenerInformacionUsuarioPorToken', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@obtenerInformacionUsuarioPorToken');
+Route::post('/usuarios/modificarUsuario', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@modificarUsuario');
+Route::post('/usuarios/validarContraseniaActual', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@validarContraseniaActual');
 
 Route::post('/socios/listaSocios', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerListaSocios');
 Route::get('/socios/obtenerSociosGenerales', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosGenerales');
@@ -23,10 +25,12 @@ Route::get('/socios/obtenerDetalleSocioEmpresaPorId/{idSocioEmpresa}','App\Http\
 Route::post('/socios/modificarEnlaceSocioEmpresa','App\Http\Controllers\LogisticaIntegral\SociosController@modificarEnlaceSocioEmpresa');
 
 Route::get('/intermediarios/intermediariosSocios', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@obtenerIntermediariosSocios');
+Route::post('/intermediarios/registrarIntermediario', 'App\Http\Controllers\LogisticaIntegral\IntermediariosController@registrarIntermediario');
 
 Route::get('/empresas/obtenerEmpresasGenerales','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasGenerales');
 Route::get('/empresas/obtenerEmpresasSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasSelect');
 Route::get('/empresas/obtenerEmpresasMensualidadesSelect','App\Http\Controllers\LogisticaIntegral\EmpresasController@obtenerEmpresasMensualidadesSelect');
+Route::post('/empresas/registrarEmpresa','App\Http\Controllers\LogisticaIntegral\EmpresasController@registrarEmpresa');
 
 Route::get('/mensualidades/obtenerMensualidadesPagadasSelect','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasSelect');
 Route::post('/mensualidades/obtenerMensualidadesPagadasEmpresaSocios','App\Http\Controllers\LogisticaIntegral\MensualidadesController@obtenerMensualidadesPagadasEmpresaSocios');

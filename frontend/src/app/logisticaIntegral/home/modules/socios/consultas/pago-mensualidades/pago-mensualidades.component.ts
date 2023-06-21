@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MensualidadesService } from 'src/app/logisticaIntegral/services/mensualidades/mensualidades.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
+import { ExcelService } from 'src/app/shared/util/excel.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   	selector: 'app-pago-mensualidades',
   	templateUrl: './pago-mensualidades.component.html',
   	styleUrls: ['./pago-mensualidades.component.css']
 })
-export class PagoMensualidadesComponent implements OnInit {
+export class PagoMensualidadesComponent extends Grid implements OnInit {
 	protected fechaPago: string = '';
 	protected fechaMensualidadPagar: string = '';
 	protected fechaMensualidadPagarEnvio: string = '';
@@ -39,9 +41,10 @@ export class PagoMensualidadesComponent implements OnInit {
 
 	constructor (
 		private apiMensualidades : MensualidadesService,
-		private mensajes : MensajesService
+		private mensajes : MensajesService,
+		private excelService : ExcelService
 	) {
-
+		super();
 	}
 
 	async ngOnInit(): Promise<void> {
@@ -133,19 +136,44 @@ export class PagoMensualidadesComponent implements OnInit {
 		}
 	}
 
-	limpiarGrid () : void {
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Mensualidades por Pagar: ' + this.getNowString();
+		const columnasEspeciales  = {
+			'id' 				   : '#',
+			'nombreSocio' 		   : 'Socio',
+			'activoSocio' 		   : 'Estatus Socio',
+			'numEmpresas' 		   : 'Relación Empresas',
+			'numPrestamos' 		   : 'Prestamo(s)',
+			'importeTotalPrestamo' : 'Importe Prestamo(s)',
+			'restantePrestamo' 	   : 'Saldo Prestamo(s)'
+		};
+
+		this.excelService.exportarExcel(
+			this.listaMensualidadesPagar,
+			columnasEspeciales,
+			nombreExcel
+		);
+	}
+
+	protected limpiarGrid () : void {
 		this.listaMensualidadesPagar = [];
 	}
 
-	canSearch () : boolean {
+	protected canSearch () : boolean {
 		return this.fechaMensualidadPagar != '' && this.fechaMensualidadPagar != null && this.fechaMensualidadPagar != undefined;
 	}
+	
+	protected canExport () : boolean {
+		return this.listaMensualidadesPagar.length != 0;
+	}
 
-	canPay () : boolean {
+	protected canPay () : boolean {
 		return this.fechaPago != '' && this.fechaPago != null && this.fechaPago != undefined && this.mensualidadesPagar.length > 0;
 	}
 
-	canClear () : boolean {
+	protected canClear () : boolean {
 		return this.listaMensualidadesPagar.length != 0;
 	}
 }
