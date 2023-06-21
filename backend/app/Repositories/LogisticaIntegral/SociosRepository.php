@@ -3,6 +3,8 @@
 namespace App\Repositories\LogisticaIntegral;
 
 use App\Models\TblMensualidadesSocios;
+use App\Models\TblPrestamosEmpresas;
+use App\Models\TblPrestamosSocios;
 use App\Models\TblSocios;
 use App\Models\TblSociosEmpresas;
 use Carbon\Carbon;
@@ -78,6 +80,25 @@ class SociosRepository
                                  ->where('id', '!=', $idSocio);
 
         return $validarSocio->count();
+    }
+
+    public function obtenerSocioPorIdPrestamo ( $idPrestamo ) {
+        $socio = TblPrestamosSocios::select('tblSocios.id')
+                                   ->join('tblSocios', 'tblSocios.id', 'prestamosSocios.idSocio')
+                                   ->where('prestamosSocios.id', $idPrestamo);
+
+        $socio = json_decode($socio->get()[0]);
+        return array_values((array) $socio);
+    }
+
+    public function obtenerEmpresasPorIdPrestamo($idPrestamo) {
+        $empresas = TblPrestamosEmpresas::select('fkEmpresa')
+                                        ->where('fkPrestamo', $idPrestamo)
+                                        ->get()
+                                        ->pluck('fkEmpresa')
+                                        ->toArray();
+
+        return $empresas;
     }
 
     public function obtenerSociosEmpresas($socios, $empresas){

@@ -10,6 +10,7 @@ import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 })
 export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 	@Input() idDetalle: number = 0;
+	@Input() datosPrestamo: boolean = false;
 	
 	protected columnasSocioEmpresas : any = {
 		'id' 				: '#',
@@ -51,7 +52,10 @@ export class DetalleEnlaceSocioEmpresasComponent implements OnInit, OnDestroy{
 	}
 
 	private obtenerSocioEmpresas () : Promise<any> {
-		const datosConsulta = { socios: [this.idDetalle] };
+		const datosConsulta = {
+			socios: [this.idDetalle],
+			datosPrestamo : this.datosPrestamo
+		};
 
 		return this.apiSocios.obtenerSociosEmpresas(datosConsulta).toPromise().then(
 			respuesta => {

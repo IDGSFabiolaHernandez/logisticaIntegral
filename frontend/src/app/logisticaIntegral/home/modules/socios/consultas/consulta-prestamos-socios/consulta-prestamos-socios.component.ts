@@ -31,6 +31,14 @@ export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 		statusPrestamo : 'Estatus Prestamo '
 	};
 
+	protected tableConfig : any = {
+		"numEmpresas" : {
+			"detailColumn" : true,
+			"value" : "id",
+			"idModal" : "detalleEnlaceSocioEmpresasPrestamo"
+		}
+	};
+
 	protected listaPrestamos : any[] = [];
 
 	constructor (

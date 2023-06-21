@@ -129,7 +129,7 @@ class MensualidadesRepository
                                           ->join('tblSociosEmpresas', function ( $join ) use ( $fechaBase ) {
                                                $join->on('tblSociosEmpresas.fkSocio', 'tblSocios.id')
                                                     ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
-                                                    ->where('tblSociosEmpresas.mesIngreso', '<=',Carbon::parse($fechaBase)->format('Y-m-d'));
+                                                    ->where('tblSociosEmpresas.mesIngreso', '<=', Carbon::parse($fechaBase)->format('Y-m-d'));
                                           })
                                           ->join('empresas', function ($join) {
                                               $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
@@ -152,7 +152,7 @@ class MensualidadesRepository
                                              ->join('tblSociosEmpresas', function ($join) use ($mensualidadPagar){
                                                 $join->on('tblSocios.id','tblSociosEmpresas.fkSocio')
                                                      ->where('tblSociosEmpresas.mesIngreso', '!=','0000-00-00')
-                                                     ->where('tblSociosEmpresas.mesIngreso', '<=',Carbon::parse($mensualidadPagar)->format('Y-m-d'));
+                                                     ->where('tblSociosEmpresas.mesIngreso', '<=', Carbon::parse($mensualidadPagar)->format('Y-m-d'));
                                              })
                                              ->join('empresas', function($join){
                                                 $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
