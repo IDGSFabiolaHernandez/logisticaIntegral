@@ -17,28 +17,34 @@ export class ExcelService {
     ) {
     }
 
-    exportExcel(data: any[], columns: { [key: string]: string }, fileName: string): void {
+    exportarExcel(data: any[], columns: { [key: string]: string }, fileName: string): void {
         const columnNames: string[] = Object.values(columns);
         const columnKeys: string[] = Object.keys(columns);
-      
+        const filteredData = data.map((item) => {
+          const filteredItem : any = {};
+          for (const key of columnKeys) {
+            filteredItem[key] = item[key];
+          }
+          return filteredItem;
+        });
+        
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([columnNames], { skipHeader: true });
-        XLSX.utils.sheet_add_json(worksheet, data, { skipHeader: true, origin: 'A2', header: columnKeys });
-      
+        XLSX.utils.sheet_add_json(worksheet, filteredData, { skipHeader: true, origin: 'A2', header: columnKeys });
+        
         // Agregar filtros a las columnas
         const range: XLSX.Range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1');
         range.s.r = 0; // Establecer el índice de la primera fila (encabezados)
         range.s.c = 0; // Establecer el índice de la primera columna
         range.e.r = 0; // Establecer el índice de la última fila (encabezados)
         range.e.c = columnKeys.length - 1; // Establecer el índice de la última columna
-      
+        
         worksheet['!autofilter'] = { ref: XLSX.utils.encode_range(range) };
-      
+        
         const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
         const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      
+        
         this.saveExcelFile(excelBuffer, fileName);
-      }
-      
+    }
       
     private saveExcelFile(buffer: any, fileName: string): void {
         const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });

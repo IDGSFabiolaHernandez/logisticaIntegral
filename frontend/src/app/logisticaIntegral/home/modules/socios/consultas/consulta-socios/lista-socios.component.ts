@@ -90,12 +90,12 @@ export class ListaSociosComponent extends Grid{
 		);
 	}
 
-	protected exportarTabla () : void {
+	protected exportarExcel () : void {
 		this.mensajes.mensajeEsperar();
 
 		const nombreExcel = 'Lista de Socios: ' + this.getNowString();
 
-		this.excelService.exportExcel(
+		this.excelService.exportarExcel(
 			this.listaSocios,
 			this.columnasSocio,
 			nombreExcel

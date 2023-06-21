@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { PrestamosService } from 'src/app/logisticaIntegral/services/prestamos/prestamos.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Option from 'src/app/shared/interfaces/options.interface';
+import { ExcelService } from 'src/app/shared/util/excel.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   	selector: 'app-consulta-prestamos-socios',
   	templateUrl: './consulta-prestamos-socios.component.html',
   	styleUrls: ['./consulta-prestamos-socios.component.css']
 })
-export class ConsultaPrestamosSociosComponent implements OnInit{
+export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 	protected opcionesSocios : Option[] = [];
 	protected sociosSeleccionados : any[] = [];
 
@@ -18,7 +20,7 @@ export class ConsultaPrestamosSociosComponent implements OnInit{
 	];
 	protected statusSeleccionados : any[] = [];
 
-	protected columnasSocio : any = {
+	protected columnasPrestamo : any = {
 		id             : '#',
 		nombreSocio    : 'Socio',
 		numEmpresas    : 'Empresa Mensualidad',
@@ -29,13 +31,14 @@ export class ConsultaPrestamosSociosComponent implements OnInit{
 		statusPrestamo : 'Estatus Prestamo '
 	};
 
-	protected listaSocios : any[] = [];
+	protected listaPrestamos : any[] = [];
 
 	constructor (
 		private mensajes : MensajesService,
-		private apiPrestamos : PrestamosService
+		private apiPrestamos : PrestamosService,
+		private excelService : ExcelService
 	) {
-
+		super();
 	}
 
 	async ngOnInit () : Promise<void> {
@@ -54,13 +57,13 @@ export class ConsultaPrestamosSociosComponent implements OnInit{
 		);
 	}
 
-	async refreshSocios () : Promise<void> {
+	protected async refreshSocios () : Promise<void> {
 		this.mensajes.mensajeEsperar();
 		await this.obtenerSociosSelect();
 		this.mensajes.mensajeGenericoToast('Se actualizó la lista de los Socios que tienen/tuvieron préstamos', 'success');
 	}
 
-	onSelectionChange (data: any) : void {
+	protected onSelectionChange (data: any) : void {
 		if ( data.from == 'socios' ) {
 			this.sociosSeleccionados = data.selectedOptions;
 		} else if ( data.from == 'status' ) {
@@ -68,13 +71,13 @@ export class ConsultaPrestamosSociosComponent implements OnInit{
 		}
 	}
 
-	consultarSociosPorSelect () : void {
+	protected consultarSociosPorSelect () : void {
 		this.mensajes.mensajeEsperar();
 		const datosSocios = { socios : this.sociosSeleccionados.map(({value}) => value), status : this.statusSeleccionados.map(({value}) => value) };
 
 		this.apiPrestamos.obtenerPrestamosPorSociosYStatus(datosSocios).subscribe(
 			respuesta => {
-				this.listaSocios = respuesta.data;
+				this.listaPrestamos = respuesta.data;
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
@@ -82,15 +85,31 @@ export class ConsultaPrestamosSociosComponent implements OnInit{
 		);
 	}
 
-	limpiarGrid () : void {
-		this.listaSocios = [];
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Prestamos Socios: ' + this.getNowString();
+
+		this.excelService.exportarExcel(
+			this.listaPrestamos,
+			this.columnasPrestamo,
+			nombreExcel
+		);
 	}
 
-	canSearch () : boolean {
+	protected limpiarGrid () : void {
+		this.listaPrestamos = [];
+	}
+
+	protected canSearch () : boolean {
 		return this.sociosSeleccionados.length != 0 && this.statusSeleccionados.length != 0;
 	}
 
-	canClear () : boolean {
-		return this.listaSocios.length != 0;
+	protected canExport () : boolean {
+		return this.listaPrestamos.length != 0;
+	}
+
+	protected canClear () : boolean {
+		return this.listaPrestamos.length != 0;
 	}
 }
