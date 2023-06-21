@@ -32,4 +32,34 @@ class LoginController extends Controller
             );
         }
     }
+
+    public function auth( Request $request ){
+        try{
+            return $this->loginService->auth( $request->all());
+        } catch ( \Exception $error ) {
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error al consultar' 
+                ],
+                500                
+            );
+        }
+    }
+
+    public function logout( Request $request ){
+        try{
+            return $this->loginService->logout( $request->all());
+        } catch ( \Exception $error ) {
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error al consultar'
+                ],
+                500
+            );
+        }
+    }
 }

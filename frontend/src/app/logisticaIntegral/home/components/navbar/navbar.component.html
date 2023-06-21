@@ -152,20 +152,16 @@
 
         </li-->
         <!-- apartadp que muestra el nombre del usuario que tiene un asesion activa -->
-        <!--li class="nav-item dropdown pe-3" *ngIf="this.informacionUsuario.length > 0"-->
-        <li class="nav-item dropdown pe-3">
-
+        <li class="nav-item dropdown pe-3" *ngIf="this.informacionUsuario.length > 0">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <!--img src="assets/img/{{this.informacionUsuario[0].Sexo}}.jpg" alt="Profile" class="rounded-circle"-->
-            <img src="https://gala.villasoftsolutions.com/assets/img/M.jpg" alt="Profile" class="rounded-circle">
-            <!--span class="d-none d-md-block dropdown-toggle ps-2">{{this.informacionUsuario[0].Nombre+' '+this.informacionUsuario[0].ApellidoPaterno}}</!--span-->
-            <span class="d-none d-md-block dropdown-toggle ps-2">Adrián Villa</span>
+            <img src="assets/img/{{this.informacionUsuario[0].genero}}.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{this.informacionUsuario[0].nombre}}</span>
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Adrián Villa</h6>
-              <span>Administrador</span>
+              <h6>{{this.informacionUsuario[0].nombre}}</h6>
+              <span>{{this.informacionUsuario[0].Perfil}}</span>
             </li>
             <li>
               <hr class="dropdown-divider">

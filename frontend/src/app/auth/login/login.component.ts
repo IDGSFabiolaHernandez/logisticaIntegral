@@ -21,7 +21,28 @@ export class LoginComponent implements OnInit{
   ){ 
   }
 
-  ngOnInit() : void {
+  ngOnInit () : void{
+    this.crearFormLogin();
+
+    let token = localStorage.getItem('token');
+    if(token != undefined){
+      this.mensajes.mensajeEsperar();
+      this.apiLogin.auth(token).toPromise().then(
+        status => {
+          if(status){
+            this.router.navigate(['/logistica/inicio']);
+            this.mensajes.mensajeGenerico('Al parecer ya tienes una sesión activa, si desea ingresar con otra cuenta, necesita antes cerrar la sesión actual', 'info');
+          } else {
+            this.mensajes.cerrarMensajes();
+          }
+        }, error => {
+          this.mensajes.mensajeGenerico('error', 'error');
+        }
+      )
+    }
+  }
+
+  crearFormLogin () : void {
     this.formLogin = this.fb.group({
       correo : ['',[Validators.email,Validators.required]],
       password: ['',[Validators.required]]
@@ -38,16 +59,15 @@ export class LoginComponent implements OnInit{
 
     this.apiLogin.login(this.formLogin.value).subscribe(
       respuesta => {
-        if(respuesta.status == 200){
-          this.router.navigate(['/logistica/inicio']);
-          this.mensajes.cerrarMensajes();
-        } else {
+        if(respuesta.status != 200){
           this.mensajes.mensajeGenerico(respuesta.mensaje,'warning');
+          return;
         }
         
-      },
-
-      error => {
+        localStorage.setItem('token', respuesta.data.token);
+        this.router.navigate(['/logistica/inicio']);
+        this.mensajes.cerrarMensajes();
+      }, error => {
         this.mensajes.mensajeGenerico('error', 'error');
       }
     );

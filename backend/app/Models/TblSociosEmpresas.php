@@ -11,7 +11,7 @@ class TblSociosEmpresas extends Model
     
     public $timestamps = false;
     protected $primaryKey = 'id';
-    protected $table = 'socios_empresas';
+    protected $table = 'tblSociosEmpresas';
     protected $fillable = 
     [
         'id',

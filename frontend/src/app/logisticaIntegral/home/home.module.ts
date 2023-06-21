@@ -4,22 +4,26 @@ import { HomeRoutes } from './home.routing';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './modules/inicio/inicio.component';
-import { SociosComponent } from './modules/socios/socios.component';
-import { DataTablesModule } from "angular-datatables";
+import { ListaSociosComponent } from './modules/socios/consulta-socios/lista-socios.component';
+import { DatatableComponent } from './components/datatable/datatable.component';
+import { SociosEmpresasComponent } from './modules/socios/consulta-enlaces-socios-empresas/socios-empresas.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { ConsultaMensualidadesComponent } from './modules/socios/consulta-mensualidades/consulta-mensualidades.component';
 
 @NgModule({
     imports:[
         CommonModule,
         RouterModule.forChild(HomeRoutes),
         FormsModule,
-        ReactiveFormsModule,
-        DataTablesModule
+        ReactiveFormsModule
     ],
     declarations: [
         InicioComponent,
-        SociosComponent,
+        ListaSociosComponent,
+        DatatableComponent,
+        SociosEmpresasComponent,
         DropdownComponent,
+        ConsultaMensualidadesComponent,
     ]
 })
 

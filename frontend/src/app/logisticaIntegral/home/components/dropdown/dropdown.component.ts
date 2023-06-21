@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import Option from 'src/app/shared/interfaces/options.interface';
 
 @Component({
@@ -7,17 +7,23 @@ import Option from 'src/app/shared/interfaces/options.interface';
   	styleUrls: ['./dropdown.component.css']
 })
 
-export class DropdownComponent {
+export class DropdownComponent implements OnInit, OnChanges {
 	@Input() options: Option[] = [];
-	@Output() selectionChange: EventEmitter<Option[]> = new EventEmitter<Option[]>();
+  	@Input() font: string = '';
+	@Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
 
 	selectedCount = 0;
 	filteredOptions: Option[] = [];
+	searchText : string = '';
 
 	constructor(private elementRef: ElementRef) {}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.filteredOptions = [...this.options];
+		this.updateSelectedCount();
+	}
+
+	ngOnChanges(): void {
 		this.updateSelectedCount();
 	}
 
@@ -43,12 +49,22 @@ export class DropdownComponent {
 
 	filterOptions(event: Event) {
 		const searchText = (event.target as HTMLInputElement).value;
+		this.searchText = searchText;
 		if (searchText === '') {
 			this.filteredOptions = [...this.options];
 		} else {
 			this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(searchText.toLowerCase()));
 		}
 		this.updateSelectedCount();
+	}
+
+	alternativeFilter () {
+		const searchText = this.searchText;
+		if (searchText === '') {
+			this.filteredOptions = [...this.options];
+		} else {
+			this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(searchText.toLowerCase()));
+		}
 	}
 
 	allOptionsSelected(): boolean {
@@ -65,7 +81,11 @@ export class DropdownComponent {
 	}
 
 	updateSelection() {
-		const selectedOptions = this.getSelectedOptions();
-		this.selectionChange.emit(selectedOptions);
+		const data = {
+			selectedOptions : this.getSelectedOptions(),
+			from : this.font
+		};
+		this.selectionChange.emit(data);
+		this.alternativeFilter();
 	}
 }

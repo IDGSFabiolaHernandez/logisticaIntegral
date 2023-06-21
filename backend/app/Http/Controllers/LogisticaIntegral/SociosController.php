@@ -77,4 +77,79 @@ class SociosController extends Controller
             );
         }
     }
+
+    public function obtenerSociosEmpresas( Request $request ){
+        try{
+            return $this->sociosService->obtenerSociosEmpresas( $request->all() );
+        }catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function generarEnlaceSocioEmpresa(Request $request){
+        try{
+            return $this->sociosService->generarEnlaceSocioEmpresa( $request->all() );
+        }catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerDetalldeSocio($idSocio){
+        try{
+            return $this->sociosService->obtenerDetalldeSocio($idSocio);
+        }catch( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
+        try{
+            return $this->sociosService->obtenerDetalldeSocio($idEnlace);
+        }catch( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerSociosMensualidadesSelect( Request $request ){
+        try{
+            return $this->sociosService->obtenerSociosMensualidadesSelect( $request->all() );
+        } catch ( \Exception $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }

@@ -21,17 +21,17 @@ class SociosService
         $listaSocios = $this->sociosRepository->obtenerListaSocios($socios['socios']);
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron los Socios con éxito',
                 'data' => $listaSocios
             ]
         );
     }
-    //revisar
+    
     public function obtenerSociosGenerales(){
         $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron los Socios con éxito',
                 'data' => $sociosGenerales
             ]
         );
@@ -45,7 +45,7 @@ class SociosService
             $temp = [
                 'value' => $item->id,
                 'label' => $item->nombreSocio,
-                'checked' => true
+                'checked' => false
             ];
 
             array_push($opcionesSelect, $temp);
@@ -53,7 +53,7 @@ class SociosService
         
         return response()->json(
             [
-                'mensaje' => 'Se consultó con éxito',
+                'mensaje' => 'Se consultaron los Socios con éxito',
                 'data' => $opcionesSelect
             ]
         );
@@ -62,10 +62,10 @@ class SociosService
     public function registroNuevoSocio($datosSocios){
         $validarSocio = $this->sociosRepository->validarSocioExistente($datosSocios);
 
-        if($validarSocio > 0 ){
+        if( $validarSocio > 0 ){
             return response()->json(
                 [
-                    'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor de validar la información',
+                    'mensaje' => 'Upss! Al parecer ya existe un Socio con el mismo (Nombre, CURP o RFC). Por favor validar la información',
                     'status' => 409
                 ],
                 200
@@ -78,9 +78,86 @@ class SociosService
 
         return response()->json(
             [
-                'mensaje' => 'Se registro el Socio con éxito'      
+                'mensaje' => 'Se registró el Socio con éxito'      
             ],
             200
+        );
+    }
+
+    public function obtenerSociosEmpresas($datosSociosEmpresas){
+        $sociosEmpresasAmbos = $this->sociosRepository->obtenerSociosEmpresas($datosSociosEmpresas['socios'] ?? null, $datosSociosEmpresas['empresas'] ?? null);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultarón los enlaces Socios-Empresas con éxito',
+                'data' => $sociosEmpresasAmbos
+            ]
+        );
+    }
+
+    public function generarEnlaceSocioEmpresa($datosSociosEmpresas){
+        $enlaceExistente = $this->sociosRepository->validarEnlaceExistente($datosSociosEmpresas['fkSocio'], $datosSociosEmpresas['fkEmpresa']);
+
+        if($enlaceExistente > 0){
+            return response()->json(
+                [
+                    'mensaje' => 'Upss! Al parecer ya existe un enlace de este Socio con la misma empresa. Por favor validar la información',
+                    'status' => 409
+                ],
+                200
+            );
+        }
+
+        DB::beginTransaction();
+            $this->sociosRepository->registrarNuevoEnlaceSocioEmpresa($datosSociosEmpresas);
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se registró el nuevo Enlace con éxito'      
+            ],
+            200
+        );
+    }
+
+    public function obtenerDetalldeSocio($idSocio){
+        $detalleSocio = $this->sociosRepository->obtenerDetalldeSocio($idSocio);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle de Socio con éxito',
+                'data' => $detalleSocio
+            ]
+        );
+    }
+
+    public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
+        $detalleEnlaceSocioEmpresa = $this->sociosRepository->obtenerDetalleEnlaceSocioEmpresa($idEnlace);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle del enlace Socio-Empresa con éxito',
+                'data' =>  $detalleEnlaceSocioEmpresa
+            ]
+        );
+    }
+
+    public function obtenerSociosMensualidadesSelect(){
+        $mensualidadesSelect = $this->sociosRepository->obtenerSociosMensualidadesSelect();
+        $opcionesSelect = [];
+
+        foreach( $mensualidadesSelect as $item){
+            $temp = [
+                'value' => $item->id,
+                'label' => $item->nombreSocio,
+                'checked' => false
+            ];
+
+            array_push($opcionesSelect,$temp);
+        }
+
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron las Mensualidades con éxito',
+                'data' => $opcionesSelect
+            ]
         );
     }
 }

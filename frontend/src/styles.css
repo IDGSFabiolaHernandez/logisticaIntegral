@@ -44,6 +44,7 @@ button {
   margin-right: 5px;
   padding-left: 15px;
   padding-right: 15px;
+  width: 120px;
 }
 
 ::-webkit-scrollbar {
@@ -128,6 +129,7 @@ button {
   animation-fill-mode: both;
   border: 0;
   box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+  width: 300px !important;
 }
 
 .dropdown-menu .dropdown-header,
@@ -727,6 +729,12 @@ button {
   color: #4154f1;
 }
 
+.sidebar-nav .sidebar-nav .nav-link i {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #4154f1;
+}
+
 .sidebar-nav .nav-link.collapsed {
   color: #012970;
   background: #fff;
@@ -1310,4 +1318,63 @@ button {
 .dropdown-search {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
+}
+
+.dropdown-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.listaSocios {
+  margin-left: -30px;
+}
+
+.formsWTitle {
+  margin-top: 40px;
+}
+
+.required:after {
+  content: '*';
+  color: red;
+  margin-left: 5px;
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+}
+
+.sidebar-nav .sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4154f1;
+  transition: 0.3;
+  background: #f6f9ff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-left: 30px;
+}
+
+.sidebar-nav .sidebar-nav .nav-content a {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  transition: 0.3;
+  padding: 10px 0 10px 40px;
+  transition: 0.3s;
+  margin-left: 30px;
+}
+
+#dropdownMenuButton, .border-right-none {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+#itemsPerPageSelect {
+  border-radius: 0px;
 }
