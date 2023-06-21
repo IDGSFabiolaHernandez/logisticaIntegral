@@ -16,4 +16,12 @@ export class UsuariosService {
   public obtenerInformacionUsuarioPorToken( token : any ) : Observable<any> {
     return this.http.post<any>(this.url+'/usuarios/obtenerInformacionUsuarioPorToken',{token});
   }
+
+  public modificarUsuario(datosUsuarioModificacion : any ) : Observable<any> {
+    return this.http.post<any>(this.url+'/usuarios/modificarUsuario',datosUsuarioModificacion);
+  }
+
+  public validarContraseniaActual(credenciales : any ) : Observable<any>{
+    return this.http.post<any>(this.url+'/usuarios/validarContraseniaActual',credenciales);
+  }
 }

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({template: ''})
@@ -13,7 +14,7 @@ export default class Grid {
     }
     
     public soloTexto(event: KeyboardEvent) {
-        const pattern = /[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]/;
+        const pattern = /[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+*[{}()?¿!¡]/;
         const inputChar = String.fromCharCode(event.charCode);
     
         if (!pattern.test(inputChar)) {
@@ -106,10 +107,6 @@ export default class Grid {
         return JSON.parse( cadenaObjeto.replace(/'/g, '"') );
     }
     
-    /*redireccionPorRuta ( ruta : string ) : void {
-        this.router.navigate(['/gala/'+ruta]);
-    }*/
-    
     obtenerPermisosPorModulo ( nombreModulo : string ) : any {
         const cadenaPermisos : any = localStorage.getItem('permisos');
         const objetoPermisos = this.obtenerObjetoPermisosDesdeCadena(cadenaPermisos);
@@ -125,7 +122,7 @@ export default class Grid {
         return permisosmodulo;
     }
     
-    /*formatearMinusculasSinAcentos ( cadena : any ) : any {
-        return unorm.nfd(cadena ?? '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-    }*/
+    getNowString(): any {
+		return new DatePipe('es-MX').transform(new Date(), 'dd MM yyyy // hh mm ss');
+	}
 }

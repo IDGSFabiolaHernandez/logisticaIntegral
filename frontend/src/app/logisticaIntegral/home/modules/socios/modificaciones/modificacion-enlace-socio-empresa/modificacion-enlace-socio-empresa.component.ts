@@ -1,10 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EmpresasService } from 'src/app/logisticaIntegral/services/empresas/empresas.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { RegistroSociosComponent } from '../../registros/registro-socio/registro-socio.component';
+import { RegistoEmpresaComponent } from '../../../empresas/registros/registo-empresa/registo-empresa.component';
 
 @Component({
   	selector: 'app-modificacion-enlace-socio-empresa',
@@ -13,6 +15,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
 })
 export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnInit, OnDestroy{
 	@Input() idDetalle: number = 0;
+	@Input() noQuitClass: boolean = false;
 
 	protected formModEnlaceSocioEmpresa! : FormGroup;
 
@@ -46,6 +49,7 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		private mensajes : MensajesService,
 		private apiSocios  : SociosService,
 		private apiEmpresas : EmpresasService,
+		private modalService: BsModalService,
 		private bsModalRef: BsModalRef
 	) {
 		super();
@@ -73,6 +77,16 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		});
 	}
 
+	async refresh ( op : string ) : Promise<void> {
+		this.mensajes.mensajeEsperar();
+		if ( op == 'Socios' ){
+			await this.obtenerSocios();
+		} else if ( op == 'Empresas' ) {
+			await this.obtenerEmpresas();
+		}
+		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
+	}
+
 	private obtenerSocios () : Promise<any> {
 		return this.apiSocios.obtenerSociosGenerales().toPromise().then(
 			respuesta => {
@@ -93,14 +107,36 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		);
 	}
 
-	async refresh ( op : string ) : Promise<void> {
-		this.mensajes.mensajeEsperar();
-		if ( op == 'Socios' ){
-			await this.obtenerSocios();
-		} else if ( op == 'Empresas' ) {
-			await this.obtenerEmpresas();
+	protected abrirModalRegistro ( idModal : string ) : void {
+		const data = {
+			noQuitClass : true
+		};
+
+		let configModalRegistro: any = {
+			backdrop: false,
+			ignoreBackdropClick: true,
+			keyboard: false,
+			animated: true,
+			initialState: data,
+			class: 'modal-xl modal-dialog-centered custom-modal',
+			style: {
+				'background-color': 'transparent',
+				'overflow-y': 'auto'
+			}
+		};
+
+		let op : any = undefined;
+		switch (idModal) {
+		  	case 'registroSocio':
+				op = this.modalService.show(RegistroSociosComponent, configModalRegistro);
+			break;
+			case 'registroEmpresa':
+				configModalRegistro.class = 'modal-lg modal-dialog-centered custom-modal';
+				op = this.modalService.show(RegistoEmpresaComponent, configModalRegistro);
+			break;
 		}
-		this.mensajes.mensajeGenericoToast('Se actualizó la lista de '+op, 'success');
+
+		const modalRef: BsModalRef = op;
 	}
 
 	private obtenerDetalleSocioEmpresaPorId ( idSocio : number ) : Promise<any> {
@@ -252,9 +288,11 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		this.mostrarOpcionesSocios = false;
 		this.mostrarOpcionesEmpresas = false;
         this.bsModalRef.hide();
-		document.body.classList.remove('modal-open');
-		document.body.style.paddingRight = '';
-		document.body.style.overflow = '';
+		if ( !this.noQuitClass ) {
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}
     }
 
 	ngOnDestroy(): void {
