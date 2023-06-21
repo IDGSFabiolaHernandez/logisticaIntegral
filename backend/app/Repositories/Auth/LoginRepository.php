@@ -17,11 +17,7 @@ class LoginRepository
                                ->where('correo', $correo)
                                ->first();
 
-        if ($temporal && password_verify($password, $temporal->password)) {
-            return $temporal->id;
-        } else {
-            return null;
-        }
+        return $temporal && password_verify($password, $temporal->password) ? $temporal->id : null;
     }
 
     public function validarUsuarioActivo( $pkUsuario ){
