@@ -14,7 +14,7 @@ export default class Grid {
     }
     
     public soloTexto(event: KeyboardEvent) {
-        const pattern = /[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]/;
+        const pattern = /[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+*[{}()?¿!¡]/;
         const inputChar = String.fromCharCode(event.charCode);
     
         if (!pattern.test(inputChar)) {

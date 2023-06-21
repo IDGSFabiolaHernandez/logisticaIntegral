@@ -4,6 +4,8 @@ import { MensajesService } from '../../../../services/mensajes/mensajes.service'
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/auth/service/login.service';
 import { UsuariosService } from 'src/app/logisticaIntegral/services/usuarios/usuarios.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModificacionPerfilComponent } from '../../modules/usuarios/modificaciones/modificacion-perfil/modificacion-perfil.component';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +20,8 @@ export class NavbarComponent implements OnInit{
     private mensajes : MensajesService,
     private router : Router,
     private apiLogin : LoginService,
-    private apiUsuarios : UsuariosService
+    private apiUsuarios : UsuariosService,
+    private modalService : BsModalService
   ){}
 
   async ngOnInit(): Promise<void> {
@@ -60,5 +63,21 @@ export class NavbarComponent implements OnInit{
 
   prueba() : void {
     this.dataService.claseSidebar = this.dataService.claseSidebar == '' ? 'toggle-sidebar' : '';
+  }
+
+  abrirModalModificacionPerfil() : void {
+    const configModalMoficiacion : any = {
+      backdrop: false,
+      ignoreBackdropClick: true,
+      keyboard: false,
+      animated: true,
+      class: 'modal-lg modal-dialog-centered custom-modal',
+      style: {
+        'background-color': 'transparent',
+        'overflow-y': 'auto'
+      }
+    }
+
+    const modal : BsModalRef = this.modalService.show(ModificacionPerfilComponent, configModalMoficiacion)
   }
 }
