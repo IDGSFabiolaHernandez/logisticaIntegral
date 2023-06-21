@@ -9,6 +9,8 @@ Route::post('/auth', 'App\Http\Controllers\Auth\LoginController@auth');
 Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout');
 
 Route::post('/usuarios/obtenerInformacionUsuarioPorToken', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@obtenerInformacionUsuarioPorToken');
+Route::post('/usuarios/modificarUsuario', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@modificarUsuario');
+Route::post('/usuarios/validarContraseniaActual', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@validarContraseniaActual');
 
 Route::post('/socios/listaSocios', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerListaSocios');
 Route::get('/socios/obtenerSociosGenerales', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosGenerales');
