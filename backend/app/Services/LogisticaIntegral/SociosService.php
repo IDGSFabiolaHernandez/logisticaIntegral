@@ -97,7 +97,7 @@ class SociosService
         $socio    = $datosSociosEmpresas['socios'] ?? null;
         $empresas = $datosSociosEmpresas['empresas'] ?? null;
 
-        if ($datosSociosEmpresas['datosPrestamo']) {
+        if (isset($datosSociosEmpresas['datosPrestamo']) && $datosSociosEmpresas['datosPrestamo']) {
             $idDetalle = $datosSociosEmpresas['socios'][0];
             $socio    = $this->sociosRepository->obtenerSocioPorIdPrestamo($idDetalle);
             $empresas = $this->sociosRepository->obtenerEmpresasPorIdPrestamo($idDetalle);
