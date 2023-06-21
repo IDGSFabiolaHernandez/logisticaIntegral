@@ -24,10 +24,14 @@ class IntermediariosRepository
 
     public function registrarIntermediario ( $datosIntermediario, $idUsuario ) {
         $registro = new TblIntermediariosSocios;
-        $registro->nombreIntermediario = $datosIntermediario['nombreIntermediario'];
+        $registro->nombreIntermediario = $this->trimValidator($datosIntermediario['nombreIntermediario']);
         $registro->fkUsuarioAlta       = $idUsuario;
         $registro->activo              = 1;
         $registro->fechaAlta           = Carbon::now();
         $registro->save();
     }
+
+    public function trimValidator ( $value ) {
+		return $value != null && trim($value) != '' ? trim($value) : null;
+	}
 }

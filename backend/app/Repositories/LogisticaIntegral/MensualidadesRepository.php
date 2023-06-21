@@ -17,12 +17,12 @@ class MensualidadesRepository
         $ultimoMesSociosEmpresas = TblSociosEmpresas::select('tblSociosEmpresas.mesIngreso')
                                                     ->distinct()
                                                     ->join('empresas', function ($join) {
-                                                       $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
+                                                       $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo', 1)
                                                             ->whereNotIn('empresas.status', [3, 4]);
                                                     })
-                                                    ->where('mesIngreso','!=','0000-00-00')
-                                                    ->orderBy('tblSociosEmpresas.mesIngreso','asc')
+                                                    ->where('mesIngreso', '!=', '0000-00-00')
+                                                    ->orderBy('tblSociosEmpresas.mesIngreso', 'asc')
                                                     ->limit(1);
         
         return $ultimoMesSociosEmpresas->get()[0]->mesIngreso;
@@ -70,13 +70,13 @@ class MensualidadesRepository
                                                         'tblSociosEmpresas.fkEmpresa'
                                                     )
                                                    ->join('empresas',function ($join){
-                                                       $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
-                                                            ->where('empresas.Activo',1)
+                                                       $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
+                                                            ->where('empresas.Activo', 1)
                                                             ->whereNotIn('empresas.status', [3, 4]);
                                                    })
                                                    ->where([
-                                                       ['tblSociosEmpresas.mesIngreso','!=','0000-00-00'],
-                                                       [DB::raw('DATE_FORMAT(tblSociosEmpresas.mesIngreso, "%m-%Y")'),'<=',Carbon::parse($fecha)->format('m-Y')]
+                                                       ['tblSociosEmpresas.mesIngreso', '!=', '0000-00-00'],
+                                                       ['tblSociosEmpresas.mesIngreso', '<=', Carbon::parse($fecha)->format('Y-m-d')]
                                                    ])
                                                    ->orderBy('tblSociosEmpresas.mesIngreso','asc');
         return $socioEmpresaHastaFecha->get();
@@ -84,9 +84,9 @@ class MensualidadesRepository
 
     public function verificarPagoMensualidad($idSocio, $idEmpresa, $fecha){
         $verificarEmpresaHastaFecha = TblMensualidadesSocios::where([
-                                                                ['idSocio',$idSocio],
-                                                                ['idEmpresa',$idEmpresa],
-                                                                ['mensualidad',$fecha]
+                                                                ['idSocio', $idSocio],
+                                                                ['idEmpresa', $idEmpresa],
+                                                                ['mensualidad', $fecha]
                                                             ]);
         return $verificarEmpresaHastaFecha->count();
     }
@@ -104,13 +104,13 @@ class MensualidadesRepository
                                                       ->selectRaw("DATE_FORMAT(mensualidadesSocios.fechaPago, '%d-%m-%Y') as fechaPago")
                                                       ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
                                                       ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
-                                                      ->whereIn('mensualidadesSocios.mensualidad',$mensualidades)
-                                                      ->orderBy('nombreSocio','asc');
+                                                      ->whereIn('mensualidadesSocios.mensualidad', $mensualidades)
+                                                      ->orderBy('nombreSocio', 'asc');
 
         if( is_null($empresas) ){
-            $mensualidadesEmpresa->whereIn('mensualidadesSocios.idSocio',$socios);
+            $mensualidadesEmpresa->whereIn('mensualidadesSocios.idSocio', $socios);
         } else if(is_null($socios)){
-            $mensualidadesEmpresa->whereIn('mensualidadesSocios.idEmpresa',$empresas);
+            $mensualidadesEmpresa->whereIn('mensualidadesSocios.idEmpresa', $empresas);
         }
 
         return $mensualidadesEmpresa->get();
@@ -129,7 +129,7 @@ class MensualidadesRepository
                                           ->join('tblSociosEmpresas', function ( $join ) use ( $fechaBase ) {
                                                $join->on('tblSociosEmpresas.fkSocio', 'tblSocios.id')
                                                     ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
-                                                    ->where(DB::raw('DATE_FORMAT(tblSociosEmpresas.mesIngreso, "%m-%Y")'),'<=',Carbon::parse($fechaBase)->format('m-Y'));
+                                                    ->where('tblSociosEmpresas.mesIngreso', '<=',Carbon::parse($fechaBase)->format('Y-m-d'));
                                           })
                                           ->join('empresas', function ($join) {
                                               $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
@@ -151,16 +151,16 @@ class MensualidadesRepository
                                              )
                                              ->join('tblSociosEmpresas', function ($join) use ($mensualidadPagar){
                                                 $join->on('tblSocios.id','tblSociosEmpresas.fkSocio')
-                                                     ->where('tblSociosEmpresas.mesIngreso','!=','0000-00-00')
-                                                     ->where(DB::raw('DATE_FORMAT(tblSociosEmpresas.mesIngreso, "%m-%Y")'),'<=',Carbon::parse($mensualidadPagar)->format('m-Y'));
+                                                     ->where('tblSociosEmpresas.mesIngreso', '!=','0000-00-00')
+                                                     ->where('tblSociosEmpresas.mesIngreso', '<=',Carbon::parse($mensualidadPagar)->format('Y-m-d'));
                                              })
                                              ->join('empresas', function($join){
-                                                $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
-                                                     ->where('empresas.Activo',1)
+                                                $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
+                                                     ->where('empresas.Activo', 1)
                                                      ->whereNotIn('empresas.status', [3, 4]);
                                              })
-                                             ->where('tblSocios.id',$idSocio)
-                                             ->orderBy('tblSocios.nombreSocio','asc');
+                                             ->where('tblSocios.id', $idSocio)
+                                             ->orderBy('tblSocios.nombreSocio', 'asc');
         return $mensualidadesAPagarSocio->get();
     }
 
@@ -168,8 +168,8 @@ class MensualidadesRepository
         $prestamosSociosActivos = TblPrestamosSocios::select(
                                                         'id'
                                                     )
-                                                    ->where('prestamosSocios.idSocio',$idSocio)
-                                                    ->where('estatusPrestamo',0);
+                                                    ->where('prestamosSocios.idSocio', $idSocio)
+                                                    ->where('estatusPrestamo', 0);
         return $prestamosSociosActivos->get();                                                    
     }
 
@@ -191,16 +191,16 @@ class MensualidadesRepository
                                                         'aCuenta'
                                                     )
                                                     ->selectRaw('(montoPrestamo - aCuenta) as deuda')
-                                                    ->where('prestamosSocios.id',$idPrestamo)
-                                                    ->where('estatusPrestamo',0);
+                                                    ->where('prestamosSocios.id', $idPrestamo)
+                                                    ->where('estatusPrestamo', 0);
         return $prestamosSociosActivos->get()[0] ?? null;
     }
 
     public function actualizarEstadoDeCuenta($aCuenta,$estatusPrestamo,$idPrestamo){
         TblPrestamosSocios::where('id',$idPrestamo)
                           ->update([
-                                'aCuenta'        =>$aCuenta,
-                                'estatusPrestamo'=>$estatusPrestamo
+                                'aCuenta'         => $aCuenta,
+                                'estatusPrestamo' => $estatusPrestamo
                           ]);
     }
 
