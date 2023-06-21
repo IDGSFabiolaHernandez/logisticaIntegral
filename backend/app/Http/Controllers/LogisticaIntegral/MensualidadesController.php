@@ -18,10 +18,10 @@ class MensualidadesController extends Controller
         $this->mensualidadesService = $MensualidadesService;
     }
 
-    public function obtenerMensualidadesSelect(){
+    public function obtenerMensualidadesPagadasSelect(){
         try{
-            return $this->mensualidadesService->obtenerMensualidadesSelect();
-        } catch ( \Exception $error ){
+            return $this->mensualidadesService->obtenerMensualidadesPagadasSelect();
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [
@@ -33,10 +33,55 @@ class MensualidadesController extends Controller
         }
     }
 
-    public function obtenerMensualidadesEmpresa( Request $request ){
+    public function obtenerMensualidadesPagadasEmpresaSocios( Request $request ){
         try{
-            return $this->mensualidadesService->obtenerMensualidadesEmpresa( $request->all() );
-        } catch ( \Exception $error ){
+            return $this->mensualidadesService->obtenerMensualidadesPagadasEmpresaSocios( $request->all() );
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerMensualidadesPagarSelect () {
+        try{
+            return $this->mensualidadesService->obtenerMensualidadesPagarSelect();
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerMensualidadesPagarPorMensualidad ( Request $request ) {
+        try{
+            return $this->mensualidadesService->obtenerMensualidadesPagarPorMensualidad( $request->all() );
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function pagarMensualidadEmpresaSocio( Request $request){
+        try{
+            return $this->mensualidadesService->pagarMensualidadEmpresaSocio( $request->all() );
+        } catch ( \Throwable $error ){
             Log::alert($error);
             return response()->json(
                 [

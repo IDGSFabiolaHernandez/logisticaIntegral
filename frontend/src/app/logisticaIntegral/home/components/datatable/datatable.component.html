@@ -12,25 +12,54 @@
         </div>
         
         <br>
-        <table class="table table-hover">
-            <thead>
+        <table class="table table-striped table-hover data-table-border">
+            <thead class="thead-light">
                 <tr>
-                    <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)">
+                    <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)" (click)="onItemsPerPageChange()" style="vertical-align: middle;">
                         {{ columnasTabla[columna] }}
-                        <span *ngIf="sortBy === columna && !sortDesc">&#9650;</span>
-                        <span *ngIf="sortBy === columna && sortDesc">&#9660;</span>
+                        <span *ngIf="sortBy === columna && !sortDesc && !tableConfig[columna]?.checkColumn">&#9650;</span>
+                        <span *ngIf="sortBy === columna && sortDesc && !tableConfig[columna]?.checkColumn">&#9660;</span>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td *ngFor="let columna of getColumnKeys()">
-                        <input type="text" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                        <input *ngIf="!tableConfig[columna]?.checkColumn" type="search" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
                     </td>
                 </tr>
-                <tr *ngFor="let socio of paginatedItems">
-                    <td *ngFor="let columna of getColumnKeys()">{{ socio[columna] }}</td>
-                </tr>                  
+                <tr *ngFor="let item of paginatedItems">
+                    <td *ngFor="let columna of getColumnKeys()" class="check-column">
+                        <ng-container *ngIf="tableConfig[columna]?.checkColumn; else update">
+                            <label class="form-check form-switch d-flex justify-content-center align-items-center check-column-item">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    [value]="item[tableConfig[columna].value]"
+                                    [checked]="isCheckboxSelected(item[tableConfig[columna].value])"
+                                    (change)="toggleCheckboxSelection($event, item[tableConfig[columna].value])"
+                                >
+                            </label>
+                        </ng-container>
+                        <ng-template #update>
+                            <ng-container *ngIf="tableConfig[columna]?.updateColumn; else detail">
+                                <div class="link-modal" (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal, (tableConfig[columna].noQuitClass ?? false))">
+                                    <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #detail>
+                            <ng-container *ngIf="tableConfig[columna]?.detailColumn; else deafult">
+                                <div class="link-modal" (click)="abrirModalDetalle(item[tableConfig[columna].value], tableConfig[columna].idModal)">
+                                    <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #deafult>
+                            <span>{{ item[columna] ?? 'Sin información'}}</span>
+                        </ng-template>
+                    </td>
+                </tr>
             </tbody>
         </table>
           
@@ -65,5 +94,12 @@
                 </li>
             </ul>
         </nav>
+        
+        <div class="col-sm-12 text-center">
+            <span *ngIf="datosTabla.length > 0">
+                <br>
+                Mostrando registros del {{ getStartIndex() }} al {{ getEndIndex() }} de un total de {{ datosTabla.length }} registros
+            </span>
+        </div>
     </div>
 </div>

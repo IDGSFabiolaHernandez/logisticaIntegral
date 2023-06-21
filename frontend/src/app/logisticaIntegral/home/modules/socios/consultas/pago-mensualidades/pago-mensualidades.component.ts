@@ -1,0 +1,179 @@
+import { Component, OnInit } from '@angular/core';
+import { MensualidadesService } from 'src/app/logisticaIntegral/services/mensualidades/mensualidades.service';
+import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
+import { ExcelService } from 'src/app/shared/util/excel.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
+
+@Component({
+  	selector: 'app-pago-mensualidades',
+  	templateUrl: './pago-mensualidades.component.html',
+  	styleUrls: ['./pago-mensualidades.component.css']
+})
+export class PagoMensualidadesComponent extends Grid implements OnInit {
+	protected fechaPago: string = '';
+	protected fechaMensualidadPagar: string = '';
+	protected fechaMensualidadPagarEnvio: string = '';
+	
+	protected opcionesMensualidadesPagar : any = [];
+
+	protected columnasMensualidades : any = {
+		'id' 				   : '#',
+		'pagar' 			   : 'Pagar',
+		'nombreSocio' 		   : 'Socio',
+		'activoSocio' 		   : 'Estatus Socio',
+		'numEmpresas' 		   : 'Relación Empresas',
+		'numPrestamos' 		   : 'Prestamo(s)',
+		'importeTotalPrestamo' : 'Importe Prestamo(s)',
+		'restantePrestamo' 	   : 'Saldo Prestamo(s)'
+	};
+
+	protected tableConfig : any = {
+		"pagar" : {
+			"checkColumn" : true,
+			"value" : "id"
+		}
+	};
+
+	protected listaMensualidadesPagar : any[] = [];
+	private mensualidadesPagar : any[] = [];
+	protected totalAPagar : number = 0;
+	private montoPagar : number = 5000;
+
+	constructor (
+		private apiMensualidades : MensualidadesService,
+		private mensajes : MensajesService,
+		private excelService : ExcelService
+	) {
+		super();
+	}
+
+	async ngOnInit(): Promise<void> {
+		this.mensajes.mensajeEsperar();
+		await Promise.all([
+			this.obtenerMensualidadesPagarSelect()
+		]);
+		this.mensajes.cerrarMensajes();
+	}
+
+	private obtenerMensualidadesPagarSelect () : Promise<void> {
+		return this.apiMensualidades.obtenerMensualidadesPagarSelect().toPromise().then(
+			respuesta => {
+				this.opcionesMensualidadesPagar = respuesta.data ?? [];
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
+	}
+
+	protected obtenerMensualidadesPagarPorMensualidad () : void {
+		this.mensajes.mensajeEsperar();
+
+		this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(this.fechaMensualidadPagar).subscribe(
+			respuesta => {
+				this.listaMensualidadesPagar = respuesta.data;
+				this.fechaMensualidadPagarEnvio = this.fechaMensualidadPagar;
+				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
+	}
+
+	protected obtenerSociosAPagar(data: any): void {
+		this.mensualidadesPagar = data.selectedOptions;
+	
+		const sumatoria = this.mensualidadesPagar.reduce((acumulador, id) => {
+			const empresa = this.listaMensualidadesPagar.find(e => e.id === id);
+			return acumulador + (empresa ? empresa.numEmpresas : 0);
+		}, 0);
+	
+		setTimeout(() => {
+			this.totalAPagar = sumatoria * this.montoPagar;
+		});
+	}
+
+	protected pagarMensualidades () : void {
+		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Pagar Mensualidad(es)').then(
+			respuestaMensaje => {
+				if ( respuestaMensaje.isConfirmed ) {
+					this.mensajes.mensajeEsperar();
+
+					const dataMensualidadesPagar = {
+						fechaPago             : this.fechaPago,
+						fechaMensualidadPagar : this.fechaMensualidadPagarEnvio,
+						montoPagar            : this.montoPagar,
+						sociosAPagar          : this.mensualidadesPagar,
+						token                 : localStorage.getItem('token')
+					};
+			
+					this.apiMensualidades.pagarMensualidadEmpresaSocio(dataMensualidadesPagar).subscribe(
+						respuesta => {
+							this.actualizarGridDespuesPago().then(() => {
+								this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
+								return;
+							});
+							return;
+						}, error => {
+							this.mensajes.mensajeGenerico('error', 'error');
+						}
+					);
+				}
+			}
+		);
+	}
+
+	private async actualizarGridDespuesPago () : Promise<void> {
+		await this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(this.fechaMensualidadPagarEnvio).toPromise().then(
+			respuesta => {
+				this.listaMensualidadesPagar = respuesta.data ?? [];
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
+
+		if ( this.listaMensualidadesPagar.length == 0 ) {
+			await this.obtenerMensualidadesPagarSelect();
+		}
+	}
+
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Mensualidades por Pagar: ' + this.getNowString();
+		const columnasEspeciales  = {
+			'id' 				   : '#',
+			'nombreSocio' 		   : 'Socio',
+			'activoSocio' 		   : 'Estatus Socio',
+			'numEmpresas' 		   : 'Relación Empresas',
+			'numPrestamos' 		   : 'Prestamo(s)',
+			'importeTotalPrestamo' : 'Importe Prestamo(s)',
+			'restantePrestamo' 	   : 'Saldo Prestamo(s)'
+		};
+
+		this.excelService.exportarExcel(
+			this.listaMensualidadesPagar,
+			columnasEspeciales,
+			nombreExcel
+		);
+	}
+
+	protected limpiarGrid () : void {
+		this.listaMensualidadesPagar = [];
+	}
+
+	protected canSearch () : boolean {
+		return this.fechaMensualidadPagar != '' && this.fechaMensualidadPagar != null && this.fechaMensualidadPagar != undefined;
+	}
+	
+	protected canExport () : boolean {
+		return this.listaMensualidadesPagar.length != 0;
+	}
+
+	protected canPay () : boolean {
+		return this.fechaPago != '' && this.fechaPago != null && this.fechaPago != undefined && this.mensualidadesPagar.length > 0;
+	}
+
+	protected canClear () : boolean {
+		return this.listaMensualidadesPagar.length != 0;
+	}
+}

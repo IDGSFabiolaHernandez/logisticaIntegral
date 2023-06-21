@@ -3,16 +3,22 @@
 namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\EmpresasRepository;
+use App\Repositories\LogisticaIntegral\UsuariosRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class EmpresasService
 {
     protected $empresasRepository;
+    protected $usuariosRepository;
+    
     public function __construct(
-        EmpresasRepository $EmpresasRepository
+        EmpresasRepository $EmpresasRepository,
+        UsuariosRepository $UsuariosRepository
     )
     {
         $this->empresasRepository = $EmpresasRepository;
+        $this->usuariosRepository = $UsuariosRepository;
     }
 
     public function obtenerEmpresasGenerales(){
@@ -54,7 +60,7 @@ class EmpresasService
         foreach($empresasSelect as $item){
             $temp = [
                 'value' => $item->id,
-                'label' => $item->nombreSocio,
+                'label' => $item->nombre,
                 'checked' => false
             ];
 
@@ -66,6 +72,32 @@ class EmpresasService
                 'mensaje' => 'Se consultaron las Empresas con éxito',
                 'data' => $opcionesSelect
             ]
+        );
+    }
+
+    public function registrarEmpresa ( $datos ) {
+        $validarEmpresa = $this->empresasRepository->validarEmpresaExistente( $datos['empresa'] );
+
+        if( $validarEmpresa > 0 ){
+            return response()->json(
+                [
+                    'mensaje' => 'Upss! Al parecer ya existe una Empresa con el mismo nombre. Por favor validar la información',
+                    'status' => 409
+                ],
+                200
+            );
+        }
+
+        DB::beginTransaction();
+            $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($datos['token']);
+            $this->empresasRepository->registrarEmpresa($datos['empresa'], $usuario[0]->id);
+        DB::commit();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se registró le nueva Empresa con éxito'
+            ],
+            200
         );
     }
 }

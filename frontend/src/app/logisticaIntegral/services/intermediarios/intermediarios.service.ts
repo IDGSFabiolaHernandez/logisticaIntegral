@@ -16,4 +16,8 @@ export class IntermediariosService {
 	public obtenerListaSocios () : Observable<any> {
 		return this.http.get<any>(this.url+'/intermediarios/intermediariosSocios');
 	}
+
+	public registrarIntermediario ( datosIntermediario : any ) : Observable<any> {
+		return this.http.post<any>(this.url+'/intermediarios/registrarIntermediario', datosIntermediario);
+	}
 }

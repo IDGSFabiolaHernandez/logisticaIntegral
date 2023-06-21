@@ -53,9 +53,10 @@ export class MensajesService {
       showConfirmButton : false,
       timer : tiempo,
       timerProgressBar : true,
-      onOpen: (toast) => {
+      willOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
         toast.addEventListener('mouseleave', Swal.resumeTimer)
+        toast.addEventListener('click', Swal.stopTimer);
       }
     });
 
