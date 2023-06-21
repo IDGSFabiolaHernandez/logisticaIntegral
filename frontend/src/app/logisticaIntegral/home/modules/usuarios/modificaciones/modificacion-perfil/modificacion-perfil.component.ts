@@ -109,7 +109,6 @@ export class ModificacionPerfilComponent extends Grid implements OnInit, OnDestr
 								return;
 							}
 
-							this.cancelarModificacion();
 							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
 							return;
 						},
