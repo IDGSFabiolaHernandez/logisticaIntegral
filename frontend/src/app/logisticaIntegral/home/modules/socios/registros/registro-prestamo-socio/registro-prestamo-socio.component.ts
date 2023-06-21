@@ -162,6 +162,7 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 					
 					this.apiPrestamos.registroNuevoPrestamoSocio(dataPrestamo).subscribe(
 						respuesta => {
+							this.cancelarRegistro();
 							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
 						}, error => {
 							this.mensajes.mensajeGenerico('error', 'error');

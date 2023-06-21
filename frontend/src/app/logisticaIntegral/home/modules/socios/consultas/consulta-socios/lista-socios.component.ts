@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.service';
 import Option from 'src/app/shared/interfaces/options.interface';
+import { DatePipe } from '@angular/common';
+import { ExcelService } from 'src/app/shared/util/excel.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   	selector: 'app-lista-socios',
   	templateUrl: './lista-socios.component.html',
   	styleUrls: ['./lista-socios.component.css']
 })
-export class ListaSociosComponent {
+export class ListaSociosComponent extends Grid{
 	protected opcionesSocios : Option[] = [];
 	protected sociosSeleccionados : any[] = [];
 
@@ -39,8 +42,11 @@ export class ListaSociosComponent {
 
 	constructor (
 		private mensajes : MensajesService,
-		private apiSocios : SociosService
-	) {}
+		private apiSocios : SociosService,
+		private excelService : ExcelService
+	) {
+		super();
+	}
 
 	async ngOnInit () : Promise<void> {
 		this.mensajes.mensajeEsperar();
@@ -58,19 +64,19 @@ export class ListaSociosComponent {
 		);
 	}
 
-	async refreshSocios () : Promise<void> {
+	protected async refreshSocios () : Promise<void> {
 		this.mensajes.mensajeEsperar();
 		await this.obtenerSociosSelect();
 		this.mensajes.mensajeGenericoToast('Se actualizó la lista de Socios', 'success');
 	}
 
-	onSelectionChange (data: any) : void {
+	protected onSelectionChange (data: any) : void {
 		if ( data.from == 'socios' ) {
 			this.sociosSeleccionados = data.selectedOptions;
 		}
 	}
 
-	consultarSociosPorSelect () : void {
+	protected consultarSociosPorSelect () : void {
 		this.mensajes.mensajeEsperar();
 		const arregloSocios = { socios : this.sociosSeleccionados.map(({value}) => value) };
 
@@ -84,15 +90,31 @@ export class ListaSociosComponent {
 		);
 	}
 
-	limpiarGrid () : void {
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Lista de Socios: ' + this.getNowString();
+
+		this.excelService.exportarExcel(
+			this.listaSocios,
+			this.columnasSocio,
+			nombreExcel
+		);
+	}
+
+	protected limpiarGrid () : void {
 		this.listaSocios = [];
 	}
 
-	canSearch () : boolean {
+	protected canSearch () : boolean {
 		return this.sociosSeleccionados.length != 0;
 	}
 
-	canClear () : boolean {
+	protected canExport () : boolean {
+		return this.listaSocios.length != 0;
+	}
+
+	protected canClear () : boolean {
 		return this.listaSocios.length != 0;
 	}
 }

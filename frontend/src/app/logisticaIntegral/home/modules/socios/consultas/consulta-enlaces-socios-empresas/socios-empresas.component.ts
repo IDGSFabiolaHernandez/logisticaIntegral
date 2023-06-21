@@ -3,13 +3,15 @@ import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Option from 'src/app/shared/interfaces/options.interface';
 import { EmpresasService } from '../../../../../services/empresas/empresas.service';
+import Grid from 'src/app/shared/util/funciones-genericas';
+import { ExcelService } from 'src/app/shared/util/excel.service';
 
 @Component({
   selector: 'app-socios-empresas',
   templateUrl: './socios-empresas.component.html',
   styleUrls: ['./socios-empresas.component.css']
 })
-export class SociosEmpresasComponent {
+export class SociosEmpresasComponent extends Grid{
   	protected opcionesSocios : Option[] = [];
 	protected sociosSeleccionados : any[] = [];
 
@@ -47,8 +49,11 @@ export class SociosEmpresasComponent {
 	constructor (
 		private mensajes : MensajesService,
 		private apiSocios : SociosService,
-		private apiEmpresas : EmpresasService
-	) {}
+		private apiEmpresas : EmpresasService,
+		private excelService : ExcelService
+	) {
+		super();
+	}
 
 	async ngOnInit () : Promise<void> {
 		this.mensajes.mensajeEsperar();
@@ -149,6 +154,31 @@ export class SociosEmpresasComponent {
 		}
 	}
 
+	protected exportarExcel () : void {
+		this.mensajes.mensajeEsperar();
+
+		const nombreExcel = 'Socios - Empresas: ' + this.getNowString();
+
+		let datos = [];
+		switch (this.optionProgress) {
+			case 'general':
+				datos = this.listaSociosEmpresasGeneral;
+			break;
+			case 'socios':
+				datos = this.listaSociosEmpresasSocios;
+			break;
+			case 'empresas':
+				datos = this.listaSociosEmpresasEmpresas;
+			break;
+		}
+
+		this.excelService.exportarExcel(
+			datos,
+			this.columnasSociosEmpresas,
+			nombreExcel
+		);
+	}
+
 	limpiarGrid () : void {
 		switch (this.optionProgress) {
 			case 'general':
@@ -167,6 +197,19 @@ export class SociosEmpresasComponent {
 		return this.optionProgress == 'general' ?
 			   (this.sociosSeleccionados.length != 0 && this.empresasSeleccionadas.length != 0) :
 			   (this.sociosSeleccionados.length != 0 || this.empresasSeleccionadas.length != 0);
+	}
+
+	protected canExport () : boolean {
+		switch (this.optionProgress) {
+			case 'general':
+				return this.listaSociosEmpresasGeneral.length !== 0;
+			case 'socios':
+				return this.listaSociosEmpresasSocios.length !== 0;
+			case 'empresas':
+				return this.listaSociosEmpresasEmpresas.length !== 0;
+			default:
+				return false;
+		}
 	}
 
 	protected canClear(): boolean {
