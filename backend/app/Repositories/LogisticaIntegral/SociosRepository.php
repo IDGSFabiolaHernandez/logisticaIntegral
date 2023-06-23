@@ -42,7 +42,8 @@ class SociosRepository
     }
 
     public function registroNuevoSocio($datosSocio, $idUsuario){
-        $fechaInicio = $datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' ? Carbon::parse($datosSocio['fechaInicio']) : null;
+        $fechaInicioCambio = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '');
+
         $registro = new TblSocios();
         $registro->nombreSocio            = $this->trimValidator($datosSocio['nombreSocio']);
         $registro->curpSocio              = $this->trimValidator($datosSocio['curpSocio']);
@@ -63,8 +64,8 @@ class SociosRepository
         $registro->vigencia               = $this->trimValidator($datosSocio['vigencia']);
         $registro->fechaNacimiento        = Carbon::parse($datosSocio['fechaNacimiento']);
         $registro->fiel                   = $this->trimValidator($datosSocio['fiel']);
-        $registro->fechaInicio            = $fechaInicio;
-        $registro->fechaFin               = $fechaInicio->addyears(4) ?? null;
+        $registro->fechaInicio            = $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio']) : null;
+        $registro->fechaFin               = $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio'])->addYears(4) : null;
         $registro->status                 = $this->trimValidator($datosSocio['status']);
         $registro->fkUsuarioAlta          = $idUsuario;
         $registro->fechaAltaRegistro      = Carbon::now();
@@ -201,6 +202,9 @@ class SociosRepository
     }
 
     public function modificarSocio ( $datosSocio, $idSocio, $idUsuario ) {
+        $fechaInicioCambio = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '');
+        $fechaFinCambio    = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '');
+
         TblSocios::where('id', $idSocio)
                  ->update([
                     'nombreSocio'          => $this->trimValidator($datosSocio['nombreSocio']),
@@ -222,8 +226,8 @@ class SociosRepository
                     'vigencia'             => $this->trimValidator($datosSocio['vigencia']),
                     'fechaNacimiento'      => Carbon::parse($datosSocio['fechaNacimiento']),
                     'fiel'                 => $this->trimValidator($datosSocio['fiel']),
-                    'fechaInicio'          => Carbon::parse($datosSocio['fechaInicio']) ?? null,
-                    'fechaFin'             => Carbon::parse($datosSocio['fechaFin']) ?? null,
+                    'fechaInicio'          => $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio']) : null,
+                    'fechaFin'             => $fechaFinCambio ? Carbon::parse($datosSocio['fechaFin']) : null,
                     'status'               => $this->trimValidator($datosSocio['status']),
                     'fechaActualizacion'   => Carbon::now()
                  ]);
