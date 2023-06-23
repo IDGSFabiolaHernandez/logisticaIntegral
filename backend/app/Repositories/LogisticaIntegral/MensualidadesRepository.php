@@ -23,20 +23,17 @@ class MensualidadesRepository
         return $ultimoMesSociosEmpresas->get()[0]->mesIngreso;
     }
 
-    public function obtenerMesMensualidades ( $op ) {
-        $mes = TblMensualidadesSocios::select('mensualidad')
-                                     ->limit(1);
+    public function obtenerMensualidadesPagadas () {
+        $mensualidades = TblMensualidadesSocios::select(
+                                                     'mensualidad as fechaBase',
+                                                     DB::raw('DATE_FORMAT(mensualidad, \'%M %Y\') as mes')
+                                                 )
+                                               ->distinct()
+                                               ->orderBy('mensualidad', 'asc');
 
-        if ( $op == 'ultimo' ) {
-            $mes->orderBy('mensualidad', 'asc');
-        } else if ( $op == 'reciente' ) {
-            $mes->orderBy('mensualidad', 'desc');
-        }
-
-        return $mes->get()[0]->mensualidad ?? null;
+        return $mensualidades->get();
     }
     
-
     public function obtenerMesesPosterioresAUltimoMes($ultimoMes, $filter = 'NOW()'){
         $mesesPosteriores = DB::select("
                                     SELECT
