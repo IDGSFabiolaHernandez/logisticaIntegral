@@ -4,6 +4,7 @@ namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\MensualidadesRepository;
 use App\Repositories\LogisticaIntegral\UsuariosRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -22,27 +23,13 @@ class MensualidadesService
     }
 
     public function obtenerMensualidadesPagadasSelect () {
-        $ultimoMes      = $this->mensualidadesRepository->obtenerMesMensualidades('ultimo');
-        $recienteMes    = $this->mensualidadesRepository->obtenerMesMensualidades('reciente');
-
-        if ( is_null($ultimoMes) ) {
-            return response()->json(
-                [
-                    'mensaje' => 'No hay meses por mostrar',
-                    'data' => [],
-                    'status' => 204
-                ],
-                200
-            );
-        }
-
-        $mesesSelect    = $this->mensualidadesRepository->obtenerMesesPosterioresAUltimoMes($ultimoMes, "'".$recienteMes."'");
+        $mesesSelect    = $this->mensualidadesRepository->obtenerMensualidadesPagadas();
         $opcionesSelect = [];
 
         foreach( $mesesSelect as $item){
             $temp = [
                 'value' => $item->fechaBase,
-                'label' => $item->mes,
+                'label' => Carbon::parse($item->mes)->locale('es')->isoFormat('MMMM YYYY'),
                 'checked' => false
             ];
 
@@ -60,6 +47,11 @@ class MensualidadesService
 
     public function obtenerMensualidadesPagadasEmpresaSocios($datosConsulta){
         $mensualidades = $this->mensualidadesRepository->obtenerMensualidadesPagadasEmpresaSocios($datosConsulta['socios'] ?? null, $datosConsulta['empresas'] ?? null, $datosConsulta['mensualidades']);
+
+        foreach ($mensualidades as $item) {
+            $item->mensualidad = Carbon::parse($item->mensualidad)->locale('es')->isoFormat('MMMM YYYY');
+        }
+
         return response()->json(
             [
                 'mensaje' => 'Se consultaron las mensualidades pagadas con éxito',
@@ -89,6 +81,12 @@ class MensualidadesService
         }
 
         $mensualidadesSelect = $this->mensualidadesRepository->obtenerMesesPosterioresAUltimoMes( $mesInicioSelect );
+
+        foreach ( $mensualidadesSelect as $mensualidad) {
+            $mensualidad->mes = Carbon::parse($mensualidad->mes)
+                                      ->locale('es')
+                                      ->isoFormat('MMMM YYYY');
+        }
 
         return response()->json(
             [
