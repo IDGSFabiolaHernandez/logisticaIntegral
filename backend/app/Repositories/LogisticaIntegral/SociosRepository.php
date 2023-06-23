@@ -164,6 +164,7 @@ class SociosRepository
 
     public function registrarNuevoEnlaceSocioEmpresa($datosSocioEmpresa, $idUsuario){
         $mesIngreso = $datosSocioEmpresa['mesIngreso'] != null && $datosSocioEmpresa['mesIngreso'] != '' ? Carbon::parse($datosSocioEmpresa['mesIngreso']) : null;
+        
         $registro = new TblSociosEmpresas();
         $registro->fkSocio           = $this->trimValidator($datosSocioEmpresa['fkSocio']);
         $registro->fkEmpresa         = $this->trimValidator($datosSocioEmpresa['fkEmpresa']);
