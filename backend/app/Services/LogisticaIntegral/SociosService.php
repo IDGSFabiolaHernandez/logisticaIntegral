@@ -5,6 +5,7 @@ namespace App\Services\LogisticaIntegral;
 use App\Repositories\LogisticaIntegral\PrestamosRepository;
 use App\Repositories\LogisticaIntegral\SociosRepository;
 use App\Repositories\LogisticaIntegral\UsuariosRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -103,11 +104,28 @@ class SociosService
             $empresas = $this->sociosRepository->obtenerEmpresasPorIdPrestamo($idDetalle);
         }
 
-        $sociosEmpresasAmbos = $this->sociosRepository->obtenerSociosEmpresas($socio, $empresas);
+        $sociosEmpresas = $this->sociosRepository->obtenerSociosEmpresas($socio, $empresas);
+
+        foreach ( $sociosEmpresas as $empresa ) {
+            $validaCambioIngreso = (!is_null($empresa->mesIngreso) && $empresa->mesIngreso != '' && $empresa->mesIngreso != '0000-00-00');
+            $empresa->mesIngreso = $validaCambioIngreso ?
+                                   Carbon::parse($empresa->mesIngreso)
+                                         ->locale('es')
+                                         ->isoFormat('MMMM YYYY') :
+                                   null;
+
+            $validaCambioSalida = (!is_null($empresa->mesSalida) && $empresa->mesSalida != '' && $empresa->mesSalida != '0000-00-00');
+            $empresa->mesSalida = $validaCambioSalida ?
+                                  Carbon::parse($empresa->mesSalida)
+                                        ->locale('es')
+                                        ->isoFormat('MMMM YYYY') :
+                                  null;
+        }
+
         return response()->json(
             [
                 'mensaje' => 'Se consultarón los enlaces Socios-Empresas con éxito',
-                'data' => $sociosEmpresasAmbos
+                'data' => $sociosEmpresas
             ]
         );
     }
