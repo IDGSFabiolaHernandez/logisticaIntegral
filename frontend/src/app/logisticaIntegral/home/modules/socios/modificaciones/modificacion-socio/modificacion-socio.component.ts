@@ -79,6 +79,7 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 			fiel                 : ['', [Validators.required]],
 			fechaInicio          : ['', []],
 			fechaFin             : ['', []],
+			modificarBloque 	 : ['1', [Validators.required]],
 			observaciones        : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
@@ -156,6 +157,7 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 		this.formModDatosIdentificacionSocio.get('fiel')?.setValue((this.detalleSocio.fiel ?? '').toString());
 		this.formModDatosIdentificacionSocio.get('fechaInicio')?.setValue(this.detalleSocio.fechaInicio);
 		this.formModDatosIdentificacionSocio.get('fechaFin')?.setValue(this.detalleSocio.fechaFin);
+		this.formModDatosIdentificacionSocio.get('modificarBloque')?.setValue(this.detalleSocio.bloque ?? '');
 		this.formModDatosIdentificacionSocio.get('observaciones')?.setValue(this.detalleSocio.observaciones);
 	}
 
@@ -241,6 +243,7 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 		this.formModDatosPersonalesSocio.reset();
 		this.formModDetalleDomicilioSocio.reset();
 		this.formModDatosIdentificacionSocio.reset();
+		this.formModDatosIdentificacionSocio.get('modificarBloque')?.setValue('');
 	}
 
 	cancelarModificacion() {
