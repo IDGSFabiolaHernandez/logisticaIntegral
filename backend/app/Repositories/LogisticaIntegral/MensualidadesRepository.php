@@ -16,10 +16,14 @@ class MensualidadesRepository
     public function obtenerUltimoMesSociosEmpresas(){
         $ultimoMesSociosEmpresas = TblSociosEmpresas::select('tblSociosEmpresas.mesIngreso')
                                                     ->distinct()
+                                                    ->join('tblSocios', function ($join) {
+                                                        $join->on('tblSocios.id', 'tblSociosEmpresas.fkSocio')
+                                                             ->where('tblSocios.bloque', '!=', null);
+                                                    })
                                                     ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
                                                     ->orderBy('tblSociosEmpresas.mesIngreso', 'asc')
                                                     ->limit(1);
-        
+                                                    
         return $ultimoMesSociosEmpresas->get()[0]->mesIngreso;
     }
 
