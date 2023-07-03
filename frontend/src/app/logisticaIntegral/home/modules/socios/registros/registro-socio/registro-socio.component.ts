@@ -72,6 +72,7 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 			vigencia             : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]],
 			fiel                 : ['1', [Validators.required]],
 			fechaInicio          : ['', []],
+			bloque 	 			 : ['', [Validators.required]],
 			observaciones        : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
