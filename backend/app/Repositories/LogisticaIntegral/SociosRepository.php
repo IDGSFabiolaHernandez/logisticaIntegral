@@ -230,6 +230,7 @@ class SociosRepository
                     'fiel'                 => $this->trimValidator($datosSocio['fiel']),
                     'fechaInicio'          => $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio']) : null,
                     'fechaFin'             => $fechaFinCambio ? Carbon::parse($datosSocio['fechaFin']) : null,
+                    'bloque'               => $this->trimValidator($datosSocio['modificarBloque']),
                     'status'               => $this->trimValidator($datosSocio['status']),
                     'fechaActualizacion'   => Carbon::now()
                  ]);

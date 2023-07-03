@@ -198,6 +198,7 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 		this.formDatosPersonalesSocio.get('status')?.setValue('1');
 		this.formDatosPersonalesSocio.get('estadoCivilSocio')?.setValue('');
 		this.formDatosIdentificacionSocio.get('tipoIdentificacion')?.setValue('1');
+		this.formDatosIdentificacionSocio.get('bloque')?.setValue('');
 		this.formDatosIdentificacionSocio.get('fiel')?.setValue('1');
 	}
 
