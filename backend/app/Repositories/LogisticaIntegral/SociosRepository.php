@@ -19,6 +19,7 @@ class SociosRepository
                                     'tblSocios.nombreSocio',
                                     'tblSocios.curpSocio',
                                     'tblSocios.rfcSocio',
+                                    'tblSocios.bloque',
                                     'tblIntermediariosSocios.nombreIntermediario',
                                 )
                                 ->selectRaw("

@@ -19,6 +19,7 @@ export class ListaSociosComponent extends Grid{
 		'id' 				  : '#',
 		'nombreSocio' 		  : 'Socio',
 		'status' 			  : 'Status Socio',
+		'bloque' 			  : 'Bloque',
 		'numEmpresas' 		  : 'Relación Empresas',
 		'curpSocio' 		  : 'CURP',
 		'rfcSocio' 			  : 'RFC',
