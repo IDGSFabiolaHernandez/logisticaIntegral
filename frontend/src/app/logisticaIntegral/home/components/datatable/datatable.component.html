@@ -12,56 +12,58 @@
         </div>
         
         <br>
-        <table class="table data-table-border custom-table">
-            <thead class="thead-light">
-                <tr>
-                    <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)" (click)="onItemsPerPageChange()" style="vertical-align: middle;">
-                        {{ columnasTabla[columna] }}
-                        <span *ngIf="sortBy === columna && !sortDesc && !tableConfig[columna]?.checkColumn">&#9650;</span>
-                        <span *ngIf="sortBy === columna && sortDesc && !tableConfig[columna]?.checkColumn">&#9660;</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td *ngFor="let columna of getColumnKeys()">
-                        <input *ngIf="!tableConfig[columna]?.checkColumn" type="search" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
-                    </td>
-                </tr>
-                <tr *ngFor="let item of paginatedItems">
-                    <td *ngFor="let columna of getColumnKeys()" class="check-column">
-                        <ng-container *ngIf="tableConfig[columna]?.checkColumn; else update">
-                            <label class="form-check form-switch d-flex justify-content-center align-items-center check-column-item">
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    [value]="item[tableConfig[columna].value]"
-                                    [checked]="isCheckboxSelected(item[tableConfig[columna].value])"
-                                    (change)="toggleCheckboxSelection($event, item[tableConfig[columna].value])"
-                                >
-                            </label>
-                        </ng-container>
-                        <ng-template #update>
-                            <ng-container *ngIf="tableConfig[columna]?.updateColumn; else detail">
-                                <div class="link-modal" (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal, (tableConfig[columna].noQuitClass ?? false))">
-                                    <span>{{ item[columna] ?? 'Sin información'}}</span>
-                                </div>
+        <div class="table-continer">
+            <table class="table data-table-border custom-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th *ngFor="let columna of getColumnKeys()" scope="col" (click)="sortColumn(columna)" (click)="onItemsPerPageChange()" style="vertical-align: middle;">
+                            {{ columnasTabla[columna] }}
+                            <span *ngIf="sortBy === columna && !sortDesc && !tableConfig[columna]?.checkColumn">&#9650;</span>
+                            <span *ngIf="sortBy === columna && sortDesc && !tableConfig[columna]?.checkColumn">&#9660;</span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="inputs" *ngFor="let columna of getColumnKeys()">
+                            <input *ngIf="!tableConfig[columna]?.checkColumn" type="search" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of paginatedItems">
+                        <td *ngFor="let columna of getColumnKeys()" class="check-column">
+                            <ng-container *ngIf="tableConfig[columna]?.checkColumn; else update">
+                                <label class="form-check form-switch d-flex justify-content-center align-items-center check-column-item">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        [value]="item[tableConfig[columna].value]"
+                                        [checked]="isCheckboxSelected(item[tableConfig[columna].value])"
+                                        (change)="toggleCheckboxSelection($event, item[tableConfig[columna].value])"
+                                    >
+                                </label>
                             </ng-container>
-                        </ng-template>
-                        <ng-template #detail>
-                            <ng-container *ngIf="tableConfig[columna]?.detailColumn; else deafult">
-                                <div class="link-modal" (click)="abrirModalDetalle(item[tableConfig[columna].value], tableConfig[columna].idModal)">
-                                    <span>{{ item[columna] ?? 'Sin información'}}</span>
-                                </div>
-                            </ng-container>
-                        </ng-template>
-                        <ng-template #deafult>
-                            <span>{{ item[columna] ?? 'Sin información'}}</span>
-                        </ng-template>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                            <ng-template #update>
+                                <ng-container *ngIf="tableConfig[columna]?.updateColumn; else detail">
+                                    <div class="link-modal" (click)="abrirModalModificacion(item[tableConfig[columna].value], tableConfig[columna].idModal, (tableConfig[columna].noQuitClass ?? false))">
+                                        <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #detail>
+                                <ng-container *ngIf="tableConfig[columna]?.detailColumn; else deafult">
+                                    <div class="link-modal" (click)="abrirModalDetalle(item[tableConfig[columna].value], tableConfig[columna].idModal)">
+                                        <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #deafult>
+                                <span>{{ item[columna] ?? 'Sin información'}}</span>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
           
         <nav class="d-flex justify-content-center" style="margin-bottom: -15px;">
             <ul class="pagination">
