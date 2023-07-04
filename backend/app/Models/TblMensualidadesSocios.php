@@ -22,6 +22,7 @@ class TblMensualidadesSocios extends Model
         'abonoPrestamo',
         'observaciones',
         'fechaPago',
+        'bloque',
         'fkUsuarioPago',
         'fechaAlta'
     ];
