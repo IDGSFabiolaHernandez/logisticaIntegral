@@ -66,6 +66,7 @@ class SociosRepository
         $registro->fiel                   = $this->trimValidator($datosSocio['fiel']);
         $registro->fechaInicio            = $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio']) : null;
         $registro->fechaFin               = $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio'])->addYears(4) : null;
+        $registro->bloque                 = $this->trimValidator($datosSocio['bloque']);
         $registro->status                 = $this->trimValidator($datosSocio['status']);
         $registro->fkUsuarioAlta          = $idUsuario;
         $registro->fechaAltaRegistro      = Carbon::now();
@@ -229,6 +230,7 @@ class SociosRepository
                     'fiel'                 => $this->trimValidator($datosSocio['fiel']),
                     'fechaInicio'          => $fechaInicioCambio ? Carbon::parse($datosSocio['fechaInicio']) : null,
                     'fechaFin'             => $fechaFinCambio ? Carbon::parse($datosSocio['fechaFin']) : null,
+                    'bloque'               => $this->trimValidator($datosSocio['modificarBloque']),
                     'status'               => $this->trimValidator($datosSocio['status']),
                     'fechaActualizacion'   => Carbon::now()
                  ]);

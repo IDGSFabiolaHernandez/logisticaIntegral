@@ -72,6 +72,7 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 			vigencia             : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]],
 			fiel                 : ['1', [Validators.required]],
 			fechaInicio          : ['', []],
+			bloque 	 			 : ['', [Validators.required]],
 			observaciones        : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
@@ -197,6 +198,7 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 		this.formDatosPersonalesSocio.get('status')?.setValue('1');
 		this.formDatosPersonalesSocio.get('estadoCivilSocio')?.setValue('');
 		this.formDatosIdentificacionSocio.get('tipoIdentificacion')?.setValue('1');
+		this.formDatosIdentificacionSocio.get('bloque')?.setValue('');
 		this.formDatosIdentificacionSocio.get('fiel')?.setValue('1');
 	}
 
