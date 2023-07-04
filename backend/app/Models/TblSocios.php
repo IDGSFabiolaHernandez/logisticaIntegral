@@ -36,6 +36,7 @@ class TblSocios extends Model
         'fiel',
         'fechaInicio',
         'fechaFin',
+        'bloque',
         'status',
         'fechaUsuarioAlta',
         'fechaAltaRegistro',

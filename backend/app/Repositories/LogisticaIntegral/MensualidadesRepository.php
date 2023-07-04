@@ -16,10 +16,14 @@ class MensualidadesRepository
     public function obtenerUltimoMesSociosEmpresas(){
         $ultimoMesSociosEmpresas = TblSociosEmpresas::select('tblSociosEmpresas.mesIngreso')
                                                     ->distinct()
+                                                    ->join('tblSocios', function ($join) {
+                                                        $join->on('tblSocios.id', 'tblSociosEmpresas.fkSocio')
+                                                             ->where('tblSocios.bloque', '!=', null);
+                                                    })
                                                     ->where('tblSociosEmpresas.mesIngreso', '!=', '0000-00-00')
                                                     ->orderBy('tblSociosEmpresas.mesIngreso', 'asc')
                                                     ->limit(1);
-        
+                                                    
         return $ultimoMesSociosEmpresas->get()[0]->mesIngreso;
     }
 
@@ -114,7 +118,7 @@ class MensualidadesRepository
         return $mensualidadesEmpresa->get();
     }
 
-    public function obtenerMensualidadesPagarPorMensualidad ( $fechaBase, $socios, $empresas) {
+    public function obtenerMensualidadesPagarPorMensualidad ( $fechaBase, $socios, $empresas, $bloques ) {
         $mensualidadesPorPagar = TblSocios::select(
                                                'tblSocios.id',
                                                'tblSocios.nombreSocio',
@@ -141,6 +145,7 @@ class MensualidadesRepository
                                                   ->whereNotIn('empresas.status', [3, 4]);
                                           })
                                           ->whereIn('tblSocios.id', $socios)
+                                          ->whereIn('tblSocios.bloque', $bloques)
                                           ->whereIn('tblSociosEmpresas.fkEmpresa', $empresas)
                                           ->groupBy('tblSocios.id', 'tblSocios.nombreSocio', 'tblSocios.status')
                                           ->orderBy('tblSocios.nombreSocio', 'ASC');

@@ -177,7 +177,7 @@
                                         <input formControlName="vigencia" type="text" class="form-control" id="vigencia" placeholder="Vigencia INE" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-lg-4 col-md-12">
                                         <label for="fiel" class="form-label required">Fiel:</label>
                                         <section style="text-align: center;">
                                             <input class="form-check-input" type="radio" formControlName="fiel" id="fielA" value="1">
@@ -187,11 +187,23 @@
                                         </section>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-lg-4 col-md-6">
                                         <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
                                         <input formControlName="fechaInicio" type="date" class="form-control" id="fechaInicio">
                                     </div>
-
+                                    <div class="col-lg-4 col-md-6">
+                                        <label for="bloque" class="form-label required">Bloque:</label>
+                                        <select formControlName="bloque" id="bloque" class="form-control">
+                                            <option value="" style="display: none; visibility: hidden;">Seleccione un bloque</option>
+                                            <option value="1">Bloque 1</option>
+                                            <option value="2">Bloque 2</option>
+                                            <option value="3">Bloque 3</option>
+                                            <option value="4">Bloque 4</option>
+                                            <option value="5">Bloque 5</option>
+                                            <option value="6">Bloque 6</option>
+                                            <option value="7">Bloque 7</option>
+                                        </select>
+                                    </div>
                                     <div class="col-sm-12">
                                         <label for="observaciones" class="form-label">Observaciones:</label>
                                         <textarea formControlName="observaciones" class="form-control" id="observaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
