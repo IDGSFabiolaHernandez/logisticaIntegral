@@ -97,8 +97,8 @@ class MensualidadesService
         );
     }
 
-    public function obtenerMensualidadesPagarPorMensualidad ( $mensualidad ) {
-        $fechaBase                  = $mensualidad['mensualidad'];
+    public function obtenerMensualidadesPagarPorMensualidad ( $datosConsulta ) {
+        $fechaBase                  = $datosConsulta['mensualidad'];
         $sociosEmpresasHastaFecha   = $this->mensualidadesRepository->obtenerSociosEmpresasHastaFecha ( $fechaBase );
         $socios                     = array();
         $empresas                   = array();
@@ -121,7 +121,7 @@ class MensualidadesService
             );
         }
 
-        $mensaulidadesPorPagar = $this->mensualidadesRepository->obtenerMensualidadesPagarPorMensualidad( $fechaBase, $socios, $empresas );
+        $mensaulidadesPorPagar = $this->mensualidadesRepository->obtenerMensualidadesPagarPorMensualidad( $fechaBase, $socios, $empresas, $datosConsulta['bloques'] );
 
         return response()->json(
             [

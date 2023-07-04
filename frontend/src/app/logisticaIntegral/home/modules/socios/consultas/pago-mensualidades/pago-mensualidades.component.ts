@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MensualidadesService } from 'src/app/logisticaIntegral/services/mensualidades/mensualidades.service';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
+import Option from 'src/app/shared/interfaces/options.interface';
 import { ExcelService } from 'src/app/shared/util/excel.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
 
@@ -15,6 +16,18 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	protected fechaMensualidadPagarEnvio: string = '';
 	
 	protected opcionesMensualidadesPagar : any = [];
+
+	protected opcionesBloques : Option[] = [
+		{ value : '1', label : 'Bloque 1', checked : false },
+		{ value : '2', label : 'Bloque 2', checked : false },
+		{ value : '3', label : 'Bloque 3', checked : false },
+		{ value : '4', label : 'Bloque 4', checked : false },
+		{ value : '5', label : 'Bloque 5', checked : false },
+		{ value : '6', label : 'Bloque 6', checked : false },
+		{ value : '7', label : 'Bloque 7', checked : false }
+	];
+
+	private bloquesSeleccionados : any[] = [];
 
 	protected columnasMensualidades : any = {
 		'id' 				   : '#',
@@ -68,7 +81,12 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	protected obtenerMensualidadesPagarPorMensualidad () : void {
 		this.mensajes.mensajeEsperar();
 
-		this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(this.fechaMensualidadPagar).subscribe(
+		const data = {
+			mensualidad : this.fechaMensualidadPagar,
+			bloques : this.bloquesSeleccionados.map(({value}) => value)
+		};
+
+		this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(data).subscribe(
 			respuesta => {
 				this.listaMensualidadesPagar = respuesta.data;
 				this.fechaMensualidadPagarEnvio = this.fechaMensualidadPagar;
@@ -90,6 +108,12 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 		setTimeout(() => {
 			this.totalAPagar = sumatoria * this.montoPagar;
 		});
+	}
+
+	protected onSelectionChange (data: any) : void {
+		if ( data.from == 'bloques' ) {
+			this.bloquesSeleccionados = data.selectedOptions;
+		}
 	}
 
 	protected pagarMensualidades () : void {
@@ -162,7 +186,7 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	}
 
 	protected canSearch () : boolean {
-		return this.fechaMensualidadPagar != '' && this.fechaMensualidadPagar != null && this.fechaMensualidadPagar != undefined;
+		return this.fechaMensualidadPagar != '' && this.fechaMensualidadPagar != null && this.fechaMensualidadPagar != undefined && this.bloquesSeleccionados.length != 0;
 	}
 	
 	protected canExport () : boolean {
