@@ -31,7 +31,7 @@ export class RegistoEmpresaComponent extends Grid implements OnInit{
 
 	private crearFormNuevaEmresa () : void {
 		this.formNuevaEmpresa = this.fb.group({
-			nombreEmpresa : ['', [Validators.required]],
+			nombreEmpresa : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]],
 			statusEmpresa : ['', [Validators.required]]
 		});
 	}
