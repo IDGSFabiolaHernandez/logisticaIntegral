@@ -6,6 +6,7 @@ import { SociosService } from 'src/app/logisticaIntegral/services/socios/socios.
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
 import { RegistroIntermediarioSociosComponent } from '../../../intermediarios/registros/registro-intermediario-socios/registro-intermediario-socios.component';
+import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 
 @Component({
   	selector: 'app-modificacion-socio',
@@ -30,7 +31,8 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 		private apiSocios : SociosService,
 		private fb : FormBuilder,
 		private bsModalRef: BsModalRef,
-		private modalService: BsModalService
+		private modalService: BsModalService,
+		private dataService : DataService
 	) {
 		super();
 	}
@@ -211,6 +213,7 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 								return;
 							}
 
+							this.dataService.realizarClickConsultarSocios.emit();
 							this.cancelarModificacion();
 							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
 							return;

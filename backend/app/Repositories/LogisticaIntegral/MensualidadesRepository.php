@@ -148,7 +148,7 @@ class MensualidadesRepository
                                           ->whereIn('tblSocios.id', $socios)
                                           ->whereIn('tblSocios.bloque', $bloques)
                                           ->whereIn('tblSociosEmpresas.fkEmpresa', $empresas)
-                                          ->groupBy('tblSocios.id', 'tblSocios.nombreSocio', 'tblSocios.status')
+                                          ->groupBy('tblSocios.id', 'tblSocios.nombreSocio', 'tblSocios.bloque', 'tblSocios.status')
                                           ->orderBy('tblSocios.nombreSocio', 'ASC');
                                           
         return $mensualidadesPorPagar->get();
