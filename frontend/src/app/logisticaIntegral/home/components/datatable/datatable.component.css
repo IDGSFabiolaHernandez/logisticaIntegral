@@ -59,7 +59,7 @@ table.custom-table td:hover {
 thead {
     position: sticky !important;
     top: 0 !important;
-    z-index: 996 !important;
+    z-index: 995 !important;
 }
 
 .inputs {
