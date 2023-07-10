@@ -7,6 +7,7 @@ import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
 import { RegistroSociosComponent } from '../../registros/registro-socio/registro-socio.component';
 import { RegistoEmpresaComponent } from '../../../empresas/registros/registo-empresa/registo-empresa.component';
+import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 
 @Component({
   	selector: 'app-modificacion-enlace-socio-empresa',
@@ -50,7 +51,8 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		private apiSocios  : SociosService,
 		private apiEmpresas : EmpresasService,
 		private modalService: BsModalService,
-		private bsModalRef: BsModalRef
+		private bsModalRef: BsModalRef,
+		private dataService : DataService
 	) {
 		super();
 	}
@@ -249,6 +251,7 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 								return;
 							}
 
+							this.dataService.realizarClickConsultarSociosEmpresas.emit();
 							this.cancelarModificacion();
 							this.mensajes.mensajeGenerico(respuesta.mensaje, 'success');
 							return;
