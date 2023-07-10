@@ -63,7 +63,7 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 	private crearFormEnlaceSocioEmpresa () : void {
 		this.formEnlaceSocioEmpresa = this.fb.group({
 			nombreSocio : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
-			nombreEmpresa : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
+			nombreEmpresa : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]],
 			mesIngreso : ['', []],
 			tipoInstrumento : ['', [Validators.required]],
 			numeroInstrumento : ['', []],

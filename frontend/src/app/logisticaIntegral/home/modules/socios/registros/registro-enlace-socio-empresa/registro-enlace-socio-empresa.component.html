@@ -27,7 +27,7 @@
                                         id="nombreSocio"
                                         formControlName="nombreSocio"
                                         placeholder="Socio"
-                                        (keypress)="soloLetras($event)"
+                                        (keypress)="soloTexto($event)"
                                         (input)="mostrarOpciones('Socio')"
                                         maxlength="255"
                                     >
@@ -50,7 +50,7 @@
                                         id="nombreEmpresa"
                                         formControlName="nombreEmpresa"
                                         placeholder="Empresa"
-                                        (keypress)="soloLetras($event)"
+                                        (keypress)="soloTexto($event)"
                                         (input)="mostrarOpciones('Empresa')"
                                         maxlength="255"
                                     >
