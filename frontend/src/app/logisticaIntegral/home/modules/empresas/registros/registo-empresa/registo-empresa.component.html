@@ -19,7 +19,7 @@
                         <form class="row g-3" autocomplete="off" [formGroup]="formNuevaEmpresa">
                             <div class="col-lg-6">
                                 <label for="nombreEmpresa" class="form-label required">Nombre de la empresa:</label>
-                                <input formControlName="nombreEmpresa" type="text" class="form-control" id="nombreEmpresa" placeholder="Nombre de la empresa" (keypress)="soloLetras($event)">
+                                <input formControlName="nombreEmpresa" type="text" class="form-control" id="nombreEmpresa" placeholder="Nombre de la empresa" (keypress)="soloTexto($event)">
                             </div>
                             <div class="col-lg-6">
                                 <label for="statusEmpresa" class="form-label required">Status de la empresa:</label>
