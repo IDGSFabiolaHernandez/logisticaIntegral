@@ -5,6 +5,7 @@ import Option from 'src/app/shared/interfaces/options.interface';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/shared/util/excel.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 
 @Component({
   	selector: 'app-lista-socios',
@@ -44,9 +45,13 @@ export class ListaSociosComponent extends Grid{
 	constructor (
 		private mensajes : MensajesService,
 		private apiSocios : SociosService,
-		private excelService : ExcelService
+		private excelService : ExcelService,
+		private dataService : DataService
 	) {
 		super();
+		this.dataService.realizarClickConsultarSocios.subscribe(() => {
+			this.actualizarListaSocios();
+		});
 	}
 
 	async ngOnInit () : Promise<void> {
@@ -85,6 +90,18 @@ export class ListaSociosComponent extends Grid{
 			respuesta => {
 				this.listaSocios = respuesta.data;
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
+	}
+
+	private actualizarListaSocios () : void {
+		const arregloSocios = { socios : this.sociosSeleccionados.map(({value}) => value) };
+
+		this.apiSocios.obtenerListaSocios(arregloSocios).subscribe(
+			respuesta => {
+				this.listaSocios = respuesta.data;
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}

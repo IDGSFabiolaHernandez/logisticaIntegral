@@ -5,6 +5,7 @@ import Option from 'src/app/shared/interfaces/options.interface';
 import { EmpresasService } from '../../../../../services/empresas/empresas.service';
 import Grid from 'src/app/shared/util/funciones-genericas';
 import { ExcelService } from 'src/app/shared/util/excel.service';
+import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 
 @Component({
   selector: 'app-socios-empresas',
@@ -50,9 +51,13 @@ export class SociosEmpresasComponent extends Grid{
 		private mensajes : MensajesService,
 		private apiSocios : SociosService,
 		private apiEmpresas : EmpresasService,
-		private excelService : ExcelService
+		private excelService : ExcelService,
+		private dataService : DataService
 	) {
 		super();
+		this.dataService.realizarClickConsultarSociosEmpresas.subscribe(() => {
+			this.actualizarListaSociosEmpresas();
+		});
 	}
 
 	async ngOnInit () : Promise<void> {
@@ -134,6 +139,30 @@ export class SociosEmpresasComponent extends Grid{
 			respuesta => {
 				this.asignarData(respuesta.data);
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
+			}, error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		);
+	}
+
+	private actualizarListaSociosEmpresas () : void {
+		let datosConsulta: any = {};
+	  
+		switch (this.optionProgress) {
+			case 'general':
+				datosConsulta = { socios: this.sociosSeleccionados.map(({ value }) => value), empresas: this.empresasSeleccionadas.map(({ value }) => value) };
+			break;
+			case 'socios':
+				datosConsulta = { socios: this.sociosSeleccionados.map(({ value }) => value) };
+			break;
+			case 'empresas':
+				datosConsulta = { empresas: this.empresasSeleccionadas.map(({ value }) => value) };
+			break;
+		}
+
+		this.apiSocios.obtenerSociosEmpresas(datosConsulta).toPromise().then(
+			respuesta => {
+				this.asignarData(respuesta.data);
 			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
