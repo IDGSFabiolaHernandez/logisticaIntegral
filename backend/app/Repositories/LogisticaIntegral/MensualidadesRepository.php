@@ -122,6 +122,7 @@ class MensualidadesRepository
         $mensualidadesPorPagar = TblSocios::select(
                                                'tblSocios.id',
                                                'tblSocios.nombreSocio',
+                                               'tblSocios.bloque',
                                                'tblSocios.status as activoSocio'
                                             )
                                           ->selectRaw('COUNT(empresas.id) as numEmpresas')

@@ -34,6 +34,7 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 		'pagar' 			   : 'Pagar',
 		'nombreSocio' 		   : 'Socio',
 		'activoSocio' 		   : 'Estatus Socio',
+		'bloque' 		       : 'Bloque',
 		'numEmpresas' 		   : 'Relación Empresas',
 		'numPrestamos' 		   : 'Prestamo(s)',
 		'importeTotalPrestamo' : 'Importe Prestamo(s)',

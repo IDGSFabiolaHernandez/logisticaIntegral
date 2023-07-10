@@ -19,6 +19,7 @@ class SociosRepository
                                     'tblSocios.nombreSocio',
                                     'tblSocios.curpSocio',
                                     'tblSocios.rfcSocio',
+                                    'tblSocios.bloque',
                                     'tblIntermediariosSocios.nombreIntermediario',
                                 )
                                 ->selectRaw("
@@ -42,7 +43,7 @@ class SociosRepository
     }
 
     public function registroNuevoSocio($datosSocio, $idUsuario){
-        $fechaInicioCambio = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '');
+        $fechaInicioCambio = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' && $datosSocio['fechaInicio'] != '0000-00-00');
 
         $registro = new TblSocios();
         $registro->nombreSocio            = $this->trimValidator($datosSocio['nombreSocio']);
@@ -204,8 +205,8 @@ class SociosRepository
     }
 
     public function modificarSocio ( $datosSocio, $idSocio, $idUsuario ) {
-        $fechaInicioCambio = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '');
-        $fechaFinCambio    = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '');
+        $fechaInicioCambio = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' && $datosSocio['fechaInicio'] != '0000-00-00');
+        $fechaFinCambio    = ($datosSocio['fechaInicio'] != null && $datosSocio['fechaInicio'] != '' && $datosSocio['fechaInicio'] != '0000-00-00');
 
         TblSocios::where('id', $idSocio)
                  ->update([
@@ -269,8 +270,8 @@ class SociosRepository
     }
 
     public function modificarEnlaceSocioEmpresa ( $datosSocioEmpresa, $idEnlace ) {
-        $mesIngreso = $datosSocioEmpresa['mesIngreso'] != null && $datosSocioEmpresa['mesIngreso'] != '' ? Carbon::parse($datosSocioEmpresa['mesIngreso']) : null;
-        $mesSalida  = $datosSocioEmpresa['mesSalida'] != null && $datosSocioEmpresa['mesSalida'] != '' ? Carbon::parse($datosSocioEmpresa['mesSalida']) : null;
+        $mesIngreso = $datosSocioEmpresa['mesIngreso'] != null && $datosSocioEmpresa['mesIngreso'] != '' && $datosSocioEmpresa['mesIngreso'] != '0000-00-00' ? Carbon::parse($datosSocioEmpresa['mesIngreso']) : null;
+        $mesSalida  = $datosSocioEmpresa['mesSalida'] != null && $datosSocioEmpresa['mesSalida'] != '' && $datosSocioEmpresa['mesIngreso'] != '0000-00-00' ? Carbon::parse($datosSocioEmpresa['mesSalida']) : null;
 
         TblSociosEmpresas::where('id', $idEnlace)
                          ->update([
