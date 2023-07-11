@@ -32,7 +32,7 @@ export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 	};
 
 	protected tableConfig : any = {
-		"numEmpresas" : {
+		"nombreSocio" : {
 			"detailColumn" : true,
 			"value" : "id",
 			"idModal" : "detalleEnlaceSocioEmpresasPrestamo"
