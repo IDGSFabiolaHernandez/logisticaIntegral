@@ -66,10 +66,10 @@
 
             <div class="tab-content pt-2" id="borderedTabJustifiedContent" style="margin-top: -10px;">
                 <div class="tab-pane fade active show" id="bordered-justified-socios" role="tabpanel" aria-labelledby="socios-tab">
-                    <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesSocios"></app-datatable>
+                    <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesSocios" [tableConfig]="tableConfig"></app-datatable>
                 </div>
                 <div class="tab-pane fade" id="bordered-justified-empresas" role="tabpanel" aria-labelledby="empresas-tab">
-                    <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesEmpresas"></app-datatable>
+                    <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesEmpresas" [tableConfig]="tableConfig"></app-datatable>
                 </div>
             </div>
         </div>

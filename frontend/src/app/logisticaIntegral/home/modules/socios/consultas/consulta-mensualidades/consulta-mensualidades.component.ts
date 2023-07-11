@@ -33,6 +33,19 @@ export class ConsultaMensualidadesComponent extends Grid{
 		fechaPago     : 'Fecha de Pago'
 	};
 
+	protected tableConfig : any = {
+		"cantidad" : {
+			"moneyColumn" : true
+		},
+		"abonoPrestamo" : {
+			"moneyColumn" : true,
+			"style" : {
+				"color" : "red",
+				"font-weight" : "bold"
+			}
+		}
+	};
+
 	protected listaMensualidadesSocios : any[] = [];
 	protected listaMensualidadesEmpresas : any[] = [];
 
