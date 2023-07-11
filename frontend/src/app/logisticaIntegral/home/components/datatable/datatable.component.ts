@@ -200,6 +200,20 @@ export class DatatableComponent implements OnInit, OnChanges {
 		this.emitirDatos();
 	}
 
+	getTableColumnStyle(columna: string, rowData: any): any {
+		const columnConfig = this.tableConfig[columna];
+	  
+		if (columnConfig && columnConfig.style) {
+		  	const cantidad = rowData[columna];
+	  
+		  	if (cantidad != null && cantidad > 0) {
+				return columnConfig.style;
+		  	}
+		}
+	  
+		return null;
+	}
+
 	emitirDatos () : void {
 		const data = {
 			selectedOptions : this.selectedCheckboxes
