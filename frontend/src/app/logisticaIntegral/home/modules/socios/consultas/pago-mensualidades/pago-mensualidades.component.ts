@@ -33,7 +33,6 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 		'id' 				   : '#',
 		'pagar' 			   : 'Pagar',
 		'nombreSocio' 		   : 'Socio',
-		'activoSocio' 		   : 'Estatus Socio',
 		'bloque' 		       : 'Bloque',
 		'numEmpresas' 		   : 'Relación Empresas',
 		'numPrestamos' 		   : 'Prestamo(s)',
@@ -45,6 +44,20 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 		"pagar" : {
 			"checkColumn" : true,
 			"value" : "id"
+		},
+		"importeTotalPrestamo" : {
+			"moneyColumn" : true,
+			"style" : {
+				"color" : "red",
+				"font-weight" : "bold"
+			}
+		},
+		"restantePrestamo" : {
+			"moneyColumn" : true,
+			"style" : {
+				"color" : "red",
+				"font-weight" : "bold"
+			}
 		}
 	};
 
@@ -148,7 +161,12 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	}
 
 	private async actualizarGridDespuesPago () : Promise<void> {
-		await this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(this.fechaMensualidadPagarEnvio).toPromise().then(
+		const data = {
+			mensualidad : this.fechaMensualidadPagarEnvio,
+			bloques : this.bloquesSeleccionados.map(({value}) => value)
+		};
+
+		await this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(data).toPromise().then(
 			respuesta => {
 				this.listaMensualidadesPagar = respuesta.data ?? [];
 			}, error => {
@@ -168,7 +186,6 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 		const columnasEspeciales  = {
 			'id' 				   : '#',
 			'nombreSocio' 		   : 'Socio',
-			'activoSocio' 		   : 'Estatus Socio',
 			'numEmpresas' 		   : 'Relación Empresas',
 			'numPrestamos' 		   : 'Prestamo(s)',
 			'importeTotalPrestamo' : 'Importe Prestamo(s)',

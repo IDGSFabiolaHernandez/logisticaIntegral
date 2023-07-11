@@ -65,10 +65,14 @@ class MensualidadesRepository
                                                         'tblSociosEmpresas.fkSocio',
                                                         'tblSociosEmpresas.fkEmpresa'
                                                     )
-                                                   ->join('empresas',function ($join){
+                                                   ->join('empresas', function ($join){
                                                        $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo', 1)
                                                             ->whereNotIn('empresas.status', [3, 4]);
+                                                   })
+                                                   ->join('tblSocios', function ($join) {
+                                                       $join->on('tblSocios.id', 'tblSociosEmpresas.fkSocio')
+                                                            ->where('tblSocios.bloque', '!=', null);
                                                    })
                                                    ->where([
                                                        ['tblSociosEmpresas.mesIngreso', '!=', '0000-00-00'],
@@ -123,7 +127,6 @@ class MensualidadesRepository
                                                'tblSocios.id',
                                                'tblSocios.nombreSocio',
                                                'tblSocios.bloque',
-                                               'tblSocios.status as activoSocio'
                                             )
                                           ->selectRaw('COUNT(empresas.id) as numEmpresas')
                                           ->selectRaw('(SELECT COUNT(prestamosSocios.id) FROM prestamosSocios WHERE prestamosSocios.idSocio = tblSocios.id AND estatusPrestamo = 0) as numPrestamos')
@@ -148,7 +151,7 @@ class MensualidadesRepository
                                           ->whereIn('tblSocios.id', $socios)
                                           ->whereIn('tblSocios.bloque', $bloques)
                                           ->whereIn('tblSociosEmpresas.fkEmpresa', $empresas)
-                                          ->groupBy('tblSocios.id', 'tblSocios.nombreSocio', 'tblSocios.bloque', 'tblSocios.status')
+                                          ->groupBy('tblSocios.id', 'tblSocios.nombreSocio', 'tblSocios.bloque')
                                           ->orderBy('tblSocios.nombreSocio', 'ASC');
                                           
         return $mensualidadesPorPagar->get();

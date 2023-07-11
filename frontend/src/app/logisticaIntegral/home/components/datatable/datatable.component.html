@@ -50,10 +50,15 @@
                                 </ng-container>
                             </ng-template>
                             <ng-template #detail>
-                                <ng-container *ngIf="tableConfig[columna]?.detailColumn; else deafult">
+                                <ng-container *ngIf="tableConfig[columna]?.detailColumn; else money">
                                     <div class="link-modal" (click)="abrirModalDetalle(item[tableConfig[columna].value], tableConfig[columna].idModal)">
                                         <span>{{ item[columna] ?? 'Sin información'}}</span>
                                     </div>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #money>
+                                <ng-container *ngIf="tableConfig[columna]?.moneyColumn; else deafult">
+                                    <span [ngStyle]="getTableColumnStyle(columna, item)">{{ item[columna] != null ? '$ ' + (item[columna] | number:'1.2-2') : 'Sin información' }}</span>
                                 </ng-container>
                             </ng-template>
                             <ng-template #deafult>
