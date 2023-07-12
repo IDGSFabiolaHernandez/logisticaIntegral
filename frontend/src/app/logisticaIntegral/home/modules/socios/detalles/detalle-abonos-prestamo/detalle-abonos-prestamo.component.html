@@ -5,11 +5,29 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Socios</li>
                 <li class="breadcrumb-item">Préstamos Socios</li>
+                <li class="breadcrumb-item active">Abonos Préstamo</li>
             </ol>
         </nav>
     </div>
 
+    <div class="col-12 row totales">
+        <div class="col-md-4 btn-group" role="group">
+            <button class="btn btn-primary" disabled="true">Préstamo</button>
+            <input type="text" class="form-control border-left-none" readonly [value]="'$' + (detallePrestamo[0].montoPrestamo | number:'1.2-2')">
+        </div>
+        <div class="col-md-4 btn-group" role="group">
+            <button class="btn btn-success" disabled="true">Pagado</button>
+            <input type="text" class="form-control border-left-none" readonly [value]="'$' + (detallePrestamo[0].aCuenta | number:'1.2-2')">
+        </div>
+        <div class="col-md-4 btn-group" role="group">
+            <button class="btn btn-danger" disabled="true">Saldo</button>
+            <input type="text" class="form-control border-left-none" readonly [value]="'$' + (detallePrestamo[0].saldo | number:'1.2-2')">
+        </div>
+    </div>
+
     <br>
+    <br>
+
     <app-datatable  [columnasTabla]="columnasAbonosPrestamo" [datosTabla]="listaAbonosPrestamo" [tableConfig]="tableConfig"></app-datatable>
 </div>
 

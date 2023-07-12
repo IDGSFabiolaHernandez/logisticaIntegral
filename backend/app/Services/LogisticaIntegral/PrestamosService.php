@@ -109,11 +109,16 @@ class PrestamosService
     }
 
     public function obtenerAbonosPrestamo($idPrestamo){
-        $detallePrestamo = $this->prestamosRepository->obtenerAbonosPrestamo($idPrestamo);
+        $detallePrestamo = $this->prestamosRepository->obtenerDetallePrestamoPorId($idPrestamo);
+        $abonosPrestamo = $this->prestamosRepository->obtenerAbonosPrestamo($idPrestamo);
+
         return response()->json(
             [
                 'mensaje' => 'Se consultaron los Abonos del préstamo con éxito ',
-                'data' => $detallePrestamo
+                'data' => [
+                    'detallePrestamo' => $detallePrestamo,
+                    'abonosPrestamo' => $abonosPrestamo
+                ]
             ],
             200
         );
