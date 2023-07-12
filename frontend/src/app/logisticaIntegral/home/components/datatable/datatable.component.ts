@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModificacionSocioComponent } from '../../modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
 import { DetalleEnlaceSocioEmpresasComponent } from '../../modules/socios/detalles/detalle-enlace-socio-empresas/detalle-enlace-socio-empresas.component';
 import { ModificacionEnlaceSocioEmpresaComponent } from '../../modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
+import { DetalleAbonosPrestamoComponent } from '../../modules/socios/detalles/detalle-abonos-prestamo/detalle-abonos-prestamo.component';
 
 @Component({
   	selector: 'app-datatable',
@@ -81,7 +82,7 @@ export class DatatableComponent implements OnInit, OnChanges {
 		const data = {
 		  	idDetalle: idDetalle
 		};
-	  
+
 		let configModalDetalle: any = {
 		  	backdrop: false,
 		  	ignoreBackdropClick: true,
@@ -101,6 +102,9 @@ export class DatatableComponent implements OnInit, OnChanges {
 				configModalDetalle.initialState.datosPrestamo = true;
 				op = this.modalService.show(DetalleEnlaceSocioEmpresasComponent, configModalDetalle);
 			break;
+			case 'detalleAbonosPrestamoSocio':
+				op = this.modalService.show(DetalleAbonosPrestamoComponent, configModalDetalle);
+				break;
 		}
 
 		const modalRef: BsModalRef = op;
