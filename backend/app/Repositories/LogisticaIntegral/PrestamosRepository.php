@@ -7,6 +7,7 @@ use App\Models\TblPrestamosEmpresas;
 use App\Models\TblPrestamosSocios;
 use App\Models\TblSocios;
 use App\Models\TblSociosEmpresas;
+use App\Models\TblMensualidadesSocios;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -110,6 +111,22 @@ class PrestamosRepository
           $registro->save();
      }
 
+     public function obtenerAbonosPrestamo($idPrestamo){
+          $detallePrestamo = TblMensualidadesSocios::select(
+                                                       'empresas.nombre as nombreEmpresa',
+                                                       'mensualidadesSocios.cantidad',
+                                                       'mensualidadesSocios.abonoPrestamo'
+                                                  )
+                                                  ->selectRaw("CONCAT('MEN', DATE_FORMAT(mensualidadesSocios.fechaPago, '%m%y'), LPAD(mensualidadesSocios.id, 4, '0')) as folio")
+                                                  ->selectRaw("DATE_FORMAT(mensualidadesSocios.mensualidad, '%M %Y') as mensualidad")
+                                                  ->selectRaw("DATE_FORMAT(mensualidadesSocios.fechaPago, '%d-%m-%Y') as fechaPago")
+                                                  ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
+                                                  ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
+                                                  ->where('mensualidadesSocios.fkPrestamo',$idPrestamo)
+                                                  ->orderBy('mensualidad', 'asc');
+          return $detallePrestamo->get();
+     }
+
      public function trimValidator ( $value ) {
 		return $value != null && trim($value) != '' ? trim($value) : null;
 	}
@@ -121,6 +138,5 @@ class PrestamosRepository
           }
           
           return null;
-      }
-      
+     }
 }

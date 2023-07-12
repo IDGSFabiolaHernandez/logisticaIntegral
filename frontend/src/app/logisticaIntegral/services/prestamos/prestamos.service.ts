@@ -32,4 +32,8 @@ export class PrestamosService {
 	public registroNuevoPrestamoSocio ( datosPrestamo : any ) : Observable<any> {
 		return this.http.post<any>(this.url+'/prestamos/registroNuevoPrestamoSocio', datosPrestamo);
 	}
+
+	public obtenerAbonosPrestamo(idPrestamo : number ) : Observable<any> {
+		return this.http.post<any>(this.url+'/prestamos/obtenerAbonosPrestamo', idPrestamo);
+	}
 }

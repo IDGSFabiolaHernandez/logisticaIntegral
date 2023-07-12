@@ -16,7 +16,7 @@
                         <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>
                         <div class="btn-group group-dropdown-form" role="group">
                             <app-dropdown [options]="opcionesSocios" [font]="'socios'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
-                            <button class="btn btn-outline-primary" (click)="refreshSocios"><i class="bi bi-arrow-repeat"></i></button>
+                            <button class="btn btn-outline-primary" (click)="refreshSocios()"><i class="bi bi-arrow-repeat"></i></button>
                         </div>
                     </div>
 

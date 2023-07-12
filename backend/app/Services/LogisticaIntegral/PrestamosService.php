@@ -107,4 +107,15 @@ class PrestamosService
             200
         );
     }
+
+    public function obtenerAbonosPrestamo($idPrestamo){
+        $detallePrestamo = $this->prestamosRepository->obtenerAbonosPrestamo($idPrestamo);
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron los Abonos del préstamo con éxito ',
+                'data' => $detallePrestamo
+            ],
+            200
+        );
+    }
 }

@@ -1,0 +1,19 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Detalle abonos préstamo socio</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Socios</li>
+                <li class="breadcrumb-item">Préstamos Socios</li>
+            </ol>
+        </nav>
+    </div>
+
+    <br>
+    <app-datatable  [columnasTabla]="columnasAbonosPrestamo" [datosTabla]="listaAbonosPrestamo" [tableConfig]="tableConfig"></app-datatable>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success" [disabled]="!canExport()" (click)="exportarExcel()">Excel</button>
+    <button type="button" class="btn btn-danger" (click)="cancelarModal()"><b>Cerrar</b></button>
+</div>

@@ -91,4 +91,19 @@ class PrestamosController extends Controller
             );
         }
     }
+
+    public function obtenerAbonosPrestamo(Request $request){
+        try{
+            return $this->prestamosService->obtenerAbonosPrestamo($request->all());
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
 }
