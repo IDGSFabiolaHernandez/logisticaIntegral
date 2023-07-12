@@ -111,19 +111,30 @@ class PrestamosRepository
           $registro->save();
      }
 
+     public function obtenerDetallePrestamoPorId ( $idPrestamo ) {
+          $detallePrestamo = TblPrestamosSocios::select(
+                                                   'prestamosSocios.montoPrestamo',
+                                                   'prestamosSocios.aCuenta'
+                                               )
+                                               ->selectRaw("(prestamosSocios.montoPrestamo - prestamosSocios.aCuenta) as saldo")
+                                               ->where('prestamosSocios.id', $idPrestamo);
+
+          return $detallePrestamo->get();
+     }
+
      public function obtenerAbonosPrestamo($idPrestamo){
           $detallePrestamo = TblMensualidadesSocios::select(
                                                        'empresas.nombre as nombreEmpresa',
                                                        'mensualidadesSocios.cantidad',
                                                        'mensualidadesSocios.abonoPrestamo'
-                                                  )
-                                                  ->selectRaw("CONCAT('MEN', DATE_FORMAT(mensualidadesSocios.fechaPago, '%m%y'), LPAD(mensualidadesSocios.id, 4, '0')) as folio")
-                                                  ->selectRaw("DATE_FORMAT(mensualidadesSocios.mensualidad, '%M %Y') as mensualidad")
-                                                  ->selectRaw("DATE_FORMAT(mensualidadesSocios.fechaPago, '%d-%m-%Y') as fechaPago")
-                                                  ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
-                                                  ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
-                                                  ->where('mensualidadesSocios.fkPrestamo',$idPrestamo)
-                                                  ->orderBy('mensualidad', 'asc');
+                                                   )
+                                                   ->selectRaw("CONCAT('MEN', DATE_FORMAT(mensualidadesSocios.fechaPago, '%m%y'), LPAD(mensualidadesSocios.id, 4, '0')) as folio")
+                                                   ->selectRaw("DATE_FORMAT(mensualidadesSocios.mensualidad, '%M %Y') as mensualidad")
+                                                   ->selectRaw("DATE_FORMAT(mensualidadesSocios.fechaPago, '%d-%m-%Y') as fechaPago")
+                                                   ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
+                                                   ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
+                                                   ->where('mensualidadesSocios.fkPrestamo',$idPrestamo)
+                                                   ->orderBy('mensualidad', 'asc');
           return $detallePrestamo->get();
      }
 

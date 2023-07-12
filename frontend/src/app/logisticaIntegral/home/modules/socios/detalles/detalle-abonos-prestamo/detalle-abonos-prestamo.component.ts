@@ -35,6 +35,7 @@ export class DetalleAbonosPrestamoComponent extends Grid implements OnInit, OnDe
 		}
 	}
 	protected listaAbonosPrestamo : any[] = [];
+	protected detallePrestamo : any = [];
 
 	constructor (
 		private mensajes : MensajesService,
@@ -55,7 +56,10 @@ export class DetalleAbonosPrestamoComponent extends Grid implements OnInit, OnDe
 	private obtenerAbonosPrestamo() : Promise<any> {
 		return this.prestamosService.obtenerAbonosPrestamo(this.idDetalle).toPromise().then(
 			respuesta =>{
-				this.listaAbonosPrestamo = respuesta.data;
+				this.listaAbonosPrestamo = respuesta.data.abonosPrestamo;
+				this.detallePrestamo = respuesta.data.detallePrestamo;
+				
+				console.log(this.detallePrestamo);
 				if(this.listaAbonosPrestamo.length == 0) {
 					this.mensajes.mensajeGenericoToast('No hay información para mostrar', 'warning');
 					this.cancelarModal();
