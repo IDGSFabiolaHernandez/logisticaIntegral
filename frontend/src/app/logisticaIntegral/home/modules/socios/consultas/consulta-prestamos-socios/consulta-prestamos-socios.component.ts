@@ -35,7 +35,7 @@ export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 		"nombreSocio" : {
 			"detailColumn" : true,
 			"value" : "id",
-			"idModal" : "detalleEnlaceSocioEmpresasPrestamo"
+			"idModal" : "detalleAbonosPrestamoSocio"
 		},
 		"aCuenta" : {
 			"moneyColumn" : true,
@@ -45,6 +45,13 @@ export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 			}
 		},
 		"saldo" : {
+			"moneyColumn" : true,
+			"style" : {
+				"color" : "red",
+				"font-weight" : "bold"
+			}
+		},
+		"montoPrestamo":{
 			"moneyColumn" : true,
 			"style" : {
 				"color" : "red",

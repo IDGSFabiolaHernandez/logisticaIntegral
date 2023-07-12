@@ -142,6 +142,7 @@ class MensualidadesService
                 foreach($enlacesSocioEmpresas as $enlace){
                     $prestamosActivos = $this->mensualidadesRepository->obtenerPrestamosSocioActivos($idSocio);
                     $montoAPagar = $dataPagar['montoPagar'];
+                    $idPrestamoPago = null;
 
                     foreach($prestamosActivos as $idPrestamo){
                         $idPrestamo       = $idPrestamo->id;
@@ -166,6 +167,8 @@ class MensualidadesService
                                 ($aCuenta == $detallePrestamo->montoPrestamo ? 1 : 0 ),
                                 $idPrestamo
                             );
+
+                            $idPrestamoPago = $idPrestamo;
                         }
 
                         if($montoAPagar == 0) {break;}
@@ -178,6 +181,7 @@ class MensualidadesService
                         'cantidad'      => $montoAPagar, 
                         'abonoPrestamo' => $dataPagar['montoPagar'] - $montoAPagar,
                         'fechaPago'     => $dataPagar['fechaPago'], 
+                        'fkPrestamo'    => $idPrestamoPago, 
                         'fkUsuarioPago' => $usuario[0]->id
                     ];
 

@@ -232,6 +232,7 @@ class MensualidadesRepository
         $registro->abonoPrestamo = $datosPago['abonoPrestamo'];
         $registro->fechaPago     = $datosPago['fechaPago'];
         $registro->fkUsuarioPago = $datosPago['fkUsuarioPago'];
+        $registro->fkPrestamo    = $datosPago['fkPrestamo'];
         $registro->fechaAlta     = Carbon::now();
         $registro->save();
     }
