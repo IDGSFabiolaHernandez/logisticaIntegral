@@ -19,7 +19,12 @@ class SociosRepository
                                     'tblSocios.nombreSocio',
                                     'tblSocios.curpSocio',
                                     'tblSocios.rfcSocio',
-                                    'tblSocios.bloque',
+                                    DB::raw("
+                                        CASE
+                                            WHEN tblSocios.bloque IS NOT NULL THEN CONCAT('Bloque ', tblSocios.bloque)
+                                            ELSE NULL
+                                        END AS bloque
+                                    "),
                                     'tblIntermediariosSocios.nombreIntermediario',
                                 )
                                 ->selectRaw("

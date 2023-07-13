@@ -126,7 +126,12 @@ class MensualidadesRepository
         $mensualidadesPorPagar = TblSocios::select(
                                                'tblSocios.id',
                                                'tblSocios.nombreSocio',
-                                               'tblSocios.bloque',
+                                               DB::raw("
+                                                    CASE
+                                                        WHEN tblSocios.bloque IS NOT NULL THEN CONCAT('Bloque ', tblSocios.bloque)
+                                                        ELSE NULL
+                                                    END AS bloque
+                                                ")
                                             )
                                           ->selectRaw('COUNT(empresas.id) as numEmpresas')
                                           ->selectRaw('(SELECT COUNT(prestamosSocios.id) FROM prestamosSocios WHERE prestamosSocios.idSocio = tblSocios.id AND estatusPrestamo = 0) as numPrestamos')
