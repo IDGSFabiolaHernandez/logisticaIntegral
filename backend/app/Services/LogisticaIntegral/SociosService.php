@@ -28,6 +28,9 @@ class SociosService
 
     public function obtenerListaSocios($socios){
         $listaSocios = $this->sociosRepository->obtenerListaSocios($socios['socios']);
+
+        Log::alert($listaSocios);
+
         return response()->json(
             [
                 'mensaje' => 'Se consultaron los Socios con éxito',

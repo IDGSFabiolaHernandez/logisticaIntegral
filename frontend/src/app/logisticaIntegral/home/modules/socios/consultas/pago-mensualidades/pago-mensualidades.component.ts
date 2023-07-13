@@ -58,7 +58,20 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 				"color" : "red",
 				"font-weight" : "bold"
 			}
-		}
+		},
+		"bloque": {
+			"selectColumn": true,
+        	"selectOptions": [
+				'Bloque 1',
+				'Bloque 2',
+				'Bloque 3',
+				'Bloque 4',
+				'Bloque 5',
+				'Bloque 6',
+				'Bloque 7'
+			],
+			"showEmptyOption": true
+		},
 	};
 
 	protected listaMensualidadesPagar : any[] = [];

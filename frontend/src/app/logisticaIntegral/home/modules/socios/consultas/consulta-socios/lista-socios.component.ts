@@ -37,6 +37,23 @@ export class ListaSociosComponent extends Grid{
 			"detailColumn" : true,
 			"value" : "id",
 			"idModal" : "detalleEnlaceSocioEmpresas"
+		},
+		"status": {
+			"selectColumn": true,
+        	"selectOptions": ['Activo', 'Inactivo']
+		},
+		"bloque": {
+			"selectColumn": true,
+        	"selectOptions": [
+				'Bloque 1',
+				'Bloque 2',
+				'Bloque 3',
+				'Bloque 4',
+				'Bloque 5',
+				'Bloque 6',
+				'Bloque 7'
+			],
+			"showEmptyOption": true
 		}
 	};
 
