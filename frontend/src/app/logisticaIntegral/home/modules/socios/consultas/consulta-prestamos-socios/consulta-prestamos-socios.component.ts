@@ -37,10 +37,15 @@ export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 			"value" : "id",
 			"idModal" : "detalleAbonosPrestamoSocio"
 		},
+		"numEmpresas" : {
+			"detailColumn" : true,
+			"value" : "id",
+			"idModal" : "detalleEnlaceSocioEmpresasPrestamo"
+		},
 		"aCuenta" : {
 			"moneyColumn" : true,
 			"style" : {
-				"color" : "red",
+				"color" : "mediumseagreen",
 				"font-weight" : "bold"
 			}
 		},
@@ -57,7 +62,11 @@ export class ConsultaPrestamosSociosComponent extends Grid implements OnInit{
 				"color" : "red",
 				"font-weight" : "bold"
 			}
-		}
+		},
+		"statusPrestamo": {
+			"selectColumn": true,
+        	"selectOptions": ['Pagado', 'Pendiente']
+		},
 	};
 
 	protected listaPrestamos : any[] = [];

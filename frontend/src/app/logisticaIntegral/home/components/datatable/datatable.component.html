@@ -24,7 +24,12 @@
                     </tr>
                     <tr>
                         <th class="inputs" *ngFor="let columna of getColumnKeys()">
-                            <input *ngIf="!tableConfig[columna]?.checkColumn" type="search" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                            <input *ngIf="!tableConfig[columna]?.checkColumn && !tableConfig[columna]?.selectColumn" type="search" class="form-control" [placeholder]="columnasTabla[columna]" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                            <select *ngIf="tableConfig[columna]?.selectColumn" class="form-select" [(ngModel)]="filterValues[columna]" (input)="onItemsPerPageChange()">
+                                <option value="">Todos</option>
+                                <option *ngFor="let option of tableConfig[columna].selectOptions" [value]="option">{{ option }}</option>
+                                <option *ngIf="tableConfig[columna]?.showEmptyOption" value="null">Sin información</option>
+                            </select>
                         </th>
                     </tr>
                 </thead>

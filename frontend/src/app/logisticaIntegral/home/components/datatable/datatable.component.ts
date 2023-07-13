@@ -45,10 +45,10 @@ export class DatatableComponent implements OnInit, OnChanges {
 		this.onItemsPerPageChange();
 	}
 
-	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass : boolean = false) {
+	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass: boolean = false) {
 		const data = {
-		  idDetalle: idDetalle,
-		  noQuitClass: noQuitClass
+		  	idDetalle: idDetalle,
+		  	noQuitClass: noQuitClass
 		};
 	  
 		const configModalModificacion: any = {
@@ -56,26 +56,36 @@ export class DatatableComponent implements OnInit, OnChanges {
 			ignoreBackdropClick: true,
 			keyboard: false,
 			animated: true,
-			class: 'modal-xl modal-dialog-centered custom-modal',
+			class: 'modal-xl modal-dialog-centered custom-modal move-modal'+idDetalle,
 			initialState: data,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
 			}
 		};
-		
-		let op : any = undefined;
-		
+	  
+		let op: any = undefined;
+	  
 		switch (idModal) {
-		  	case 'modificacionSocio':
+			case 'modificacionSocio':
 				op = this.modalService.show(ModificacionSocioComponent, configModalModificacion);
 			break;
 			case 'modificacionEnlaceSocioEmpresa':
 				op = this.modalService.show(ModificacionEnlaceSocioEmpresaComponent, configModalModificacion);
 			break;
 		}
+	  
+		/*setTimeout(() => {
+		  const modalContentElement = document.querySelector('.move-modal'+idDetalle);
+			if (modalContentElement) {
+				const modalElement = modalContentElement.parentElement;
+				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+			}
+		}, 100);
 
-		const modalRef: BsModalRef = op;
+		document.body.classList.remove('modal-open');
+		document.body.style.paddingRight = '';
+		document.body.style.overflow = '';*/
 	}
 
 	abrirModalDetalle(idDetalle: number, idModal: string) {
@@ -88,7 +98,7 @@ export class DatatableComponent implements OnInit, OnChanges {
 		  	ignoreBackdropClick: true,
 		  	keyboard: false,
 		  	animated: true,
-		  	class: 'modal-dialog-centered custom-modal custom-width',
+		  	class: 'modal-dialog-centered custom-modal custom-width move-modal-datail'+idDetalle,
 		  	initialState: data
 		};
 
@@ -104,20 +114,58 @@ export class DatatableComponent implements OnInit, OnChanges {
 			break;
 			case 'detalleAbonosPrestamoSocio':
 				op = this.modalService.show(DetalleAbonosPrestamoComponent, configModalDetalle);
-				break;
+			break;
 		}
 
-		const modalRef: BsModalRef = op;
+		/*setTimeout(() => {
+			const modalContentElement = document.querySelector('.move-modal-datail'+idDetalle);
+			  if (modalContentElement) {
+				  const modalElement = modalContentElement.parentElement;
+				  modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+			  }
+		}, 100);
+
+		document.body.classList.remove('modal-open');
+		document.body.style.paddingRight = '';
+		document.body.style.overflow = '';*/
+	}
+
+	onMouseDown(event: MouseEvent) {
+		const modalElement = event.currentTarget as HTMLElement;
+		const initialX = event.clientX - modalElement.getBoundingClientRect().left;
+      	const initialY = event.clientY - modalElement.getBoundingClientRect().top;
+	  
+		const onMouseMove = (event: MouseEvent) => {
+		  	const deltaX = event.clientX - initialX;
+		  	const deltaY = event.clientY - initialY;
+		  	modalElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+		};
+	  
+		const onMouseUp = () => {
+		  	document.removeEventListener('mousemove', onMouseMove);
+		  	document.removeEventListener('mouseup', onMouseUp);
+		};
+	  
+		document.addEventListener('mousemove', onMouseMove);
+		document.addEventListener('mouseup', onMouseUp);
 	}
 
 	get paginatedItems() {
 		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 		const endIndex = startIndex + this.itemsPerPage;
 	  
-		return this.datosTabla.filter((registro : any) => {
-			return Object.keys(this.filterValues).every((column : any) => {
+		return this.datosTabla.filter((registro: any) => {
+			return Object.keys(this.filterValues).every((column: any) => {
 				const filter = this.filterValues[column].toLowerCase();
-				return (registro[column]?.toString()?.toLowerCase() ?? '').includes(filter);
+				const value = registro[column]?.toString()?.toLowerCase();
+		
+				if (filter === '') {
+					return true;
+				} else if (filter === 'null' && this.tableConfig[column]?.showEmptyOption) {
+					return value === undefined || value === null || value === '';
+				} else {
+					return value?.includes(filter);
+				}
 			});
 		}).slice(startIndex, endIndex);
 	}

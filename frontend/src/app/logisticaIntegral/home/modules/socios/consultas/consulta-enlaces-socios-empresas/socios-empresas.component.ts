@@ -37,6 +37,29 @@ export class SociosEmpresasComponent extends Grid{
 			"updateColumn" : true,
 			"value" : "id",
 			"idModal" : "modificacionEnlaceSocioEmpresa"
+		},
+		"activoSocio": {
+			"selectColumn": true,
+        	"selectOptions": ['Activo', 'Inactivo']
+		},
+		"status": {
+			"selectColumn": true,
+        	"selectOptions": [
+				'Activa',
+				'X suspender',
+				'En proceso',
+				'Suspendida',
+				'Maquila cliente',
+				'Cuenta bancaria',
+			]
+		},
+		"tipoInstrumento": {
+			"selectColumn": true,
+			"selectOptions": [
+				'Acta Constitutiva',
+				'Acta Asamblea Extraordinaria',
+				'Poder'
+			]
 		}
 	};
 
