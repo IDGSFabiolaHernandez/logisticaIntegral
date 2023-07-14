@@ -31,8 +31,7 @@ export class DetalleEnlaceSocioEmpresasComponent extends Grid implements OnInit,
 		"nombreSocio" : {
 			"updateColumn" : true,
 			"value" : "id",
-			"idModal" : "modificacionEnlaceSocioEmpresa",
-			"noQuitClass" : true
+			"idModal" : "modificacionEnlaceSocioEmpresa"
 		}
 	};
 

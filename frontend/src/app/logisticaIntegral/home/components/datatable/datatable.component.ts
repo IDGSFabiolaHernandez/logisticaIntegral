@@ -48,10 +48,9 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 		this.onItemsPerPageChange();
 	}
 
-	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass: boolean = false) {
+	abrirModalModificacion(idDetalle: number, idModal: string) {
 		const data = {
-			idDetalle: idDetalle,
-			noQuitClass: noQuitClass
+			idDetalle: idDetalle
 		};
 	  
 		const configModalModificacion: any = {
@@ -98,12 +97,14 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 		  	idDetalle: idDetalle
 		};
 
+		idDetalle = idModal == 'detalleEnlaceSocioEmpresasPrestamo' ? 1+idDetalle : idDetalle;
+
 		let configModalDetalle: any = {
 		  	backdrop: false,
 		  	ignoreBackdropClick: true,
 		  	keyboard: false,
 		  	animated: true,
-		  	class: 'modal-xl modal-dialog-centered custom-modal move-modal-detail'+idDetalle,
+		  	class: 'modal-xl modal-dialog-centered custom-modal move-modal-detail'+(idDetalle),
 		  	initialState: data
 		};
 

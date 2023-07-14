@@ -15,62 +15,62 @@
                 <div class="card">
                     <div class="card-body pt-3">
                     
-                        <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                        <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="{{'borderedTabJustified'+idModal}}" role="tablist">
                             <li class="nav-item flex-fill" role="presentation">
-                                <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#profile-informacion" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                <button class="nav-link w-100 active" id="{{'home-tab'+idModal}}" data-bs-toggle="tab" [attr.data-bs-target]="'#profile-informacion'+idModal" type="button" role="tab" aria-controls="home" aria-selected="true">
                                     Información personal
                                 </button>
                             </li>
                             <li class="nav-item flex-fill" role="presentation">
-                                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-direccion" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
+                                <button class="nav-link w-100" id="{{'profile-tab'+idModal}}" data-bs-toggle="tab" [attr.data-bs-target]="'#profile-direccion'+idModal" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
                                     Detalles de domicilio
                                 </button>
                             </li>
                             <li class="nav-item flex-fill" role="presentation">
-                                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-identificacion" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
+                                <button class="nav-link w-100" id="{{'profile-tab'+idModal}}" data-bs-toggle="tab" [attr.data-bs-target]="'#profile-identificacion'+idModal" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
                                     Datos de identificación
                                 </button>
                             </li>
                         </ul>
         
                         <div class="tab-content pt-2">
-                            <div class="tab-pane fade show active profile-edit" id="profile-informacion">
+                            <div class="tab-pane fade show active profile-edit" id="{{'profile-informacion'+idModal}}">
                                 <h5 class="card-title" align="center" style="margin-top: 15px;">Información personal</h5>
                 
                                 <form class="row g-3" autocomplete="off" [formGroup]="formDatosPersonalesSocio">
                                     <div class="col-md-6">
                                         <label for="nombreSocio" class="form-label required">Nombre(s):</label>
-                                        <input formControlName="nombreSocio" type="text" class="form-control" id="nombreSocio" placeholder="Nombre(s)" (keypress)="soloLetras($event)" maxlength="255">
+                                        <input formControlName="nombreSocio" type="text" class="form-control" id="{{'nombreSocio'+idModal}}" placeholder="Nombre(s)" (keypress)="soloLetras($event)" maxlength="255">
                                     </div>
 
                                     <div class="col-md-6">
                                         <label for="status" class="form-label required">Status Socio:</label>
                                         <section style="text-align: center;">
-                                            <input class="form-check-input" type="radio" formControlName="status" id="statusSocioA" value="1">
+                                            <input class="form-check-input" type="radio" formControlName="status" id="{{'statusSocioA'+idModal}}" value="1">
                                             <label class="form-check-label" for="statusSocioA">&nbsp;Activo</label>
-                                            &nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" formControlName="status" id="statusSocioI" value="0">
+                                            &nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" formControlName="status" id="{{'statusSocioI'+idModal}}" value="0">
                                             <label class="form-check-label" for="statusSocioI">&nbsp;Inactivo</label>
                                         </section>
                                     </div>
 
                                     <div class="col-md-6">
                                         <label for="fechaNacimiento" class="form-label required">Fecha Nacimiento:</label>
-                                        <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento">
+                                        <input formControlName="fechaNacimiento" type="date" class="form-control" id="{{'fechaNacimiento'+idModal}}">
                                     </div>
                 
                                     <div class="col-md-6">
                                         <label for="curpSocio" class="form-label required">CURP:</label>
-                                        <input formControlName="curpSocio" type="text" class="form-control" id="curpSocio" placeholder="CURP" (keypress)="soloTexto($event)" maxlength="18">
+                                        <input formControlName="curpSocio" type="text" class="form-control" id="{{'curpSocio'+idModal}}" placeholder="CURP" (keypress)="soloTexto($event)" maxlength="18">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="rfcSocio" class="form-label required">RFC:</label>
-                                        <input formControlName="rfcSocio" type="text" class="form-control" id="rfcSocio" placeholder="RFC" (keypress)="soloTexto($event)" maxlength="13">
+                                        <input formControlName="rfcSocio" type="text" class="form-control" id="{{'rfcSocio'+idModal}}" placeholder="RFC" (keypress)="soloTexto($event)" maxlength="13">
                                     </div>
                                     
                                     <div class="col-md-4">
                                         <label for="estadoCivilSocio" class="form-label required">Estado Civil:</label>
-                                        <select formControlName="estadoCivilSocio" id="estadoCivilSocio" class="form-control">
+                                        <select formControlName="estadoCivilSocio" id="{{'estadoCivilSocio'+idModal}}" class="form-control">
                                             <option value="" style="display: none; visibility: hidden;">Seleccione una estado</option>
                                             <option value="1">Solter@</option>
                                             <option value="2">Casad@</option>
@@ -83,53 +83,53 @@
 
                                     <div class="col-md-4">
                                         <label for="telefono" class="form-label">Teléfono:</label>
-                                        <input formControlName="telefono" type="text" class="form-control" id="telefono" placeholder="Teléfono" (keypress)="soloNumeros($event)" maxlength="10">
+                                        <input formControlName="telefono" type="text" class="form-control" id="{{'telefono'+idModal}}" placeholder="Teléfono" (keypress)="soloNumeros($event)" maxlength="10">
                                     </div>
 
                                     <div class="col-md-6">
                                         <label for="lugarNacimiento" class="form-label required">Lugar de Nacimiento:</label>
-                                        <input formControlName="lugarNacimiento" type="text" class="form-control" id="lugarNacimiento" placeholder="Lugar de Nacimiento" (keypress)="soloTexto($event)" maxlength="255">
+                                        <input formControlName="lugarNacimiento" type="text" class="form-control" id="{{'lugarNacimiento'+idModal}}" placeholder="Lugar de Nacimiento" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
                 
                                     <div class="col-md-6">
                                         <label for="ocupacion" class="form-label required">Ocupación:</label>
-                                        <input formControlName="ocupacion" type="text" class="form-control" id="ocupacion" placeholder="Ocupación" (keypress)="soloTexto($event)" maxlength="255">
+                                        <input formControlName="ocupacion" type="text" class="form-control" id="{{'ocupacion'+idModal}}" placeholder="Ocupación" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
                                 </form>
                             </div>
         
-                            <div class="tab-pane fade pt-3 profile-edit" id="profile-direccion">
+                            <div class="tab-pane fade pt-3 profile-edit" id="{{'profile-direccion'+idModal}}">
                                 <h5 class="card-title" align="center">Detalles de domicilio</h5>
                 
                                 <form class="row g-3" autocomplete="off" [formGroup]="formDetalleDomicilioSocio">
                                     <div class="col-md-6">
                                         <label for="direccion" class="form-label required">Dirección:</label>
-                                        <input formControlName="direccion" type="text" class="form-control" id="direccion" placeholder="Dirección" (keypress)="soloTexto($event)" maxlength="255">
+                                        <input formControlName="direccion" type="text" class="form-control" id="{{'direccion'+idModal}}" placeholder="Dirección" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
 
                                     <div class="col-md-6">
                                         <label for="colonia" class="form-label required">Colonia:</label>
-                                        <input formControlName="colonia" type="text" class="form-control" id="colonia" placeholder="Colonia" (keypress)="soloTexto($event)" maxlength="255">
+                                        <input formControlName="colonia" type="text" class="form-control" id="{{'colonia'+idModal}}" placeholder="Colonia" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="cp" class="form-label required">CP:</label>
-                                        <input formControlName="cp" type="text" class="form-control" id="cp" placeholder="CP" (keypress)="soloNumeros($event)" maxlength="5">
+                                        <input formControlName="cp" type="text" class="form-control" id="{{'cp'+idModal}}" placeholder="CP" (keypress)="soloNumeros($event)" maxlength="5">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="localidad" class="form-label required">Localidad:</label>
-                                        <input formControlName="localidad" type="text" class="form-control" id="localidad" placeholder="Localidad" (keypress)="soloTexto($event)" maxlength="255">
+                                        <input formControlName="localidad" type="text" class="form-control" id="{{'localidad'+idModal}}" placeholder="Localidad" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="estado" class="form-label required">Estado:</label>
-                                        <input formControlName="estado" type="text" class="form-control" id="estado" placeholder="Estado" (keypress)="soloTexto($event)" maxlength="255">
+                                        <input formControlName="estado" type="text" class="form-control" id="{{'estado'+idModal}}" placeholder="Estado" (keypress)="soloTexto($event)" maxlength="255">
                                     </div>
                                 </form>
                             </div>
 
-                            <div class="tab-pane fade pt-3 profile-edit" id="profile-identificacion">
+                            <div class="tab-pane fade pt-3 profile-edit" id="{{'profile-identificacion'+idModal}}">
                                 <h5 class="card-title" align="center">Datos de identificación</h5>
                 
                                 <form class="row g-3" autocomplete="off" [formGroup]="formDatosIdentificacionSocio">
@@ -192,7 +192,7 @@
                                         <input formControlName="fechaInicio" type="date" class="form-control" id="fechaInicio">
                                     </div>
                                     <div class="col-lg-4 col-md-6">
-                                        <label for="bloque" class="form-label required">Bloque:</label>
+                                        <label for="bloque" class="form-label">Bloque:</label>
                                         <select formControlName="bloque" id="bloque" class="form-control">
                                             <option value="" style="display: none; visibility: hidden;">Seleccione un bloque</option>
                                             <option value="1">Bloque 1</option>

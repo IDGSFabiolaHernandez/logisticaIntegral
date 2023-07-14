@@ -11,8 +11,8 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   	styleUrls: ['./registro-intermediario-socios.component.css']
 })
 export class RegistroIntermediarioSociosComponent extends Grid implements OnInit{
-	@Input() noQuitClass : boolean = false;
-
+	@Input() idModal : any = 0;
+	
 	protected formNuevoIntermediario! : FormGroup;
 
 	constructor (

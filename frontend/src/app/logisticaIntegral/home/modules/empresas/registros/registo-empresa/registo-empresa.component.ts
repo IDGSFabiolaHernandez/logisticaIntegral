@@ -12,7 +12,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   	styleUrls: ['./registo-empresa.component.css']
 })
 export class RegistoEmpresaComponent extends Grid implements OnInit{
-	@Input() noQuitClass : boolean = false;
+	@Input() idModal : any = 0;
 
 	protected formNuevaEmpresa! : FormGroup;
 

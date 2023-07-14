@@ -70,6 +70,8 @@ export class NavbarComponent extends Grid implements OnInit{
   }
 
   abrirModalModificacionPerfil() : void {
+    this.countModal += 1;
+    
     const configModalMoficiacion : any = {
       backdrop: false,
       ignoreBackdropClick: true,

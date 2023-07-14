@@ -11,7 +11,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   	styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent extends Grid{
-	private countModal : number = 0;
+	private countModal : any = 0;
 
 	constructor (
 		private modalService: BsModalService
@@ -20,10 +20,17 @@ export class SidebarComponent extends Grid{
 	}
 
 	protected abrirModalRegistro ( idModal : string ) : void {
+		this.countModal += 1;
+
+		this.countModal = '-side'+this.countModal;
+		
 		const configModalRegistro: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
 			keyboard: false,
+			initialState : {
+				idModal : this.countModal
+			},
 			animated: true,
 			class: 'modal-xl modal-dialog-centered custom-modal modal-registro'+this.countModal,
 			style: {

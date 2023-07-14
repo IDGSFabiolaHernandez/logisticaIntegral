@@ -14,7 +14,7 @@ import { RegistoEmpresaComponent } from '../../../empresas/registros/registo-emp
   	styleUrls: ['./registro-enlace-socio-empresa.component.css']
 })
 export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnInit, OnDestroy{
-	@Input() noQuitClass : boolean = false;
+	@Input() idModal : any = 0;
 	
 	protected formEnlaceSocioEmpresa! : FormGroup;
 
@@ -40,6 +40,8 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 		'Maquila cliente',
 		'Cuenta bancaria'
 	];
+
+	private countModal : any = 0;
 
 	constructor (
 		private fb : FormBuilder,
@@ -102,17 +104,19 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 	}
 
 	protected abrirModalRegistro ( idModal : string ) : void {
-		const data = {
-			noQuitClass : true
-		};
+		this.countModal += 1;
 
-		let configModalRegistro: any = {
+		this.countModal = '-enlace-socio-empresa'+this.countModal;
+		
+		const configModalRegistro: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
 			keyboard: false,
+			initialState : {
+				idModal : this.countModal
+			},
 			animated: true,
-			initialState: data,
-			class: 'modal-xl modal-dialog-centered custom-modal',
+			class: 'modal-xl modal-dialog-centered custom-modal modal-registro-socio-empresa'+this.countModal,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
@@ -125,12 +129,23 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 				op = this.modalService.show(RegistroSociosComponent, configModalRegistro);
 			break;
 			case 'registroEmpresa':
-				configModalRegistro.class = 'modal-lg modal-dialog-centered custom-modal';
 				op = this.modalService.show(RegistoEmpresaComponent, configModalRegistro);
 			break;
 		}
 
-		const modalRef: BsModalRef = op;
+		setTimeout(() => {
+			const modalBodyElement = document.querySelector('.modal-registro-socio-empresa' + this.countModal + ' .modal-body');
+			const modalFooterElement = document.querySelector('.modal-registro-socio-empresa' + this.countModal + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			}
+		
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}, 100);
 	}
 
 	mostrarOpciones ( op : string ) : void {
