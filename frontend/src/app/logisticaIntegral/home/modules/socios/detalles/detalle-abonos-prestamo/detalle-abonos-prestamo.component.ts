@@ -35,7 +35,7 @@ export class DetalleAbonosPrestamoComponent extends Grid implements OnInit, OnDe
 		}
 	}
 	protected listaAbonosPrestamo : any[] = [];
-	protected detallePrestamo : any = [];
+	protected detallePrestamo : any = {};
 
 	constructor (
 		private mensajes : MensajesService,
@@ -55,19 +55,21 @@ export class DetalleAbonosPrestamoComponent extends Grid implements OnInit, OnDe
 
 	private obtenerAbonosPrestamo() : Promise<any> {
 		return this.prestamosService.obtenerAbonosPrestamo(this.idDetalle).toPromise().then(
-			respuesta =>{
+			respuesta => {
 				this.listaAbonosPrestamo = respuesta.data.abonosPrestamo;
-				this.detallePrestamo = respuesta.data.detallePrestamo;
+				
+				this.detallePrestamo.montoPrestamo = '$ ' + respuesta.data.detallePrestamo[0].montoPrestamo.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+				this.detallePrestamo.aCuenta = '$ ' + respuesta.data.detallePrestamo[0].aCuenta.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+				this.detallePrestamo.saldo = '$ ' + respuesta.data.detallePrestamo[0].saldo.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 				
 				console.log(this.detallePrestamo);
 				if(this.listaAbonosPrestamo.length == 0) {
 					this.mensajes.mensajeGenericoToast('No hay información para mostrar', 'warning');
 					this.cancelarModal();
+					return;
 				}
-				this.mensajes.mensajeGenericoToast(respuesta.mensaje,'succes');
-			},
-
-			error =>{
+				this.mensajes.mensajeGenericoToast(respuesta.mensaje,'success');
+			}, error => {
 				this.mensajes.mensajeGenerico('error', 'error');
 			}
 		);
@@ -91,9 +93,6 @@ export class DetalleAbonosPrestamoComponent extends Grid implements OnInit, OnDe
 
 	protected cancelarModal() : any {
 		this.bsModalRef.hide();
-		document.body.classList.remove('modal-open');
-		document.body.style.paddingRight = '';
-		document.body.style.overflow = '';
 		this.idDetalle = 0;
 		this.listaAbonosPrestamo = [];
 	}

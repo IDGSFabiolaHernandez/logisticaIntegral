@@ -27,8 +27,8 @@ export class ModificacionPerfilComponent extends Grid implements OnInit, OnDestr
   	async ngOnInit () : Promise<void> {
 		this.mensajes.mensajeEsperar();
 		this.crearformMoficacionPerfil();
-		this.obtenerDetallePerfilPorToken();
 		this.cambioContraseniaPerfil();
+		await this.obtenerDetallePerfilPorToken();
   	}
 
   	private crearformMoficacionPerfil() : void {
@@ -124,9 +124,6 @@ export class ModificacionPerfilComponent extends Grid implements OnInit, OnDestr
 
   	cancelarModificacion() : void {
 		this.bsModalRef.hide();
-		document.body.classList.remove('modal-open');
-		document.body.style.paddingRight = '';
-		document.body.style.overflow = '';
   	}
 
 	cambioContraseniaPerfil() : void {

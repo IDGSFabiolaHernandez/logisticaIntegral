@@ -205,11 +205,6 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 	cancelarRegistro() {
 		this.limpiarFormularios();
         this.bsModalRef.hide();
-		if ( !this.noQuitClass ) {
-			document.body.classList.remove('modal-open');
-			document.body.style.paddingRight = '';
-			document.body.style.overflow = '';
-		}
     }
 
 	ngOnDestroy(): void {

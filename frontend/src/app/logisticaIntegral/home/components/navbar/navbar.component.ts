@@ -6,13 +6,14 @@ import { LoginService } from 'src/app/auth/service/login.service';
 import { UsuariosService } from 'src/app/logisticaIntegral/services/usuarios/usuarios.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModificacionPerfilComponent } from '../../modules/usuarios/modificaciones/modificacion-perfil/modificacion-perfil.component';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent extends Grid implements OnInit{
   protected informacionUsuario : any = [];
 
   constructor(
@@ -22,7 +23,9 @@ export class NavbarComponent implements OnInit{
     private apiLogin : LoginService,
     private apiUsuarios : UsuariosService,
     private modalService : BsModalService
-  ){}
+  ){
+    super();
+  }
 
   async ngOnInit(): Promise<void> {
     await this.obtenerDatosUsuarios();
@@ -71,7 +74,7 @@ export class NavbarComponent implements OnInit{
       ignoreBackdropClick: true,
       keyboard: false,
       animated: true,
-      class: 'modal-lg modal-dialog-centered custom-modal',
+      class: 'modal-lg modal-dialog-centered custom-modal modal-modificacion',
       style: {
         'background-color': 'transparent',
         'overflow-y': 'auto'
@@ -79,5 +82,17 @@ export class NavbarComponent implements OnInit{
     }
 
     const modal : BsModalRef = this.modalService.show(ModificacionPerfilComponent, configModalMoficiacion)
+
+    setTimeout(() => {
+			const modalContentElement = document.querySelector('.modal-modificacion');
+			if (modalContentElement) {
+				const modalElement = modalContentElement.parentElement;
+				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+			}
+
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}, 100);
   }
 }

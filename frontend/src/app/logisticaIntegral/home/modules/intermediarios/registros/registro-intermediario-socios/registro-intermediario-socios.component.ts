@@ -75,10 +75,5 @@ export class RegistroIntermediarioSociosComponent extends Grid implements OnInit
 	cancelarRegistro() {
 		this.limpiarFormulario();
         this.bsModalRef.hide();
-		if ( !this.noQuitClass ) {
-			document.body.classList.remove('modal-open');
-			document.body.style.paddingRight = '';
-			document.body.style.overflow = '';
-		}
     }
 }

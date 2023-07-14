@@ -256,11 +256,6 @@ export class RegistroEnlaceSociosEmpresasComponent extends Grid implements OnIni
 	cancelarRegistro() {
 		this.limpiarFormulario();
         this.bsModalRef.hide();
-		if ( !this.noQuitClass ) {
-			document.body.classList.remove('modal-open');
-			document.body.style.paddingRight = '';
-			document.body.style.overflow = '';
-		}
     }
 
 	ngOnDestroy(): void {
