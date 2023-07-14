@@ -1440,12 +1440,13 @@ button {
   min-width: 90vw !important;
 }
 
-.modal-draggable .modal-dialog {
-  position: fixed;
-  z-index: 1050;
-  transition: none;
+modal-container.modal.fade.show {
+  height: auto !important;
+  width: auto !important;
+  resize: both !important;
+  overflow: both !important;
 }
 
-.modal-draggable .modal-content {
-  cursor: move;
+modal-container.modal.fade.show:hover {
+  z-index: 1056;
 }

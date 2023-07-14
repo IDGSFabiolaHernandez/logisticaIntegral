@@ -13,14 +13,16 @@ import { RegistroIntermediarioSociosComponent } from '../../../intermediarios/re
   	styleUrls: ['./registro-socio.component.css']
 })
 export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
-	@Input() noQuitClass : boolean = false;
-
+	@Input() idModal : any = 0;
+	
 	protected formDatosPersonalesSocio! : FormGroup;
   	protected formDetalleDomicilioSocio! : FormGroup;
 	protected formDatosIdentificacionSocio! : FormGroup;
 
 	public mostrarOpciones : boolean = false;
 	protected intermediarios : any = [];
+
+	private countModal : any = 0;
 
 	constructor (
 		private mensajes : MensajesService,
@@ -72,7 +74,7 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 			vigencia             : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]],
 			fiel                 : ['1', [Validators.required]],
 			fechaInicio          : ['', []],
-			bloque 	 			 : ['', [Validators.required]],
+			bloque 	 			 : ['', []],
 			observaciones        : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
@@ -94,24 +96,37 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 	}
 
 	abrirModalRegistroIntermediario () {
-		const data = {
-			noQuitClass : true
-		};
+		this.countModal += 1;
 
-		const configModalModificacion: any = {
+		this.countModal = '-registro-socio'+this.countModal;
+		
+		const configModalRegistro: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
 			keyboard: false,
 			animated: true,
-			initialState: data,
-			class: 'modal-lg modal-dialog-centered custom-modal',
+			class: 'modal-xl modal-dialog-centered custom-modal modal-registro-intermediario'+this.countModal,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
 			}
 		};
 
-		const modalRef: BsModalRef = this.modalService.show(RegistroIntermediarioSociosComponent, configModalModificacion);
+		const modalRef: BsModalRef = this.modalService.show(RegistroIntermediarioSociosComponent, configModalRegistro);
+
+		setTimeout(() => {
+			const modalBodyElement = document.querySelector('.modal-registro-intermediario' + this.countModal + ' .modal-body');
+			const modalFooterElement = document.querySelector('.modal-registro-intermediario' + this.countModal + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			}
+		
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}, 100);
 	}
 
 	mostrarOpcionesIntermediarios () : void {
@@ -205,11 +220,6 @@ export class RegistroSociosComponent extends Grid implements OnInit, OnDestroy{
 	cancelarRegistro() {
 		this.limpiarFormularios();
         this.bsModalRef.hide();
-		if ( !this.noQuitClass ) {
-			document.body.classList.remove('modal-open');
-			document.body.style.paddingRight = '';
-			document.body.style.overflow = '';
-		}
     }
 
 	ngOnDestroy(): void {

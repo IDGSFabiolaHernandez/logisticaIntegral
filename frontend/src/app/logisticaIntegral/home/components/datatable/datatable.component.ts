@@ -4,13 +4,14 @@ import { ModificacionSocioComponent } from '../../modules/socios/modificaciones/
 import { DetalleEnlaceSocioEmpresasComponent } from '../../modules/socios/detalles/detalle-enlace-socio-empresas/detalle-enlace-socio-empresas.component';
 import { ModificacionEnlaceSocioEmpresaComponent } from '../../modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 import { DetalleAbonosPrestamoComponent } from '../../modules/socios/detalles/detalle-abonos-prestamo/detalle-abonos-prestamo.component';
+import Grid from 'src/app/shared/util/funciones-genericas';
 
 @Component({
   	selector: 'app-datatable',
   	templateUrl: './datatable.component.html',
   	styleUrls: ['./datatable.component.css']
 })
-export class DatatableComponent implements OnInit, OnChanges {
+export class DatatableComponent extends Grid implements OnInit, OnChanges {
 	@Input() columnasTabla : any = [];
 	@Input() datosTabla : any = [];
 	@Input() tableConfig : any = [];
@@ -29,7 +30,9 @@ export class DatatableComponent implements OnInit, OnChanges {
 
 	constructor (
 		private modalService: BsModalService
-	) {}
+	) {
+		super();
+	}
 
 	ngOnInit(): void {
 		this.selectedCheckboxes = [];
@@ -45,10 +48,9 @@ export class DatatableComponent implements OnInit, OnChanges {
 		this.onItemsPerPageChange();
 	}
 
-	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass: boolean = false) {
+	abrirModalModificacion(idDetalle: number, idModal: string) {
 		const data = {
-		  	idDetalle: idDetalle,
-		  	noQuitClass: noQuitClass
+			idDetalle: idDetalle
 		};
 	  
 		const configModalModificacion: any = {
@@ -56,7 +58,7 @@ export class DatatableComponent implements OnInit, OnChanges {
 			ignoreBackdropClick: true,
 			keyboard: false,
 			animated: true,
-			class: 'modal-xl modal-dialog-centered custom-modal move-modal'+idDetalle,
+			class: 'modal-xl modal-dialog-centered custom-modal move-modal' + idDetalle,
 			initialState: data,
 			style: {
 				'background-color': 'transparent',
@@ -75,30 +77,34 @@ export class DatatableComponent implements OnInit, OnChanges {
 			break;
 		}
 	  
-		/*setTimeout(() => {
-		  const modalContentElement = document.querySelector('.move-modal'+idDetalle);
-			if (modalContentElement) {
-				const modalElement = modalContentElement.parentElement;
-				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+		setTimeout(() => {
+			const modalBodyElement = document.querySelector('.move-modal' + idDetalle + ' .modal-body');
+			const modalFooterElement = document.querySelector('.move-modal' + idDetalle + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
 			}
+		
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
 		}, 100);
-
-		document.body.classList.remove('modal-open');
-		document.body.style.paddingRight = '';
-		document.body.style.overflow = '';*/
 	}
-
+	
 	abrirModalDetalle(idDetalle: number, idModal: string) {
 		const data = {
 		  	idDetalle: idDetalle
 		};
+
+		idDetalle = idModal == 'detalleEnlaceSocioEmpresasPrestamo' ? 1+idDetalle : idDetalle;
 
 		let configModalDetalle: any = {
 		  	backdrop: false,
 		  	ignoreBackdropClick: true,
 		  	keyboard: false,
 		  	animated: true,
-		  	class: 'modal-dialog-centered custom-modal custom-width move-modal-datail'+idDetalle,
+		  	class: 'modal-xl modal-dialog-centered custom-modal move-modal-detail'+(idDetalle),
 		  	initialState: data
 		};
 
@@ -117,37 +123,19 @@ export class DatatableComponent implements OnInit, OnChanges {
 			break;
 		}
 
-		/*setTimeout(() => {
-			const modalContentElement = document.querySelector('.move-modal-datail'+idDetalle);
-			  if (modalContentElement) {
-				  const modalElement = modalContentElement.parentElement;
-				  modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
-			  }
+		setTimeout(() => {
+			const modalBodyElement = document.querySelector('.move-modal-detail' + idDetalle + ' .modal-body');
+			const modalFooterElement = document.querySelector('.move-modal-detail' + idDetalle + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			}
+		
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
 		}, 100);
-
-		document.body.classList.remove('modal-open');
-		document.body.style.paddingRight = '';
-		document.body.style.overflow = '';*/
-	}
-
-	onMouseDown(event: MouseEvent) {
-		const modalElement = event.currentTarget as HTMLElement;
-		const initialX = event.clientX - modalElement.getBoundingClientRect().left;
-      	const initialY = event.clientY - modalElement.getBoundingClientRect().top;
-	  
-		const onMouseMove = (event: MouseEvent) => {
-		  	const deltaX = event.clientX - initialX;
-		  	const deltaY = event.clientY - initialY;
-		  	modalElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-		};
-	  
-		const onMouseUp = () => {
-		  	document.removeEventListener('mousemove', onMouseMove);
-		  	document.removeEventListener('mouseup', onMouseUp);
-		};
-	  
-		document.addEventListener('mousemove', onMouseMove);
-		document.addEventListener('mouseup', onMouseUp);
 	}
 
 	get paginatedItems() {

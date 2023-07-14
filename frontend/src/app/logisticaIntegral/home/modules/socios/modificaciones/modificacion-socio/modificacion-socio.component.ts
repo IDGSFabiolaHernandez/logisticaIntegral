@@ -25,6 +25,8 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 
 	protected detalleSocio : any;
 
+	private countModal : any = 0;
+
 	constructor (
 		private mensajes : MensajesService,
 		private apiIntermediarios : IntermediariosService,
@@ -81,7 +83,7 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 			fiel                 : ['', [Validators.required]],
 			fechaInicio          : ['', []],
 			fechaFin             : ['', []],
-			modificarBloque 	 : ['1', [Validators.required]],
+			modificarBloque 	 : ['', []],
 			observaciones        : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
@@ -103,24 +105,40 @@ export class ModificacionSocioComponent extends Grid implements OnInit, OnDestro
 	}
 
 	abrirModalRegistroIntermediario () {
-		const data = {
-			noQuitClass : true
-		};
+		this.countModal += 1;
+		
+		this.countModal = '-mod-socio'+this.countModal;
 
-		const configModalModificacion: any = {
+		const configModalRegistro: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
 			keyboard: false,
+			initialState : {
+				idModal : this.countModal
+			},
 			animated: true,
-			initialState: data,
-			class: 'modal-lg modal-dialog-centered custom-modal',
+			class: 'modal-lg modal-dialog-centered custom-modal modal-registro-intermediario'+this.countModal,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
 			}
 		};
 
-		const modalRef: BsModalRef = this.modalService.show(RegistroIntermediarioSociosComponent, configModalModificacion);
+		const modalRef: BsModalRef = this.modalService.show(RegistroIntermediarioSociosComponent, configModalRegistro);
+
+		setTimeout(() => {
+			const modalBodyElement = document.querySelector('.modal-registro-intermediario' + this.countModal + ' .modal-body');
+			const modalFooterElement = document.querySelector('.modal-registro-intermediario' + this.countModal + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			}
+		
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}, 100);
 	}
 
 	private obtenerDetalleSocioPorId ( idSocio : number ) : Promise<any> {

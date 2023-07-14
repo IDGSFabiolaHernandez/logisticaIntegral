@@ -12,6 +12,8 @@ Route::post('/usuarios/modificarUsuario', 'App\Http\Controllers\LogisticaIntegra
 Route::post('/usuarios/validarContraseniaActual', 'App\Http\Controllers\LogisticaIntegral\UsuariosController@validarContraseniaActual');
 
 Route::post('/socios/listaSocios', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerListaSocios');
+Route::get('/socios/obtenerListaSociosPorBloque/{bloque}', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerListaSociosPorBloque');
+Route::get('/socios/obtenerRegistrosPorBloque', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerRegistrosPorBloque');
 Route::get('/socios/obtenerSociosGenerales', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosGenerales');
 Route::get('/socios/obtenerSociosSelect', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerOpcionesSocios');
 Route::post('/socios/registroNuevoSocio', 'App\Http\Controllers\LogisticaIntegral\SociosController@registroNuevoSocio');

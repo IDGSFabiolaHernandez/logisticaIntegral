@@ -19,7 +19,7 @@
                         <form class="row g-3" autocomplete="off" [formGroup]="formNuevoPrestamo">
                             <div class="col-lg-6">
                                 <label for="fechaPrestamo" class="form-label required">Fecha del préstamo:</label>
-                                <input formControlName="fechaPrestamo" type="date" class="form-control" id="fechaPrestamo">
+                                <input formControlName="fechaPrestamo" type="date" class="form-control" id="{{'fechaPrestamo'+idModal}}">
                             </div>
 
                             <div class="col-lg-6">
@@ -28,7 +28,7 @@
                                     <input
                                         list="socios"
                                         class="form-control border-right-none"
-                                        id="nombreSocio"
+                                        id="{{'nombreSocio'+idModal}}"
                                         formControlName="nombreSocio"
                                         placeholder="Socio"
                                         (keypress)="soloLetras($event)"
@@ -38,7 +38,7 @@
                                     <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
                                 </div>
 
-                                <datalist id="socios" *ngIf="this.mostrarOpcionesSocios">
+                                <datalist id="{{'socios'+idModal}}" *ngIf="this.mostrarOpcionesSocios">
                                     <option *ngFor="let socio of this.datosSocios" value="{{socio.nombreSocio}}">
                                 </datalist>
                             </div>
@@ -47,7 +47,7 @@
                                 <label for="montoPrestamo" class="form-label required">Monto del préstamo:</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">$</span>
-                                    <input formControlName="montoPrestamo" type="text" class="form-control" id="montoPrestamo" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe()">
+                                    <input formControlName="montoPrestamo" type="text" class="form-control" id="{{'montoPrestamo'+idModal}}" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe()">
                                     <span class="input-group-text">.00</span>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
 
                             <div class="col-sm-12">
                                 <label for="observaciones" class="form-label">Observaciones:</label>
-                                <textarea formControlName="observaciones" class="form-control" id="observaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
+                                <textarea formControlName="observaciones" class="form-control" id="{{'observaciones'+idModal}}" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
                             </div>
                         </form>
                     </div>
