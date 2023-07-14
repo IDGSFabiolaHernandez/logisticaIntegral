@@ -50,25 +50,25 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 
 	abrirModalModificacion(idDetalle: number, idModal: string, noQuitClass: boolean = false) {
 		const data = {
-		  	idDetalle: idDetalle,
-		  	noQuitClass: noQuitClass
+			idDetalle: idDetalle,
+			noQuitClass: noQuitClass
 		};
-	  
+	
 		const configModalModificacion: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
 			keyboard: false,
 			animated: true,
-			class: 'modal-xl modal-dialog-centered custom-modal move-modal'+idDetalle,
+			class: 'modal-xl modal-dialog-centered custom-modal move-modal' + idDetalle,
 			initialState: data,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
 			}
 		};
-	  
+	
 		let op: any = undefined;
-	  
+	
 		switch (idModal) {
 			case 'modificacionSocio':
 				op = this.modalService.show(ModificacionSocioComponent, configModalModificacion);
@@ -77,22 +77,24 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 				op = this.modalService.show(ModificacionEnlaceSocioEmpresaComponent, configModalModificacion);
 			break;
 		}
-	  
+
+		console.log(op);
+	
 		setTimeout(() => {
-			const modalContentElement = document.querySelector('.move-modal' + idDetalle);
-			const modalContentElement2 = document.querySelector('.modal-footer');
-			if (modalContentElement && modalContentElement2) {
-				const modalElement = modalContentElement.parentElement;
-				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
-				modalContentElement2?.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			const modalBodyElement = document.querySelector('.modal-body');
+			const modalFooterElement = document.querySelector('.modal-footer');
+	
+			if ( modalBodyElement && modalFooterElement ) {
+				modalBodyElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement?.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
 			}
-			
+	
 			document.body.classList.remove('modal-open');
 			document.body.style.paddingRight = '';
 			document.body.style.overflow = '';
 		}, 100);
 	}
-
+	
 	abrirModalDetalle(idDetalle: number, idModal: string) {
 		const data = {
 		  	idDetalle: idDetalle

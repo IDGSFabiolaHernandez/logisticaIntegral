@@ -127,7 +127,7 @@ export default class Grid {
 	}
 
     onMouseDown(event: MouseEvent) {
-		const modalElement = event.currentTarget as HTMLElement;
+		const modalElement = document.querySelector('.modal.fade.show') as HTMLElement;
 		const initialX = event.clientX - modalElement.getBoundingClientRect().left;
       	const initialY = event.clientY - modalElement.getBoundingClientRect().top;
 	  
@@ -147,7 +147,7 @@ export default class Grid {
 	}
 
     startResizing(event: MouseEvent) {
-        const modalElement = event.currentTarget as HTMLElement;
+        const modalElement = document.querySelector('.modal-content') as HTMLElement;
         const initialWidth = modalElement.offsetWidth;
         const initialHeight = modalElement.offsetHeight;
         const initialX = event.clientX;
