@@ -29,8 +29,6 @@ class SociosService
     public function obtenerListaSocios($socios){
         $listaSocios = $this->sociosRepository->obtenerListaSocios($socios['socios']);
 
-        Log::alert($listaSocios);
-
         return response()->json(
             [
                 'mensaje' => 'Se consultaron los Socios con éxito',
@@ -39,6 +37,40 @@ class SociosService
         );
     }
     
+    public function obtenerListaSociosPorBloque($bloque){
+        $listaSocios = $this->sociosRepository->obtenerListaSociosPorBloque($bloque);
+
+        if(count($listaSocios) == 0){
+            return response()->json(
+                [
+                    'mensaje' => 'No se encontraron Socios para el filtro seleccionado',
+                    'status' => 204
+                ],
+                200
+            );
+        }
+
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron los Socios por bloque '.($bloque == 'null' ? 'sin información' : $bloque).' con éxito',
+                'data' => $listaSocios
+            ],
+            200
+        );
+    }
+
+    public function obtenerRegistrosPorBloque(){
+        $registroBloque = $this->sociosRepository->obtenerRegistrosPorBloque();
+
+        return response()->json(
+            [
+                'mensaje' => 'Se consultaron los conteos de Socios por bloque con éxito',
+                'data' => $registroBloque
+            ],
+            200
+        );
+    }
+
     public function obtenerSociosGenerales(){
         $sociosGenerales = $this->sociosRepository->obtenerSociosGenerales();
         return response()->json(

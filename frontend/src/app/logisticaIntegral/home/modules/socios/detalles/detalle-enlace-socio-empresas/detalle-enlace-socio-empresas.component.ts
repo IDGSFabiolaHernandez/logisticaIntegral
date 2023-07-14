@@ -31,8 +31,7 @@ export class DetalleEnlaceSocioEmpresasComponent extends Grid implements OnInit,
 		"nombreSocio" : {
 			"updateColumn" : true,
 			"value" : "id",
-			"idModal" : "modificacionEnlaceSocioEmpresa",
-			"noQuitClass" : true
+			"idModal" : "modificacionEnlaceSocioEmpresa"
 		}
 	};
 
@@ -52,6 +51,9 @@ export class DetalleEnlaceSocioEmpresasComponent extends Grid implements OnInit,
 		await Promise.all([
 			this.obtenerSocioEmpresas()
 		]);
+		document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
 	}
 
 	private obtenerSocioEmpresas () : Promise<any> {

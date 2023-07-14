@@ -15,6 +15,7 @@ import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 export class ListaSociosComponent extends Grid{
 	protected opcionesSocios : Option[] = [];
 	protected sociosSeleccionados : any[] = [];
+	protected dataBloques : any = {};
 
 	protected columnasSocio : any = {
 		'id' 				  : '#',
@@ -73,7 +74,10 @@ export class ListaSociosComponent extends Grid{
 
 	async ngOnInit () : Promise<void> {
 		this.mensajes.mensajeEsperar();
-		await this.obtenerSociosSelect();
+		await Promise.all([
+			this.obtenerSociosSelect(),
+			this.obtenerRegistrosPorBloque()
+		])
 		this.mensajes.cerrarMensajes();
 	}
 
@@ -91,6 +95,49 @@ export class ListaSociosComponent extends Grid{
 		this.mensajes.mensajeEsperar();
 		await this.obtenerSociosSelect();
 		this.mensajes.mensajeGenericoToast('Se actualizó la lista de Socios', 'success');
+	}
+
+	private obtenerRegistrosPorBloque () : Promise<any> {
+		return this.apiSocios.obtenerRegistrosPorBloque().toPromise().then(
+			respuesta => {
+				for (let i = 1; i <= 7; i++) {
+					this.dataBloques[`bloque${i}`] = 0;
+				}
+				respuesta.data.forEach((item : any) => {
+					const bloque = item.bloque;
+					const registros = item.registros;
+					if(bloque != 'vacio'){
+						if(bloque >= 1 && bloque <= 7){
+							this.dataBloques[`bloque${bloque}`] = registros;
+						}else {
+							this.dataBloques[bloque]= registros;
+						}
+					}
+				
+				});
+			}, 
+			error => {
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		)
+	}
+
+	protected obtenerListaSociosPorBloque( bloque : any = null ) : void {
+		this.mensajes.mensajeEsperar();
+		this.apiSocios.obtenerListaSociosPorBloque(bloque).subscribe(
+			respuesta =>{
+				if(respuesta.status == 204){
+					this.mensajes.mensajeGenericoToast(respuesta.mensaje,'warning');
+					return;
+				}
+
+				this.listaSocios = respuesta.data;
+				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
+			}, 
+			error =>{
+				this.mensajes.mensajeGenerico('error', 'error');
+			}
+		)
 	}
 
 	protected onSelectionChange (data: any) : void {

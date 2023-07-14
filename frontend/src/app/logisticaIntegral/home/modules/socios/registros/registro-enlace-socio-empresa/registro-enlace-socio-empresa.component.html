@@ -24,7 +24,7 @@
                                     <input
                                         list="socios"
                                         class="form-control border-right-none"
-                                        id="nombreSocio"
+                                        id="{{'nombreSocio'+idModal}}"
                                         formControlName="nombreSocio"
                                         placeholder="Socio"
                                         (keypress)="soloTexto($event)"
@@ -35,7 +35,7 @@
                                     <button class="btn btn-outline-success" (click)="abrirModalRegistro('registroSocio')"><b>+</b></button>
                                 </div>
 
-                                <datalist id="socios" *ngIf="this.mostrarOpcionesSocios">
+                                <datalist id="{{'socios'+idModal}}" *ngIf="this.mostrarOpcionesSocios">
                                     <option *ngFor="let socio of this.datosSocios" value="{{socio.nombreSocio}}">
                                 </datalist>
                             </div>
@@ -47,7 +47,7 @@
                                     <input
                                         list="empresas"
                                         class="form-control border-right-none"
-                                        id="nombreEmpresa"
+                                        id="{{'nombreEmpresa'+idModal}}"
                                         formControlName="nombreEmpresa"
                                         placeholder="Empresa"
                                         (keypress)="soloTexto($event)"
@@ -58,19 +58,19 @@
                                     <button class="btn btn-outline-success" (click)="abrirModalRegistro('registroEmpresa')"><b>+</b></button>
                                 </div>
 
-                                <datalist id="empresas" *ngIf="this.mostrarOpcionesEmpresas">
+                                <datalist id="{{'empresas'+idModal}}" *ngIf="this.mostrarOpcionesEmpresas">
                                     <option *ngFor="let empresa of this.datosEmpresas" value="{{empresa.nombre}}">
                                 </datalist>
                             </div>
 
                             <div class="col-lg-3 col-md-5 col-sm-5">
                                 <label for="mesIngreso" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Mes de Ingreso:</label>
-                                <input formControlName="mesIngreso" type="month" class="form-control" id="mesIngreso">
+                                <input formControlName="mesIngreso" type="month" class="form-control" id="{{'mesIngreso'+idModal}}">
                             </div>
 
                             <div class="col-lg-5 col-md-7 col-sm-7">
                                 <label for="tipoInstrumento" class="form-label required">Tipo de Instrumento:</label>
-                                <select formControlName="tipoInstrumento" id="tipoInstrumento" class="form-control">
+                                <select formControlName="tipoInstrumento" id="{{'tipoInstrumento'+idModal}}" class="form-control">
                                     <option value="" style="display: none; visibility: hidden;">Seleccione un instrumento</option>
                                     <option value="1">Acta Constitutiva</option>
                                     <option value="2">Acta Asamblea Extraordinaria</option>
@@ -80,12 +80,12 @@
 
                             <div class="col-lg-4 col-md-12">
                                 <label for="numeroInstrumento" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Número de Instrumento:</label>
-                                <input formControlName="numeroInstrumento" type="text" class="form-control" id="numeroInstrumento" placeholder="Número de Instrumento" (keypress)="soloNumeros($event)" maxlength="15">
+                                <input formControlName="numeroInstrumento" type="text" class="form-control" id="{{'numeroInstrumento'+idModal}}" placeholder="Número de Instrumento" (keypress)="soloNumeros($event)" maxlength="15">
                             </div>
         
                             <div class="col-sm-12">
                                 <label for="observaciones" class="form-label">Observaciones:</label>
-                                <textarea formControlName="observaciones" class="form-control" id="observaciones" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
+                                <textarea formControlName="observaciones" class="form-control" id="{{'observaciones'+idModal}}" style="height: 65px" placeholder="Observaciones" (keypress)="soloTexto($event)"></textarea>
                             </div>
                         </form>
                     </div>

@@ -11,6 +11,23 @@
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
+                <div class="filter">
+                    <a class="icon" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Bloques</h6>
+                        </li>
+        
+                        <li (click)="obtenerListaSociosPorBloque(1)"><a class="dropdown-item">Bloque 1 - ({{this.dataBloques.bloque1}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque(2)"><a class="dropdown-item">Bloque 2 - ({{this.dataBloques.bloque2}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque(3)"><a class="dropdown-item">Bloque 3 - ({{this.dataBloques.bloque3}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque(4)"><a class="dropdown-item">Bloque 4 - ({{this.dataBloques.bloque4}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque(5)"><a class="dropdown-item">Bloque 5 - ({{this.dataBloques.bloque5}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque(6)"><a class="dropdown-item">Bloque 6 - ({{this.dataBloques.bloque6}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque(7)"><a class="dropdown-item">Bloque 7 - ({{this.dataBloques.bloque7}} regitros)</a></li>
+                        <li (click)="obtenerListaSociosPorBloque()"><a class="dropdown-item">Sin información - ({{this.dataBloques.vacios}} regitros)</a></li>
+                    </ul>
+                </div>
                 <div class="card-body row" style="margin-top: 10px;">
                     <div class="form-group col-lg-3 col-md-4 col-sm-6">
                         <label for="dropDown" class="form-label">Socio(s) <b style="color: brown;">*</b>:</label><br>

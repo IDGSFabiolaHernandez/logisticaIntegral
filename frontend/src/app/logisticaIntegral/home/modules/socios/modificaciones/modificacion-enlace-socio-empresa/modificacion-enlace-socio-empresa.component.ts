@@ -16,8 +16,7 @@ import { DataService } from 'src/app/logisticaIntegral/services/data.service';
 })
 export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnInit, OnDestroy{
 	@Input() idDetalle: number = 0;
-	@Input() noQuitClass: boolean = false;
-
+	
 	protected formModEnlaceSocioEmpresa! : FormGroup;
 
 	public mostrarOpcionesSocios : boolean = false;
@@ -44,6 +43,8 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 	];
 
 	protected detalleSocioEmpresa : any;
+
+	private countModal : any = 0;
 
 	constructor (
 		private fb : FormBuilder,
@@ -110,17 +111,19 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 	}
 
 	protected abrirModalRegistro ( idModal : string ) : void {
-		const data = {
-			noQuitClass : true
-		};
+		this.countModal += 1;
 
-		let configModalRegistro: any = {
+		this.countModal = '-mod-enlace-socio-empresa'+this.countModal;
+
+		const configModalRegistro: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
 			keyboard: false,
+			initialState : {
+				idModal : this.countModal
+			},
 			animated: true,
-			initialState: data,
-			class: 'modal-xl modal-dialog-centered custom-modal',
+			class: 'modal-xl modal-dialog-centered custom-modal modalM-registro-socio-empresa'+this.countModal,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
@@ -133,12 +136,23 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 				op = this.modalService.show(RegistroSociosComponent, configModalRegistro);
 			break;
 			case 'registroEmpresa':
-				configModalRegistro.class = 'modal-lg modal-dialog-centered custom-modal';
 				op = this.modalService.show(RegistoEmpresaComponent, configModalRegistro);
 			break;
 		}
 
-		const modalRef: BsModalRef = op;
+		setTimeout(() => {
+			const modalBodyElement = document.querySelector('.modalM-registro-socio-empresa' + this.countModal + ' .modal-body');
+			const modalFooterElement = document.querySelector('.modalM-registro-socio-empresa' + this.countModal + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			}
+		
+			document.body.classList.remove('modal-open');
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
+		}, 100);
 	}
 
 	private obtenerDetalleSocioEmpresaPorId ( idSocio : number ) : Promise<any> {
@@ -291,11 +305,6 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		this.mostrarOpcionesSocios = false;
 		this.mostrarOpcionesEmpresas = false;
         this.bsModalRef.hide();
-		if ( !this.noQuitClass ) {
-			document.body.classList.remove('modal-open');
-			document.body.style.paddingRight = '';
-			document.body.style.overflow = '';
-		}
     }
 
 	ngOnDestroy(): void {

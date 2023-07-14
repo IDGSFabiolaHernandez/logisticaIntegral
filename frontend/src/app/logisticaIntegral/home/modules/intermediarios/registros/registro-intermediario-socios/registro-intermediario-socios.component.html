@@ -19,7 +19,7 @@
                         <form class="row g-3" autocomplete="off" [formGroup]="formNuevoIntermediario">
                             <div class="col-lg-12">
                                 <label for="nombreIntermediario" class="form-label required">Nombre del Intermediario:</label>
-                                <input formControlName="nombreIntermediario" type="text" class="form-control" id="nombreIntermediario" placeholder="Nombre del Intermediario" (keypress)="soloLetras($event)">
+                                <input formControlName="nombreIntermediario" type="text" class="form-control" id="{{'nombreIntermediario'+idModal}}" placeholder="Nombre del Intermediario" (keypress)="soloLetras($event)">
                             </div>
                         </form>
                     </div>
