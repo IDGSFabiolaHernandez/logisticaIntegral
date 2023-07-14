@@ -33,6 +33,36 @@ class SociosController extends Controller
         }
     }
 
+    public function obtenerListaSociosPorBloque($bloque){
+        try{
+            return $this->sociosService->obtenerListaSociosPorBloque($bloque);
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
+    public function obtenerRegistrosPorBloque(){
+        try{
+            return $this->sociosService->obtenerRegistrosPorBloque();
+        } catch ( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
     public function obtenerSociosGenerales( Request $request ){
         try{
             return $this->sociosService->obtenerSociosGenerales( $request->all() );

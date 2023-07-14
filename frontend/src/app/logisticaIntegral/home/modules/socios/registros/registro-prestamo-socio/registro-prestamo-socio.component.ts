@@ -11,7 +11,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   styleUrls: ['./registro-prestamo-socio.component.css']
 })
 export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDestroy{
-	@Input() noQuitClass : boolean = false;
+	@Input() idModal : any = 0;
 
 	protected formNuevoPrestamo! : FormGroup;
 
@@ -183,11 +183,6 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 	cancelarRegistro() {
 		this.limpiarFormulario();
         this.bsModalRef.hide();
-		if ( !this.noQuitClass ) {
-			document.body.classList.remove('modal-open');
-			document.body.style.paddingRight = '';
-			document.body.style.overflow = '';
-		}
     }
 	
 	ngOnDestroy(): void {

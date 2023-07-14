@@ -19,11 +19,11 @@
                         <form class="row g-3" autocomplete="off" [formGroup]="formNuevaEmpresa">
                             <div class="col-lg-6">
                                 <label for="nombreEmpresa" class="form-label required">Nombre de la empresa:</label>
-                                <input formControlName="nombreEmpresa" type="text" class="form-control" id="nombreEmpresa" placeholder="Nombre de la empresa" (keypress)="soloTexto($event)">
+                                <input formControlName="nombreEmpresa" type="text" class="form-control" id="{{'nombreEmpresa'+idModal}}" placeholder="Nombre de la empresa" (keypress)="soloTexto($event)">
                             </div>
                             <div class="col-lg-6">
                                 <label for="statusEmpresa" class="form-label required">Status de la empresa:</label>
-                                <select formControlName="statusEmpresa" class="form-control" id="statusEmpresa">
+                                <select formControlName="statusEmpresa" class="form-control" id="{{'statusEmpresa'+idModal}}">
                                     <option value="" style="display: none; visibility: hidden;">Seleccione un status</option>
                                     <option value="1">Activa</option>
                                     <option value="2">X suspender</option>

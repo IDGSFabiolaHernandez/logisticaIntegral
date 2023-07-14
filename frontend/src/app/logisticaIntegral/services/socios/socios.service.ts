@@ -21,6 +21,14 @@ export class SociosService {
 		return this.http.get<any>(this.url+'/socios/obtenerSociosSelect');
 	}
 
+	public obtenerRegistrosPorBloque () : Observable<any> {
+		return this.http.get<any>(this.url+'/socios/obtenerRegistrosPorBloque');
+	}
+
+	public obtenerListaSociosPorBloque ( bloque : any) : Observable<any> {
+		return this.http.get<any>(this.url+'/socios/obtenerListaSociosPorBloque/'+ bloque);
+	}
+
 	public obtenerSociosMensualidadesSelect () : Observable<any> {
 		return this.http.get<any>(this.url+'/socios/obtenerSociosMensualidadesSelect');
 	}

@@ -13,32 +13,50 @@ use Illuminate\Support\Facades\Log;
 
 class SociosRepository
 {
-    public function obtenerListaSocios($socios){
-        $listaSocios = TblSocios::select(
-                                    'tblSocios.id',
-                                    'tblSocios.nombreSocio',
-                                    'tblSocios.curpSocio',
-                                    'tblSocios.rfcSocio',
-                                    DB::raw("
-                                        CASE
-                                            WHEN tblSocios.bloque IS NOT NULL THEN CONCAT('Bloque ', tblSocios.bloque)
-                                            ELSE NULL
-                                        END AS bloque
-                                    "),
-                                    'tblIntermediariosSocios.nombreIntermediario',
-                                )
-                                ->selectRaw("
-                                    case
-                                        when tblSocios.status = 1 then 'Activo'
-                                        else 'Inactivo'
-                                    end as status
-                                ")
-                                ->selectRaw('COALESCE(ne.numEmpresas, 0) as numEmpresas')
-                                ->join('tblIntermediariosSocios', 'tblIntermediariosSocios.id', 'tblSocios.fkIntermediario')
-                                ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) as numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id')
-                                ->whereIn('tblSocios.id', $socios);
+    private function consultaSocios(){
+        return TblSocios::select(
+                            'tblSocios.id',
+                            'tblSocios.nombreSocio',
+                            'tblSocios.curpSocio',
+                            'tblSocios.rfcSocio',
+                            DB::raw("
+                                CASE
+                                    WHEN tblSocios.bloque IS NOT NULL THEN CONCAT('Bloque ', tblSocios.bloque)
+                                    ELSE NULL
+                                END AS bloque
+                            "),
+                            'tblIntermediariosSocios.nombreIntermediario',
+                        )
+                        ->selectRaw("
+                            case
+                                when tblSocios.status = 1 then 'Activo'
+                                else 'Inactivo'
+                            end as status
+                        ")
+                        ->selectRaw('COALESCE(ne.numEmpresas, 0) as numEmpresas')
+                        ->join('tblIntermediariosSocios', 'tblIntermediariosSocios.id', 'tblSocios.fkIntermediario')
+                        ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) as numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id');
+    }
 
-        return $listaSocios->get();
+    public function obtenerListaSocios($socios){
+        return $this->consultaSocios()->whereIn('tblSocios.id', $socios)->get();
+    }
+
+    public function obtenerListaSociosPorBloque($bloque){
+        return $this->consultaSocios()->where('tblSocios.bloque', is_numeric($bloque)? $bloque : null)->get();
+    }
+
+    public function obtenerRegistrosPorBloque(){
+        $registroBloque = TblSocios::selectRaw("
+                                        CASE 
+    	                                    when bloque is null then 'vacios'
+    	                                    else bloque
+                                        END as bloque,
+                                        COUNT(*) as registros
+       
+                                    ")
+                                    ->groupBy('bloque');
+        return $registroBloque->get();
     }
 
     public function obtenerSociosGenerales(){

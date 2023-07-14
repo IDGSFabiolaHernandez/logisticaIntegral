@@ -125,4 +125,51 @@ export default class Grid {
     getNowString(): any {
 		return new DatePipe('es-MX').transform(new Date(), 'dd MM yyyy // hh mm ss');
 	}
+
+    onMouseDown(event: MouseEvent) {
+        const modalElement = (event.currentTarget as HTMLElement).closest('.modal') as HTMLElement;
+        const initialX = event.clientX - modalElement.getBoundingClientRect().left;
+        const initialY = event.clientY - modalElement.getBoundingClientRect().top;
+      
+        const onMouseMove = (event: MouseEvent) => {
+            const deltaX = event.clientX - initialX;
+            const deltaY = event.clientY - initialY;
+            modalElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        };
+      
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+      
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    }
+      
+    startResizing(event: MouseEvent) {
+        const modalElement = (event.currentTarget as HTMLElement).closest('.modal') as HTMLElement;
+        const modalContentElement = modalElement.querySelector('.modal-content') as HTMLElement;
+        const initialWidth = modalContentElement.offsetWidth;
+        const initialHeight = modalContentElement.offsetHeight;
+        const initialX = event.clientX;
+        const initialY = event.clientY;
+      
+        const onMouseMove = (event: MouseEvent) => {
+            const deltaX = event.clientX - initialX;
+            const deltaY = event.clientY - initialY;
+            const newWidth = initialWidth + deltaX;
+            const newHeight = initialHeight + deltaY;
+        
+            modalContentElement.style.width = `${newWidth}px`;
+            modalContentElement.style.height = `${newHeight}px`;
+        };
+      
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+      
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    }
 }
