@@ -127,29 +127,30 @@ export default class Grid {
 	}
 
     onMouseDown(event: MouseEvent) {
-		const modalElement = document.querySelector('.modal.fade.show') as HTMLElement;
-		const initialX = event.clientX - modalElement.getBoundingClientRect().left;
-      	const initialY = event.clientY - modalElement.getBoundingClientRect().top;
-	  
-		const onMouseMove = (event: MouseEvent) => {
-		  	const deltaX = event.clientX - initialX;
-		  	const deltaY = event.clientY - initialY;
-		  	modalElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-		};
-	  
-		const onMouseUp = () => {
-		  	document.removeEventListener('mousemove', onMouseMove);
-		  	document.removeEventListener('mouseup', onMouseUp);
-		};
-	  
-		document.addEventListener('mousemove', onMouseMove);
-		document.addEventListener('mouseup', onMouseUp);
-	}
-
+        const modalElement = (event.currentTarget as HTMLElement).closest('.modal') as HTMLElement;
+        const initialX = event.clientX - modalElement.getBoundingClientRect().left;
+        const initialY = event.clientY - modalElement.getBoundingClientRect().top;
+      
+        const onMouseMove = (event: MouseEvent) => {
+            const deltaX = event.clientX - initialX;
+            const deltaY = event.clientY - initialY;
+            modalElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        };
+      
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+      
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    }
+      
     startResizing(event: MouseEvent) {
-        const modalElement = document.querySelector('.modal-content') as HTMLElement;
-        const initialWidth = modalElement.offsetWidth;
-        const initialHeight = modalElement.offsetHeight;
+        const modalElement = (event.currentTarget as HTMLElement).closest('.modal') as HTMLElement;
+        const modalContentElement = modalElement.querySelector('.modal-content') as HTMLElement;
+        const initialWidth = modalContentElement.offsetWidth;
+        const initialHeight = modalContentElement.offsetHeight;
         const initialX = event.clientX;
         const initialY = event.clientY;
       
@@ -159,8 +160,8 @@ export default class Grid {
             const newWidth = initialWidth + deltaX;
             const newHeight = initialHeight + deltaY;
         
-            modalElement.style.width = `${newWidth}px`;
-            modalElement.style.height = `${newHeight}px`;
+            modalContentElement.style.width = `${newWidth}px`;
+            modalContentElement.style.height = `${newHeight}px`;
         };
       
         const onMouseUp = () => {

@@ -53,7 +53,7 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 			idDetalle: idDetalle,
 			noQuitClass: noQuitClass
 		};
-	
+	  
 		const configModalModificacion: any = {
 			backdrop: false,
 			ignoreBackdropClick: true,
@@ -66,9 +66,9 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 				'overflow-y': 'auto'
 			}
 		};
-	
+	  
 		let op: any = undefined;
-	
+	  
 		switch (idModal) {
 			case 'modificacionSocio':
 				op = this.modalService.show(ModificacionSocioComponent, configModalModificacion);
@@ -77,18 +77,16 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 				op = this.modalService.show(ModificacionEnlaceSocioEmpresaComponent, configModalModificacion);
 			break;
 		}
-
-		console.log(op);
-	
+	  
 		setTimeout(() => {
-			const modalBodyElement = document.querySelector('.modal-body');
-			const modalFooterElement = document.querySelector('.modal-footer');
-	
-			if ( modalBodyElement && modalFooterElement ) {
-				modalBodyElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
-				modalFooterElement?.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			const modalBodyElement = document.querySelector('.move-modal' + idDetalle + ' .modal-body');
+			const modalFooterElement = document.querySelector('.move-modal' + idDetalle + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
 			}
-	
+		
 			document.body.classList.remove('modal-open');
 			document.body.style.paddingRight = '';
 			document.body.style.overflow = '';
@@ -105,7 +103,7 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 		  	ignoreBackdropClick: true,
 		  	keyboard: false,
 		  	animated: true,
-		  	class: 'modal-xl modal-dialog-centered custom-modal custom-width move-modal-detail'+idDetalle,
+		  	class: 'modal-xl modal-dialog-centered custom-modal move-modal-detail'+idDetalle,
 		  	initialState: data
 		};
 
@@ -125,13 +123,14 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 		}
 
 		setTimeout(() => {
-			const modalContentElement = document.querySelector('.move-modal-detail'+idDetalle);
-			if (modalContentElement) {
-				const modalElement = modalContentElement.parentElement;
-				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
-				modalElement?.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
+			const modalBodyElement = document.querySelector('.move-modal-detail' + idDetalle + ' .modal-body');
+			const modalFooterElement = document.querySelector('.move-modal-detail' + idDetalle + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
 			}
-
+		
 			document.body.classList.remove('modal-open');
 			document.body.style.paddingRight = '';
 			document.body.style.overflow = '';

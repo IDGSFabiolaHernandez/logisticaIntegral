@@ -15,6 +15,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
 })
 export class NavbarComponent extends Grid implements OnInit{
   protected informacionUsuario : any = [];
+  private countModal : number = 0;
 
   constructor(
     private dataService : DataService,
@@ -74,7 +75,7 @@ export class NavbarComponent extends Grid implements OnInit{
       ignoreBackdropClick: true,
       keyboard: false,
       animated: true,
-      class: 'modal-lg modal-dialog-centered custom-modal modal-modificacion',
+      class: 'modal-lg modal-dialog-centered custom-modal modal-modificacion modal-profile'+this.countModal,
       style: {
         'background-color': 'transparent',
         'overflow-y': 'auto'
@@ -84,12 +85,14 @@ export class NavbarComponent extends Grid implements OnInit{
     const modal : BsModalRef = this.modalService.show(ModificacionPerfilComponent, configModalMoficiacion)
 
     setTimeout(() => {
-			const modalContentElement = document.querySelector('.modal-modificacion');
-			if (modalContentElement) {
-				const modalElement = modalContentElement.parentElement;
-				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+			const modalBodyElement = document.querySelector('.modal-profile' + this.countModal + ' .modal-body');
+			const modalFooterElement = document.querySelector('.modal-profile' + this.countModal + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
 			}
-
+		
 			document.body.classList.remove('modal-open');
 			document.body.style.paddingRight = '';
 			document.body.style.overflow = '';

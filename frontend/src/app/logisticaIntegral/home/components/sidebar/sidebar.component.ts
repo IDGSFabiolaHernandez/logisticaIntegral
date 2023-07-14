@@ -11,6 +11,8 @@ import Grid from 'src/app/shared/util/funciones-genericas';
   	styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent extends Grid{
+	private countModal : number = 0;
+
 	constructor (
 		private modalService: BsModalService
 	) {
@@ -23,7 +25,7 @@ export class SidebarComponent extends Grid{
 			ignoreBackdropClick: true,
 			keyboard: false,
 			animated: true,
-			class: 'modal-xl modal-dialog-centered custom-modal modal-registro',
+			class: 'modal-xl modal-dialog-centered custom-modal modal-registro'+this.countModal,
 			style: {
 				'background-color': 'transparent',
 				'overflow-y': 'auto'
@@ -44,12 +46,14 @@ export class SidebarComponent extends Grid{
 		}
 
 		setTimeout(() => {
-			const modalContentElement = document.querySelector('.modal-registro');
-			if (modalContentElement) {
-				const modalElement = modalContentElement.parentElement;
-				modalElement?.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+			const modalBodyElement = document.querySelector('.modal-registro' + this.countModal + ' .modal-body');
+			const modalFooterElement = document.querySelector('.modal-registro' + this.countModal + ' .modal-footer');
+		
+			if (modalBodyElement && modalFooterElement) {
+				modalBodyElement.addEventListener('mousedown', this.onMouseDown.bind(this) as EventListener);
+				modalFooterElement.addEventListener('mousedown', this.startResizing.bind(this) as EventListener);
 			}
-			  
+		
 			document.body.classList.remove('modal-open');
 			document.body.style.paddingRight = '';
 			document.body.style.overflow = '';
