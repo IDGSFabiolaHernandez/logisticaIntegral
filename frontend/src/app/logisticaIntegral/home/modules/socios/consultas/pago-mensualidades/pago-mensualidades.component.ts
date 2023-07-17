@@ -222,6 +222,9 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	}
 
 	protected limpiarGrid () : void {
+		this.totalAPagar = 0;
+		this.numEmpresasBloque = 0;
+		this.numEmpresas = 0;
 		this.listaMensualidadesPagar = [];
 	}
 
