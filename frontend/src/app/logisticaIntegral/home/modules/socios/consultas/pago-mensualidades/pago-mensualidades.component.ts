@@ -75,9 +75,12 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	};
 
 	protected listaMensualidadesPagar : any[] = [];
-	private mensualidadesPagar : any[] = [];
+	protected mensualidadesPagar : any[] = [];
+
 	protected totalAPagar : number = 0;
-	private montoPagar : number = 5000;
+	protected montoPagar : number = 5000;
+	protected numEmpresas : number = 0;
+	protected numEmpresasBloque : number = 0;
 
 	constructor (
 		private apiMensualidades : MensualidadesService,
@@ -116,6 +119,11 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 		this.apiMensualidades.obtenerMensualidadesPagarPorMensualidad(data).subscribe(
 			respuesta => {
 				this.listaMensualidadesPagar = respuesta.data;
+				
+				this.numEmpresasBloque = this.listaMensualidadesPagar.reduce((acumulador, item)=>{
+					return acumulador + item.numEmpresas;
+				},0);
+
 				this.fechaMensualidadPagarEnvio = this.fechaMensualidadPagar;
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
 			}, error => {
@@ -126,12 +134,13 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 
 	protected obtenerSociosAPagar(data: any): void {
 		this.mensualidadesPagar = data.selectedOptions;
-	
 		const sumatoria = this.mensualidadesPagar.reduce((acumulador, id) => {
 			const empresa = this.listaMensualidadesPagar.find(e => e.id === id);
 			return acumulador + (empresa ? empresa.numEmpresas : 0);
 		}, 0);
 	
+		this.numEmpresas = sumatoria;
+
 		setTimeout(() => {
 			this.totalAPagar = sumatoria * this.montoPagar;
 		});
@@ -213,6 +222,9 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	}
 
 	protected limpiarGrid () : void {
+		this.totalAPagar = 0;
+		this.numEmpresasBloque = 0;
+		this.numEmpresas = 0;
 		this.listaMensualidadesPagar = [];
 	}
 

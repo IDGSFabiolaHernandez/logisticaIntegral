@@ -1450,3 +1450,10 @@ modal-container.modal.fade.show {
 modal-container.modal.fade.show:hover {
   z-index: 1056;
 }
+
+.activite-label {
+  text-align: right !important;
+  padding-right: 10px;
+  width: 0px !important;
+  min-width: 0px !important;
+}
