@@ -1,22 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegistroSociosComponent } from '../../modules/socios/registros/registro-socio/registro-socio.component';
 import { RegistroEnlaceSociosEmpresasComponent } from 'src/app/logisticaIntegral/home/modules/socios/registros/registro-enlace-socio-empresa/registro-enlace-socio-empresa.component';
 import { RegistroPrestamoSocioComponent } from '../../modules/socios/registros/registro-prestamo-socio/registro-prestamo-socio.component';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { UsuariosService } from 'src/app/logisticaIntegral/services/usuarios/usuarios.service';
 
 @Component({
   	selector: 'app-sidebar',
   	templateUrl: './sidebar.component.html',
   	styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent extends Grid{
+export class SidebarComponent extends Grid implements OnInit{
 	private countModal : any = 0;
+	protected informacionUsuario : any = {};
 
 	constructor (
+		private apiUsuarios : UsuariosService,
 		private modalService: BsModalService
 	) {
 		super();
+	}
+
+	async ngOnInit(): Promise<void> {
+		await this.obtenerDatosUsuarios();
+	}
+
+	obtenerDatosUsuarios() : void {
+		let token = localStorage.getItem('token');
+		if(token != undefined){
+			this.apiUsuarios.obtenerInformacionUsuarioPorToken(token).subscribe(
+				respuesta =>{
+					this.informacionUsuario = respuesta[0] ?? {};
+				}, error =>{
+					this.informacionUsuario = {};
+				}
+			)
+		}
 	}
 
 	protected abrirModalRegistro ( idModal : string ) : void {

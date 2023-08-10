@@ -19,17 +19,20 @@
                     </div>
 
                     <div class="form-group col-lg-3 col-md-4 col-sm-6">
-                        <label for="dropDown" class="form-label">Mensualidades por Pagar <b style="color: brown;">*</b>:</label><br>
+                        <label for="dropDown" class="form-label">Mensualidades por Pagar <b
+                                style="color: brown;">*</b>:</label><br>
                         <select class="form-select" [(ngModel)]="fechaMensualidadPagar">
                             <option value="" style="display: none; visibility: hidden;">Seleccionar mensualidad</option>
-                            <option *ngFor="let mensualidad of opcionesMensualidadesPagar" value="{{mensualidad.fechaBase}}">{{mensualidad.mes}}</option>
+                            <option *ngFor="let mensualidad of opcionesMensualidadesPagar"
+                                value="{{mensualidad.fechaBase}}">{{mensualidad.mes}}</option>
                         </select>
                     </div>
 
                     <div class="form-group col-lg-3 col-md-4 col-sm-6">
                         <label for="dropDown" class="form-label">Bloque(s) <b style="color: brown;">*</b>:</label><br>
                         <div class="btn-group group-dropdown-form" role="group">
-                            <app-dropdown [options]="opcionesBloques" [font]="'bloques'" (selectionChange)="onSelectionChange($event)"></app-dropdown>
+                            <app-dropdown [options]="opcionesBloques" [font]="'bloques'"
+                                (selectionChange)="onSelectionChange($event)"></app-dropdown>
                             <button class="btn btn-outline-primary"><i class="bi bi-arrow-repeat"></i></button>
                         </div>
                     </div>
@@ -38,21 +41,113 @@
                         <label for="dropDown" class="form-label">Total a pagar:</label><br>
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [value]="totalAPagar | number:'1.2-2'" style="text-align: center;">
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                                [value]="totalAPagar | number:'1.2-2'" style="text-align: center;">
                             <span class="input-group-text">.00</span>
                         </div>
                     </div>
 
                     <div class="botonera">
-                        <button class="btn btn-primary" [disabled]="!canSearch()" (click)="obtenerMensualidadesPagarPorMensualidad()">Consultar</button>
-                        <button class="btn btn-primary" [disabled]="!canPay()" (click)="pagarMensualidades()">Pagar</button>
-                        <button class="btn btn-success" [disabled]="!canExport()" (click)="exportarExcel()">Excel</button>
+                        <button class="btn btn-primary" [disabled]="!canSearch()"
+                            (click)="obtenerMensualidadesPagarPorMensualidad()">Consultar</button>
+                        <button class="btn btn-primary" [disabled]="!canPay()"
+                            (click)="pagarMensualidades()">Pagar</button>
+                        <button class="btn btn-success" [disabled]="!canExport()"
+                            (click)="exportarExcel()">Excel</button>
                         <button class="btn btn-danger" [disabled]="!canClear()" (click)="limpiarGrid()">Limpiar</button>
                     </div>
                 </div>
             </div>
 
-            <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesPagar" [tableConfig]="tableConfig" (selectionChange)="obtenerSociosAPagar($event)"></app-datatable>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body" style="margin-bottom: -20px !important;">
+                            <div class="accordion accordion-flush" id="totalPagarCerrar">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#totalPagar" aria-expanded="false" aria-controls="flush-collapseOne">
+                                            Total a Pagar
+                                        </button>
+                                    </h2>
+                                    <div id="totalPagar" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#totalPagarCerrar">
+                                        <div class="accordion-body">
+                                            <div class="activity">
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label"></div>
+                                                    <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                                                    <div class="activity-content">
+                                                       <b>{{this.mensualidadesPagar.length}}</b> &nbsp;Socio(s)
+                                                    </div>
+                                                </div>
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label"></div>
+                                                    <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
+                                                    <div class="activity-content">
+                                                       <b>{{this.numEmpresas}}</b> &nbsp;Empresa(s)
+                                                    </div>
+                                                </div>
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label"></div>
+                                                    <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
+                                                    <div class="activity-content">
+                                                       <b>$ {{this.totalAPagar | number:'1.2-2'}}</b> &nbsp;Por pagar
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body" style="margin-bottom: -20px !important;">
+                            <div class="accordion accordion-flush" id="totalBloqueCerrar">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"data-bs-target="#totalBloque" aria-expanded="false" aria-controls="flush-collapseOne">
+                                            Total por bloque(s)
+                                        </button>
+                                    </h2>
+                                    <div id="totalBloque" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#totalBloqueCerrar">
+                                        <div class="accordion-body">
+                                            <div class="activity">
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label"></div>
+                                                    <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                                                    <div class="activity-content">
+                                                        <b>{{this.listaMensualidadesPagar.length}}</b> &nbsp;Socio(s)
+                                                    </div>
+                                                </div>
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label"></div>
+                                                    <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
+                                                    <div class="activity-content">
+                                                      <b>{{this.numEmpresasBloque}}</b> &nbsp;Empresa(s)
+                                                    </div>
+                                                </div>
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label"></div>
+                                                    <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
+                                                    <div class="activity-content">
+                                                      <b> $ {{this.montoPagar * this.numEmpresasBloque | number:'1.2-2'}}</b> &nbsp;Por pagar
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+            <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesPagar"
+                [tableConfig]="tableConfig" (selectionChange)="obtenerSociosAPagar($event)"></app-datatable>
         </div>
     </div>
 </section>
