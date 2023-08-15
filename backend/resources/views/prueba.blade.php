@@ -136,7 +136,7 @@
     <div class="col-2 alginCenter">
         <br><br><br>
         <h3 class="h2"><b>ENTREGÓ</b></h3>
-        <span class="h2">ROSARIO</span>
+        <span class="h2"></span>
     </div>
 </body>
 </html>
