@@ -105,13 +105,14 @@ class MensualidadesRepository
                                                             'mensualidadesSocios.cantidad',
                                                             'mensualidadesSocios.abonoPrestamo'
                                                         )
-                                                      ->selectRaw("CONCAT('MEN', DATE_FORMAT(mensualidadesSocios.fechaPago, '%m%y'), LPAD(mensualidadesSocios.id, 4, '0')) as folio")
+                                                      ->selectRaw('(select count(ms.id) from mensualidadesSocios as ms where ms.mensualidad = mensualidadesSocios.mensualidad and ms.id <= mensualidadesSocios.id) as contador')
                                                       ->selectRaw("DATE_FORMAT(mensualidadesSocios.mensualidad, '%M %Y') as mensualidad")
                                                       ->selectRaw("DATE_FORMAT(mensualidadesSocios.fechaPago, '%d-%m-%Y') as fechaPago")
                                                       ->join('tblSocios','tblSocios.id','mensualidadesSocios.idSocio')
                                                       ->join('empresas','empresas.id','mensualidadesSocios.idEmpresa')
                                                       ->whereIn('mensualidadesSocios.mensualidad', $mensualidades)
-                                                      ->orderBy('nombreSocio', 'asc');
+                                                      ->orderBy('mensualidadesSocios.mensualidad', 'asc')
+                                                      ->orderBy('mensualidadesSocios.id', 'asc');
 
         if( is_null($empresas) ){
             $mensualidadesEmpresa->whereIn('mensualidadesSocios.idSocio', $socios);
