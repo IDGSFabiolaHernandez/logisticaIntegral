@@ -5,6 +5,9 @@ import { DetalleEnlaceSocioEmpresasComponent } from '../../modules/socios/detall
 import { ModificacionEnlaceSocioEmpresaComponent } from '../../modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 import { DetalleAbonosPrestamoComponent } from '../../modules/socios/detalles/detalle-abonos-prestamo/detalle-abonos-prestamo.component';
 import Grid from 'src/app/shared/util/funciones-genericas';
+import { DataService } from 'src/app/logisticaIntegral/services/data.service';
+import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   	selector: 'app-datatable',
@@ -28,8 +31,10 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 
 	public filterValues : { [key: string]: string } = {};
 
+	private url = environment.api;
+
 	constructor (
-		private modalService: BsModalService
+		private modalService : BsModalService
 	) {
 		super();
 	}
@@ -136,6 +141,10 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 			document.body.style.paddingRight = '';
 			document.body.style.overflow = '';
 		}, 100);
+	}
+
+	descargarPdf ( idDetalle: number, rutaPdf: string ) {
+		window.open(this.url+'/'+rutaPdf+'/'+idDetalle);
 	}
 
 	get paginatedItems() {
