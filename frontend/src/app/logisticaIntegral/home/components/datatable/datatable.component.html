@@ -63,7 +63,7 @@
                             </ng-template>
                             <ng-template #pdf>
                                 <ng-container *ngIf="tableConfig[columna]?.pdfColumn; else money">
-                                    <div class="link-modal" (click)="descargarPdf(item[tableConfig[columna].value], tableConfig[columna].idPdf)">
+                                    <div class="link-modal" (click)="descargarPdf(item[tableConfig[columna].value], tableConfig[columna].rutaPdf)">
                                         <span>{{ item[columna] ?? 'Sin información'}}</span>
                                     </div>
                                 </ng-container>
