@@ -89,24 +89,24 @@
     </div>
 
     <div class="col-6 alginRight">
-        <b class="h2">FOLIO:</b> <span class="h2">MSL-JUL-2023 80</span>
+        <b class="h2">FOLIO:</b> <span class="h2">{{$item->folio}}</span>
     </div>
 
     <!--Fecha pago-->
     <br><br>
     <div class="col-12 alginRight">
-        <b class="h2">FECHA:</b> <span class="h2">jueves, 10 de agosto de 2023</span>
+        <b class="h2">FECHA:</b> <span class="h2">{{$item->fechaPago}}</span>
     </div>
 
     <!--Cantidad pago-->
     <br><br>
     <div class="col-12 mrg-20">
-        <b class="h2">BUENO POR:</b> <span class="h2">$5,000.00</span>
+        <b class="h2">BUENO POR:</b> <span class="h2">$ {{$item->cantidad}}</span>
     </div>
 
     <br>
     <div class="col-12 alginCenter mrg-10">
-        <b class="h2">CINCO MIL 00/100 MN</b></span>
+        <b class="h2">{{$item->cantidadEscrita}} 00/100 MN</b></span>
     </div>
 
     <!--Detalle Pago-->
@@ -116,9 +116,9 @@
         <b class="h2">RL:&nbsp;&nbsp;</b>
     </div>
     <div class="col-9">
-        <span class="h2">MEGA PROYECTOS</span>
+        <span class="h2">{{$item->nombre}}</span>
         <hr class="hrsp-gray">
-        <span class="h2">GREGORIO JARRA CUATE</span>
+        <span class="h2">{{$item->nombreSocio}}</span>
         <hr class="hrsp-gray">
     </div>
 
@@ -126,8 +126,8 @@
     <br><br><br>
     <div class="col-2">&nbsp;</div>
     <div class="col-8 alginCenter">
-        <h3 class="h1">GREGORIO JARRA CUATE</h3>
-        <h3 class="h2">AGOSTO 2023</h3>
+        <h3 class="h1">{{$item->nombreSocio}}</h3>
+        <h3 class="h2">{{strtoupper($item->mensualidad)}}</h3>
         <br><br>
         <hr class="hrsp-black">
         <br>

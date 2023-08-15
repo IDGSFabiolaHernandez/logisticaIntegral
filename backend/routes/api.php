@@ -48,4 +48,4 @@ Route::post('/prestamos/obtenerPrestamosPorSociosYStatus','App\Http\Controllers\
 Route::post('/prestamos/registroNuevoPrestamoSocio','App\Http\Controllers\LogisticaIntegral\PrestamosController@registroNuevoPrestamoSocio');
 Route::post('/prestamos/obtenerAbonosPrestamo','App\Http\Controllers\LogisticaIntegral\PrestamosController@obtenerAbonosPrestamo');
 
-Route::get('/descargaPdf','App\Http\Controllers\LogisticaIntegral\pdfs\PagoMensualidadController@generarPdf');
+Route::get('/generarPdfPagoMensualidad/{idMensualidad}','App\Http\Controllers\LogisticaIntegral\pdfs\PdfController@generarPdfPagoMensualidad');
