@@ -55,8 +55,15 @@
                                 </ng-container>
                             </ng-template>
                             <ng-template #detail>
-                                <ng-container *ngIf="tableConfig[columna]?.detailColumn; else money">
+                                <ng-container *ngIf="tableConfig[columna]?.detailColumn; else pdf">
                                     <div class="link-modal" (click)="abrirModalDetalle(item[tableConfig[columna].value], tableConfig[columna].idModal)">
+                                        <span>{{ item[columna] ?? 'Sin información'}}</span>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #pdf>
+                                <ng-container *ngIf="tableConfig[columna]?.pdfColumn; else money">
+                                    <div class="link-modal" (click)="descargarPdf(item[tableConfig[columna].value], tableConfig[columna].rutaPdf)">
                                         <span>{{ item[columna] ?? 'Sin información'}}</span>
                                     </div>
                                 </ng-container>

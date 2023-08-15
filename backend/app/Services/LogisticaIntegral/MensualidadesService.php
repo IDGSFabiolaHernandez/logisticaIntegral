@@ -49,9 +49,12 @@ class MensualidadesService
         $mensualidades = $this->mensualidadesRepository->obtenerMensualidadesPagadasEmpresaSocios($datosConsulta['socios'] ?? null, $datosConsulta['empresas'] ?? null, $datosConsulta['mensualidades']);
 
         foreach ($mensualidades as $item) {
+            $fecha = Carbon::parse($item->mensualidad)->locale('es')->isoFormat('MMM-YYYY ');
+            $item->folio = "MSL-".$fecha.$item->contador;
+            $item->folio = strtoupper(str_replace('.','',$item->folio));
             $item->mensualidad = Carbon::parse($item->mensualidad)->locale('es')->isoFormat('MMMM YYYY');
         }
-
+        
         return response()->json(
             [
                 'mensaje' => 'Se consultaron las mensualidades pagadas con éxito',
