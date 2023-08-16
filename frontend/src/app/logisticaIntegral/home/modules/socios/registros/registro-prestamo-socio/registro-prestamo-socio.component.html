@@ -26,7 +26,7 @@
                                 <label for="nombreSocio" class="form-label required">Socio:</label>
                                 <div class="btn-group col-sm-12" role="group">
                                     <input
-                                        list="socios"
+                                        list="Psocios"
                                         class="form-control border-right-none"
                                         id="{{'nombreSocio'+idModal}}"
                                         formControlName="nombreSocio"
@@ -38,7 +38,7 @@
                                     <button class="btn btn-outline-primary" (click)="refresh('Socios')"><i class="bi bi-arrow-repeat"></i></button>
                                 </div>
 
-                                <datalist id="{{'socios'+idModal}}" *ngIf="this.mostrarOpcionesSocios">
+                                <datalist id="Psocios" *ngIf="this.mostrarOpcionesSocios">
                                     <option *ngFor="let socio of this.datosSocios" value="{{socio.nombreSocio}}">
                                 </datalist>
                             </div>
