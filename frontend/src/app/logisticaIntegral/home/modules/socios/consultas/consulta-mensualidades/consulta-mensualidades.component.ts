@@ -35,9 +35,9 @@ export class ConsultaMensualidadesComponent extends Grid{
 
 	protected tableConfig : any = {
 		"folio" : {
-			"pdfColumn" : true,
+			"updateColumn" : true,
 			"value" : "id",
-			"rutaPdf" : "generarPdfPagoMensualidad"
+			"idModal" : "capturaNombreEntregaReciboPago"
 		},
 		"cantidad" : {
 			"moneyColumn" : true

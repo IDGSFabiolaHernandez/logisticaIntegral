@@ -136,7 +136,7 @@
     <div class="col-2 alginCenter">
         <br><br><br>
         <h3 class="h2"><b>ENTREGÓ</b></h3>
-        <span class="h2"></span>
+        <span class="h2">{{strtoupper($item->nombreEntrega)}}</span>
     </div>
 </body>
 </html>

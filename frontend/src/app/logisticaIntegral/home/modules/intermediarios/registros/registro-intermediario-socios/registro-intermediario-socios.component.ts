@@ -30,13 +30,14 @@ export class RegistroIntermediarioSociosComponent extends Grid implements OnInit
 
 	private crearFormNuevoIntermediario () : void {
 		this.formNuevoIntermediario = this.fb.group({
-			nombreIntermediario : ['', [Validators.required]]
+			nombreIntermediario : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú]*')]]
 		});
 	}
 
 	protected registrarIntermediario () : void {
 		if ( this.formNuevoIntermediario.invalid ) {
 			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta.', 'warning', 'Los campos requeridos están marcados con un *');
+			return;
 		}
 
 		this.mensajes.mensajeConfirmacionCustom('Favor de asegurarse que los datos sean correctos', 'question', 'Registrar Intermediario').then(

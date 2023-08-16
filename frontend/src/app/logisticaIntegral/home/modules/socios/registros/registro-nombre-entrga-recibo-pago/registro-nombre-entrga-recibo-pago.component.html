@@ -1,0 +1,35 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Catura nombre entrega recibo</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Mensualidades</li>
+                <li class="breadcrumb-item active">Mensualidades pagadas</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile formsWTitle">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <h5 class="card-title" align="center">Catura nombre entrega recibo</h5>
+
+                        <form class="row g-3" autocomplete="off" [formGroup]="formCapturaNombre">
+                            <div class="col-lg-12">
+                                <label for="nombreEntregaReciboPago" class="form-label required">Nombre entrega recibo:</label>
+                                <input formControlName="nombreEntregaReciboPago" type="text" class="form-control" id="{{'nombreEntregaReciboPago'+idDetalle}}" placeholder="Nombre entrega recibo" (keypress)="soloLetras($event)">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-primary" (click)="capturarNombreParaPDF()"><b>Generar PDF</b></button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="cancelarRegistro()"><b>Cancelar</b></button>
+</div>
