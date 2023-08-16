@@ -150,7 +150,7 @@
                                             <button class="btn btn-outline-success" (click)="abrirModalRegistroIntermediario()"><b>+</b></button>
                                         </div>
     
-                                        <datalist id="{{'Mbrowsers'+this.idDetalle}}" *ngIf="this.mostrarOpciones">
+                                        <datalist id="Mbrowsers" *ngIf="this.mostrarOpciones">
                                             <option *ngFor="let intermediario of this.intermediarios" value="{{intermediario.nombreIntermediario}}">
                                         </datalist>
                                     </div>
