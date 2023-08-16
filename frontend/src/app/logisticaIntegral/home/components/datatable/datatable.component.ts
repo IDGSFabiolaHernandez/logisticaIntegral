@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { ModificacionSocioComponent } from '../../modules/socios/modificaciones/modificacion-socio/modificacion-socio.component';
 import { DetalleEnlaceSocioEmpresasComponent } from '../../modules/socios/detalles/detalle-enlace-socio-empresas/detalle-enlace-socio-empresas.component';
 import { ModificacionEnlaceSocioEmpresaComponent } from '../../modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 import { DetalleAbonosPrestamoComponent } from '../../modules/socios/detalles/detalle-abonos-prestamo/detalle-abonos-prestamo.component';
 import Grid from 'src/app/shared/util/funciones-genericas';
-import { DataService } from 'src/app/logisticaIntegral/services/data.service';
-import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 import { environment } from 'src/environments/environment';
+import { RegistroNombreEntrgaReciboPagoComponent } from '../../modules/socios/registros/registro-nombre-entrga-recibo-pago/registro-nombre-entrga-recibo-pago.component';
+import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
 
 @Component({
   	selector: 'app-datatable',
@@ -34,7 +34,8 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 	private url = environment.api;
 
 	constructor (
-		private modalService : BsModalService
+		private modalService : BsModalService,
+		private mensajes : MensajesService
 	) {
 		super();
 	}
@@ -79,6 +80,9 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 			break;
 			case 'modificacionEnlaceSocioEmpresa':
 				op = this.modalService.show(ModificacionEnlaceSocioEmpresaComponent, configModalModificacion);
+			break;
+			case 'capturaNombreEntregaReciboPago':
+				op = this.modalService.show(RegistroNombreEntrgaReciboPagoComponent, configModalModificacion);
 			break;
 		}
 	  
@@ -144,7 +148,9 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 	}
 
 	descargarPdf ( idDetalle: number, rutaPdf: string ) {
+		this.mensajes.mensajeEsperar();
 		window.open(this.url+'/'+rutaPdf+'/'+idDetalle);
+		this.mensajes.mensajeGenerico('Se generó el PDF con éxito', 'success');
 	}
 
 	get paginatedItems() {

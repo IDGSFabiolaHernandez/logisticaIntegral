@@ -6,7 +6,6 @@ import { SociosEmpresasComponent } from './modules/socios/consultas/consulta-enl
 import { ConsultaMensualidadesComponent } from './modules/socios/consultas/consulta-mensualidades/consulta-mensualidades.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { PagoMensualidadesComponent } from './modules/socios/consultas/pago-mensualidades/pago-mensualidades.component';
-import { RegistroPrestamoSocioComponent } from './modules/socios/registros/registro-prestamo-socio/registro-prestamo-socio.component';
 import { ConsultaPrestamosSociosComponent } from './modules/socios/consultas/consulta-prestamos-socios/consulta-prestamos-socios.component';
 
 

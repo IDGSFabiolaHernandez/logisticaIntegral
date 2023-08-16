@@ -17,6 +17,7 @@ import { DetalleEnlaceSocioEmpresasComponent } from './modules/socios/detalles/d
 import { ModificacionEnlaceSocioEmpresaComponent } from './modules/socios/modificaciones/modificacion-enlace-socio-empresa/modificacion-enlace-socio-empresa.component';
 import { ModificacionPerfilComponent } from './modules/usuarios/modificaciones/modificacion-perfil/modificacion-perfil.component';
 import { DetalleAbonosPrestamoComponent } from './modules/socios/detalles/detalle-abonos-prestamo/detalle-abonos-prestamo.component';
+import { RegistroNombreEntrgaReciboPagoComponent } from './modules/socios/registros/registro-nombre-entrga-recibo-pago/registro-nombre-entrga-recibo-pago.component';
 
 @NgModule({
     imports:[
@@ -40,6 +41,7 @@ import { DetalleAbonosPrestamoComponent } from './modules/socios/detalles/detall
         ModificacionEnlaceSocioEmpresaComponent,
         ModificacionPerfilComponent,
         DetalleAbonosPrestamoComponent,
+        RegistroNombreEntrgaReciboPagoComponent,
     ]
 })
 
