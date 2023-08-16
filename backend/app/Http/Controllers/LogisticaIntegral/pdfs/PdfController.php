@@ -15,9 +15,12 @@ class PdfController extends Controller {
     {
         $this->pdfService = $PdfService;
     }
-    public function generarPdfPagoMensualidad($idMensualidad){
+    public function generarPdfPagoMensualidad($idMensualidad, $nombreEntrega){
         $datosMensualidad = $this->pdfService->generarPdfPagoMensualidad($idMensualidad);
-        $contenido = view('prueba')->with('item',$datosMensualidad)->render();
+        
+        $datosMensualidad->nombreEntrega = $nombreEntrega;
+
+        $contenido = view('prueba')->with('item', $datosMensualidad)->render();
 
         $pdf = new Dompdf();
         $pdf->loadHtml($contenido);
