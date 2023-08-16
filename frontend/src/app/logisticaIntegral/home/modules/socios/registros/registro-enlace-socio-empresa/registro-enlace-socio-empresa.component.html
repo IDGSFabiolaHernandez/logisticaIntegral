@@ -35,7 +35,7 @@
                                     <button class="btn btn-outline-success" (click)="abrirModalRegistro('registroSocio')"><b>+</b></button>
                                 </div>
 
-                                <datalist id="{{'socios'+idModal}}" *ngIf="this.mostrarOpcionesSocios">
+                                <datalist id="socios" *ngIf="this.mostrarOpcionesSocios">
                                     <option *ngFor="let socio of this.datosSocios" value="{{socio.nombreSocio}}">
                                 </datalist>
                             </div>
@@ -58,7 +58,7 @@
                                     <button class="btn btn-outline-success" (click)="abrirModalRegistro('registroEmpresa')"><b>+</b></button>
                                 </div>
 
-                                <datalist id="{{'empresas'+idModal}}" *ngIf="this.mostrarOpcionesEmpresas">
+                                <datalist id="empresas" *ngIf="this.mostrarOpcionesEmpresas">
                                     <option *ngFor="let empresa of this.datosEmpresas" value="{{empresa.nombre}}">
                                 </datalist>
                             </div>
