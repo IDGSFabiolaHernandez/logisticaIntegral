@@ -14,18 +14,27 @@ use Illuminate\Support\Facades\Log;
 class PrestamosRepository
 {
      public function obtenerSociosConRelacionEmpresas(){
-          $relacionConEmpresas = TblSocios::select(
-                                                  'tblSocios.id',
-                                                  'tblSocios.nombreSocio'
-                                             )
-                                             ->distinct()
-                                             ->join('tblSociosEmpresas','tblSocios.id','tblSociosEmpresas.fkSocio')
-                                             ->join('empresas', function($join){
-                                                  $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
-                                                       ->where('empresas.Activo',1)
-                                                       ->whereNotIn('empresas.status', [3, 4]);
-                                             })
-                                             ->orderBy('tblSocios.nombreSocio','asc');
+          $relacionConEmpresas = TblSociosEmpresas::select(
+                                                         'tblSocios.id',
+                                                         'tblSocios.nombreSocio'
+                                                  )
+                                                  ->distinct()
+                                                  ->join('empresas', function($join){
+                                                       $join->on('empresas.id', 'tblSociosEmpresas.fkEmpresa')
+                                                            ->where('empresas.Activo', 1)
+                                                            ->whereNotIn('empresas.status', [3, 4]);
+                                                  })
+                                                  ->join('tblSocios', 'tblSocios.id', 'tblSociosEmpresas.fkSocio')
+                                                  ->where([
+                                                       ['tblSociosEmpresas.mesIngreso', '<=', Carbon::now()->format('Y-m-d')],
+                                                       [function ($orWheres) {
+                                                            $orWheres->orWhere('tblSociosEmpresas.mesSalida', '>', Carbon::now()->format('Y-m-d'))
+                                                                     ->orWhere('tblSociosEmpresas.mesSalida', '0000-00-00')
+                                                                     ->orWhereNull('tblSociosEmpresas.mesSalida');
+                                                       }]
+                                                  ])
+                                                  ->orderBy('tblSocios.nombreSocio', 'asc');
+
           return $relacionConEmpresas->get();
      }
 
@@ -38,8 +47,17 @@ class PrestamosRepository
                                                        $join->on('empresas.id','tblSociosEmpresas.fkEmpresa')
                                                             ->where('empresas.Activo',1)
                                                             ->whereNotIn('empresas.status', [3, 4]);
-                                                   })
-                                                  ->where('tblSociosEmpresas.fkSocio',$idSocio);
+                                                  })
+                                                  ->where([
+                                                       ['tblSociosEmpresas.fkSocio', $idSocio],
+                                                       ['tblSociosEmpresas.mesIngreso', '<=', Carbon::now()->format('Y-m-d')],
+                                                       [function ($orWheres) {
+                                                            $orWheres->orWhere('tblSociosEmpresas.mesSalida', '>', Carbon::now()->format('Y-m-d'))
+                                                                     ->orWhere('tblSociosEmpresas.mesSalida', '0000-00-00')
+                                                                     ->orWhereNull('tblSociosEmpresas.mesSalida');
+                                                       }]
+                                                  ]);
+                                                  
           return $empresasPorSocio->get();
      }
 
