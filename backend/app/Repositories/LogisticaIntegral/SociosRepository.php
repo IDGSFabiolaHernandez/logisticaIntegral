@@ -35,7 +35,8 @@ class SociosRepository
                         ")
                         ->selectRaw('COALESCE(ne.numEmpresas, 0) as numEmpresas')
                         ->join('tblIntermediariosSocios', 'tblIntermediariosSocios.id', 'tblSocios.fkIntermediario')
-                        ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) as numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id');
+                        ->leftJoin(DB::raw('(SELECT fkSocio, COUNT(*) as numEmpresas FROM tblSociosEmpresas GROUP BY fkSocio) ne'), 'ne.fkSocio', '=', 'tblSocios.id')
+                        ->orderBy('tblSocios.nombreSocio', 'asc');
     }
 
     public function obtenerListaSocios($socios){

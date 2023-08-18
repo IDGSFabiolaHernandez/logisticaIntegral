@@ -43,6 +43,13 @@
                                 </datalist>
                             </div>
 
+                            <div class="col-md-12" *ngIf="this.validaSocioExistente() && opcionesEmpresas.length == 0">
+                                <div class="form-check form-switch">
+                                    <input formControlName="prestamoEspecial" class="form-check-input" type="checkbox" id="prestamoEspecial">
+                                    <label class="form-check-label" for="prestamoEspecial">Prestamo especial</label>
+                                </div>
+                            </div>
+
                             <div class="col-lg-6">
                                 <label for="montoPrestamo" class="form-label required">Monto del préstamo:</label>
                                 <div class="input-group mb-3">
@@ -52,9 +59,9 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" [ngClass]="{'disabled-div' : this.formNuevoPrestamo.get('prestamoEspecial')?.value}">
                                 <label for="empresasMensualidad" class="form-label required">Empresa(s) mensualidad:</label>
-                                <div class="btn-group group-dropdown-form" role="group">
+                                <div class="btn-group group-dropdown-form" role="group" >
                                     <app-dropdown [options]="opcionesEmpresas" (selectionChange)="onSelectionChange($event)"></app-dropdown>
                                     <button class="btn btn-outline-primary" (click)="refresh('Empresas')"><i class="bi bi-arrow-repeat"></i></button>
                                 </div>

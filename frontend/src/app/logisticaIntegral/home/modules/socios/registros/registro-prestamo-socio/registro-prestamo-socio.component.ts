@@ -39,10 +39,11 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 
 	private crearFormNuevoPrestamo () : void {
 		this.formNuevoPrestamo = this.fb.group({
-			fechaPrestamo : ['', [Validators.required]],
-			nombreSocio : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
-			montoPrestamo : ['0', [Validators.required, Validators.pattern('[0-9,]*')]],
-			observaciones : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
+			fechaPrestamo 	 : ['', [Validators.required]],
+			nombreSocio 	 : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
+			prestamoEspecial : [false],
+			montoPrestamo 	 : ['0', [Validators.required, Validators.pattern('[0-9,]*')]],
+			observaciones 	 : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
 	}
 
@@ -83,6 +84,7 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 			this.opcionesEmpresas = [];
 			this.idSocio = 0;
 		}
+		this.formNuevoPrestamo.get('prestamoEspecial')?.setValue(false);
 	}
 
 	async refresh ( op : string ) : Promise<void> {
@@ -119,7 +121,7 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 		return resultado.length > 0 ? resultado[0] : {};
 	}
 
-	private validaSocioExistente () : boolean {
+	protected validaSocioExistente () : boolean {
 		const campoNombre = this.formNuevoPrestamo.get('nombreSocio')?.value;
 		const registros = this.obtenerSocioPorNombre( campoNombre );
 		
@@ -127,18 +129,21 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 	}
 
 	protected registrarPrestamoSocio() : void {
+
+		console.log(this.formNuevoPrestamo.value);
+
 		if ( !this.validaSocioExistente() ) {
 			this.mensajes.mensajeGenerico('Para continuar debe colocar un Socio existente y valido.', 'info', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
-		if ( this.empresasSeleccionadas.length == 0 ) {
-			this.mensajes.mensajeGenerico('Para continuar debe seleccionar al menos una empresa.', 'info', 'Los campos requeridos están marcados con un *');
+		if ( this.formNuevoPrestamo.value.montoPrestamo == 0 ) {
+			this.mensajes.mensajeGenerico('Para continuar debe colocar un monto mayor a 0.', 'info', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
-		if (this.formNuevoPrestamo.value.montoPrestamo == 0) {
-			this.mensajes.mensajeGenerico('Para continuar debe colocar un monto mayor a 0.', 'info', 'Los campos requeridos están marcados con un *');
+		if ( !this.formNuevoPrestamo.value.prestamoEspecial && this.empresasSeleccionadas.length == 0 ) {
+			this.mensajes.mensajeGenerico('Para continuar debe seleccionar al menos una empresa.', 'info', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 
