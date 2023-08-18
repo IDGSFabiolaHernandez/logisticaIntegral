@@ -197,6 +197,9 @@ class SociosRepository
         $registro->mesIngreso        = $mesIngreso;
         $registro->tipoInstrumento   = $this->trimValidator($datosSocioEmpresa['tipoInstrumento']);
         $registro->numeroInstrumento = $this->trimValidator($datosSocioEmpresa['numeroInstrumento']);
+        $registro->montoMensualidad  = str_replace(',', '', $datosSocioEmpresa['montoMensualidad']);
+        $registro->montoPago         = str_replace(',', '', $datosSocioEmpresa['montoPago']);
+        $registro->montoPrestamo     = str_replace(',', '', $datosSocioEmpresa['montoPrestamo']);
         $registro->observaciones     = $this->trimValidator($datosSocioEmpresa['observaciones']);
         $registro->fkUsuarioAlta     = $idUsuario;
         $registro->fechaAlta         = Carbon::now();
