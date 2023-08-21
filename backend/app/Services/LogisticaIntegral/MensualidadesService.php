@@ -145,8 +145,6 @@ class MensualidadesService
                 foreach($enlacesSocioEmpresas as $enlace){
                     $prestamosActivos = $this->mensualidadesRepository->obtenerPrestamosSocioActivos($idSocio);
                     $montoAPagar = $enlace['montoPrestamo'];
-                    Log::alert("montoAPagar");
-                    Log::alert($montoAPagar);
                     $idPrestamoPago = null;
 
                     foreach($prestamosActivos as $idPrestamo){

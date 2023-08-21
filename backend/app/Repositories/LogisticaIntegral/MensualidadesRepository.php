@@ -132,7 +132,8 @@ class MensualidadesRepository
                                                         WHEN tblSocios.bloque IS NOT NULL THEN CONCAT('Bloque ', tblSocios.bloque)
                                                         ELSE NULL
                                                     END AS bloque
-                                                ")
+                                               "),
+                                                DB::raw("SUM(tblSociosEmpresas.montoMensualidad) as montoMensualidad")
                                             )
                                           ->selectRaw('COUNT(empresas.id) as numEmpresas')
                                           ->selectRaw('(SELECT COUNT(prestamosSocios.id) FROM prestamosSocios WHERE prestamosSocios.idSocio = tblSocios.id AND estatusPrestamo = 0) as numPrestamos')
@@ -221,7 +222,7 @@ class MensualidadesRepository
                                                     )
                                                     ->selectRaw('(montoPrestamo - aCuenta) as deuda')
                                                     ->where('prestamosSocios.id', $idPrestamo);
-                                                    
+
         return $prestamosSociosActivos->get()[0] ?? null;
     }
 
