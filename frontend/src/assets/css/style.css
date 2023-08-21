@@ -1309,3 +1309,8 @@ button {
   padding: var(--bs-modal-padding);
   overflow-y: auto;
 }
+
+.disabled-div {
+  opacity: 0.6;
+  pointer-events: none;
+}

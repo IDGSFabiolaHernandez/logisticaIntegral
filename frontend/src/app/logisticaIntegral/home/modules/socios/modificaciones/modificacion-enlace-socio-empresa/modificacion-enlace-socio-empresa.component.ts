@@ -70,14 +70,48 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 
 	private crearFormEnlaceSocioEmpresa () : void {
 		this.formModEnlaceSocioEmpresa = this.fb.group({
-			nombreSocio : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
-			nombreEmpresa : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
-			mesIngreso : ['', [Validators.required]],
-			mesSalida : ['', []],
-			tipoInstrumento : ['', [Validators.required]],
+			nombreSocio       : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
+			nombreEmpresa     : ['', [Validators.required, Validators.pattern('[a-zA-Zá-úÁ-Ú ]*')]],
+			mesIngreso        : ['', [Validators.required]],
+			mesSalida         : ['', []],
+			tipoInstrumento   : ['', [Validators.required]],
+			montoMensualidad  : ['0', [Validators.required, Validators.pattern('[0-9,]*')]],
+			montoPago         : ['0', [Validators.required, Validators.pattern('[0-9,]*')]],
+			montoPrestamo     : ['0', [Validators.required, Validators.pattern('[0-9,]*')]],
 			numeroInstrumento : ['', [Validators.required, Validators.pattern('[0-9]*')]],
-			observaciones : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
+			observaciones 	  : ['', [Validators.pattern('[a-zA-Zá-úÁ-Ú0-9 .,-@#$%&+{}()?¿!¡]*')]]
 		});
+	}
+
+	protected mostrarPipe( item : string): void {
+		const prestamoEntrada = this.formModEnlaceSocioEmpresa.get(item)?.value;
+		let valorSinComas = prestamoEntrada.toString().replace(/,/g, '');
+
+		const mPm = parseInt(this.formModEnlaceSocioEmpresa.get('montoMensualidad')?.value.toString().replace(/,/g, ''));
+		const mPa = this.formModEnlaceSocioEmpresa.get('montoPago')?.value.toString().replace(/,/g, '');
+		const mPr = this.formModEnlaceSocioEmpresa.get('montoPrestamo')?.value.toString().replace(/,/g, '');
+
+		valorSinComas = parseInt(valorSinComas) > 0 ? parseInt(valorSinComas) : 0;
+
+		if (item == 'montoPago' || item == 'montoPrestamo') {
+			if (valorSinComas > mPm) {
+				const nuevoValormPr = valorSinComas.toString().slice(0,-1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+				this.formModEnlaceSocioEmpresa.get(item)?.setValue(nuevoValormPr);
+				return;
+			}
+			this.formModEnlaceSocioEmpresa.get(item == 'montoPago' ? 'montoPrestamo' : 'montoPago')?.setValue((mPm - valorSinComas).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+		}
+
+		const valorConSeparadores = valorSinComas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+		if (item == 'montoMensualidad') {
+			if ( (mPa + mPr) > valorSinComas ) {
+				this.formModEnlaceSocioEmpresa.get('montoPago')?.setValue('0');
+				this.formModEnlaceSocioEmpresa.get('montoPrestamo')?.setValue(valorConSeparadores);
+			}
+		}
+
+		this.formModEnlaceSocioEmpresa.get(item)?.setValue(valorConSeparadores);
 	}
 
 	async refresh ( op : string ) : Promise<void> {
@@ -175,6 +209,9 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 		this.formModEnlaceSocioEmpresa.get('mesIngreso')?.setValue(this.detalleSocioEmpresa.mesIngreso);
 		this.formModEnlaceSocioEmpresa.get('mesSalida')?.setValue(this.detalleSocioEmpresa.mesSalida);
 		this.formModEnlaceSocioEmpresa.get('tipoInstrumento')?.setValue(this.detalleSocioEmpresa.tipoInstrumento);
+		this.formModEnlaceSocioEmpresa.get('montoMensualidad')?.setValue(this.detalleSocioEmpresa.montoMensualidad.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+		this.formModEnlaceSocioEmpresa.get('montoPago')?.setValue(this.detalleSocioEmpresa.montoPago.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+		this.formModEnlaceSocioEmpresa.get('montoPrestamo')?.setValue(this.detalleSocioEmpresa.montoPrestamo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 		this.formModEnlaceSocioEmpresa.get('numeroInstrumento')?.setValue(this.detalleSocioEmpresa.numeroInstrumento);
 		this.formModEnlaceSocioEmpresa.get('observaciones')?.setValue(this.detalleSocioEmpresa.observaciones);
 	}
@@ -242,6 +279,19 @@ export class ModificacionEnlaceSocioEmpresaComponent extends Grid implements OnI
 
 		if ( this.formModEnlaceSocioEmpresa.invalid ) {
 			this.mensajes.mensajeGenerico('Aún hay campos vacíos o que no cumplen con la estructura correcta.', 'warning', 'Los campos requeridos están marcados con un *');
+			return;
+		}
+
+		if ( this.formModEnlaceSocioEmpresa.value.montoMensualidad == 0 ) {
+			this.mensajes.mensajeGenerico('Para continuar debe colocar una cantidad mayor a 0 en el campo Monto mensualidad.', 'warning', 'Los campos requeridos están marcados con un *');
+			return;
+		}
+
+		if (
+			this.formModEnlaceSocioEmpresa.value.montoPago == 0 &&
+			this.formModEnlaceSocioEmpresa.value.montoPrestamo == 0
+		) {
+			this.mensajes.mensajeGenerico('Para continuar debe colocar algún valor en los campos Monto destinado a pago y Monto destinado a préstamo, diferente de 0.', 'warning', 'Los campos requeridos están marcados con un *');
 			return;
 		}
 

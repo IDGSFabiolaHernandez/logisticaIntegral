@@ -172,4 +172,17 @@ export default class Grid {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     }
+
+    numberFormat(event: any): void {
+        const inputElement = event.target;
+        const inputValue = inputElement.value.replace(/,/g, '');
+    
+        if (isNaN(inputValue)) {
+            inputElement.value = '0';
+            return;
+        }
+    
+        const formattedValue = parseInt(inputValue) > 0 ? parseInt(inputValue) : 0;
+        inputElement.value = formattedValue.toLocaleString();
+    }
 }

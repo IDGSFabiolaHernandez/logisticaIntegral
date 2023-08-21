@@ -4,6 +4,7 @@ namespace App\Services\LogisticaIntegral;
 
 use App\Repositories\LogisticaIntegral\PrestamosRepository;
 use App\Repositories\LogisticaIntegral\UsuariosRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -111,6 +112,13 @@ class PrestamosService
     public function obtenerAbonosPrestamo($idPrestamo){
         $detallePrestamo = $this->prestamosRepository->obtenerDetallePrestamoPorId($idPrestamo);
         $abonosPrestamo = $this->prestamosRepository->obtenerAbonosPrestamo($idPrestamo);
+
+        foreach ($abonosPrestamo as $item) {
+            $fecha = Carbon::parse($item->mensualidad)->locale('es')->isoFormat('MMM-YYYY ');
+            $item->folio = "MSL-".$fecha.$item->contador;
+            $item->folio = strtoupper(str_replace('.','',$item->folio));
+            $item->mensualidad = Carbon::parse($item->mensualidad)->locale('es')->isoFormat('MMMM YYYY');
+        }
 
         return response()->json(
             [
