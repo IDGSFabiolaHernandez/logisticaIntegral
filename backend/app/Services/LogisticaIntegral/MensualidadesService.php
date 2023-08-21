@@ -140,11 +140,11 @@ class MensualidadesService
             $usuario = $this->usuariosRepository->obtenerInformacionUsuarioPorToken($dataPagar['token']);
 
             foreach($dataPagar['sociosAPagar'] as $idSocio){
-                $enlacesSocioEmpresas = $this->mensualidadesRepository->obtenerEnlacesSocioEmpresas($dataPagar['fechaMensualidadPagar'],$idSocio);
+                $enlacesSocioEmpresas = $this->mensualidadesRepository->obtenerEnlacesSocioEmpresas($dataPagar['fechaMensualidadPagar'], $idSocio);
 
                 foreach($enlacesSocioEmpresas as $enlace){
                     $prestamosActivos = $this->mensualidadesRepository->obtenerPrestamosSocioActivos($idSocio);
-                    $montoAPagar = $dataPagar['montoPagar'];
+                    $montoAPagar = $enlace['montoPrestamo'];
                     $idPrestamoPago = null;
 
                     foreach($prestamosActivos as $idPrestamo){
@@ -160,7 +160,7 @@ class MensualidadesService
                             if($deuda >= $montoAPagar){
                                 $aCuenta = $detallePrestamo->aCuenta + $montoAPagar;
                                 $montoAPagar = 0;
-                            }else{
+                            } else {
                                 $aCuenta = $detallePrestamo->aCuenta + $deuda;
                                 $montoAPagar = $montoAPagar - $deuda;
                             }
@@ -178,13 +178,13 @@ class MensualidadesService
                     }
 
                     $mapeoDatos = [
-                        'idSocio'       => $idSocio, 
-                        'idEmpresa'     => $enlace->fkEmpresa, 
-                        'mensualidad'   => $dataPagar['fechaMensualidadPagar'], 
-                        'cantidad'      => $montoAPagar, 
-                        'abonoPrestamo' => $dataPagar['montoPagar'] - $montoAPagar,
-                        'fechaPago'     => $dataPagar['fechaPago'], 
-                        'fkPrestamo'    => $idPrestamoPago, 
+                        'idSocio'       => $idSocio,
+                        'idEmpresa'     => $enlace->fkEmpresa,
+                        'mensualidad'   => $dataPagar['fechaMensualidadPagar'],
+                        'cantidad'      => $montoAPagar + $enlace['montoPago'],
+                        'abonoPrestamo' => $enlace['montoPrestamo'] - $montoAPagar,
+                        'fechaPago'     => $dataPagar['fechaPago'],
+                        'fkPrestamo'    => $idPrestamoPago,
                         'fkUsuarioPago' => $usuario[0]->id
                     ];
 

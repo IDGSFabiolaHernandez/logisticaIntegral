@@ -78,9 +78,9 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	protected mensualidadesPagar : any[] = [];
 
 	protected totalAPagar : number = 0;
-	protected montoPagar : number = 5000;
 	protected numEmpresas : number = 0;
 	protected numEmpresasBloque : number = 0;
+	protected totalPagarBloque : number = 0;
 
 	constructor (
 		private apiMensualidades : MensualidadesService,
@@ -124,6 +124,10 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 					return acumulador + item.numEmpresas;
 				},0);
 
+				this.totalPagarBloque = this.listaMensualidadesPagar.reduce((acumulador, item)=>{
+					return acumulador + item.montoMensualidad;
+				},0);
+
 				this.fechaMensualidadPagarEnvio = this.fechaMensualidadPagar;
 				this.mensajes.mensajeGenericoToast(respuesta.mensaje, 'success');
 			}, error => {
@@ -141,9 +145,12 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 	
 		this.numEmpresas = sumatoria;
 
-		setTimeout(() => {
-			this.totalAPagar = sumatoria * this.montoPagar;
-		});
+		const totalPagar = this.mensualidadesPagar.reduce((acumulador, id) => {
+			const empresa = this.listaMensualidadesPagar.find(e => e.id === id);
+			return acumulador + (empresa ? empresa.montoMensualidad : 0);
+		}, 0);
+
+		this.totalAPagar = totalPagar;
 	}
 
 	protected onSelectionChange (data: any) : void {
@@ -161,7 +168,6 @@ export class PagoMensualidadesComponent extends Grid implements OnInit {
 					const dataMensualidadesPagar = {
 						fechaPago             : this.fechaPago,
 						fechaMensualidadPagar : this.fechaMensualidadPagarEnvio,
-						montoPagar            : this.montoPagar,
 						sociosAPagar          : this.mensualidadesPagar,
 						token                 : localStorage.getItem('token')
 					};
