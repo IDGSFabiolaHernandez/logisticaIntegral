@@ -54,7 +54,7 @@
                                 <label for="montoPrestamo" class="form-label required">Monto del préstamo:</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">$</span>
-                                    <input formControlName="montoPrestamo" type="text" class="form-control" id="{{'montoPrestamo'+idModal}}" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe()">
+                                    <input formControlName="montoPrestamo" type="text" class="form-control" id="{{'montoPrestamo'+idModal}}" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="numberFormat($event)">
                                     <span class="input-group-text">.00</span>
                                 </div>
                             </div>

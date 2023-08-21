@@ -82,6 +82,33 @@
                                 <label for="numeroInstrumento" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Número de Instrumento:</label>
                                 <input formControlName="numeroInstrumento" type="text" class="form-control" id="{{'numeroInstrumento'+idModal}}" placeholder="Número de Instrumento" (keypress)="soloNumeros($event)" maxlength="15">
                             </div>
+
+                            <div class="col-lg-4 col-md-12">
+                                <label for="montoMensualidad" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Monto mensualidad:</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">$</span>
+                                    <input formControlName="montoMensualidad" type="text" class="form-control" id="{{'montoMensualidad'+idModal}}" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe('montoMensualidad')">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-12" [ngClass]="{'disabled-div' : this.formEnlaceSocioEmpresa.get('montoMensualidad')?.value == 0}">
+                                <label for="montoPago" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Monto destinado a pago:</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">$</span>
+                                    <input formControlName="montoPago" type="text" class="form-control" id="{{'montoPago'+idModal}}" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe('montoPago')">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-12" [ngClass]="{'disabled-div' : this.formEnlaceSocioEmpresa.get('montoMensualidad')?.value == 0}">
+                                <label for="montoPrestamo" class="form-label" [class.required]="this.statusEmpresa !== 'En proceso'">Monto destinado a préstamo:</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">$</span>
+                                    <input formControlName="montoPrestamo" type="text" class="form-control" id="{{'montoPrestamo'+idModal}}" style="text-align: center;" (keypress)="soloNumeros($event)" maxlength="255" (input)="mostrarPipe('montoPrestamo')">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
         
                             <div class="col-sm-12">
                                 <label for="observaciones" class="form-label">Observaciones:</label>

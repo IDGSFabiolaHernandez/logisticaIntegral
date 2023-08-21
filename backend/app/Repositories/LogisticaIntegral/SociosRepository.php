@@ -269,6 +269,9 @@ class SociosRepository
                                                     'tblSocios.nombreSocio',
                                                     'empresas.nombre as nombreEmpresa',
                                                     'tblSociosEmpresas.tipoInstrumento',
+                                                    'tblSociosEmpresas.montoMensualidad',
+                                                    'tblSociosEmpresas.montoPago',
+                                                    'tblSociosEmpresas.montoPrestamo',
                                                     'tblSociosEmpresas.numeroInstrumento',
                                                     'tblSociosEmpresas.observaciones'
                                                 )
@@ -307,6 +310,9 @@ class SociosRepository
                             'mesIngreso'         => $mesIngreso,
                             'tipoInstrumento'    => $this->trimValidator($datosSocioEmpresa['tipoInstrumento']),
                             'numeroInstrumento'  => $this->trimValidator($datosSocioEmpresa['numeroInstrumento']),
+                            'montoMensualidad'   => str_replace(',', '', $datosSocioEmpresa['montoMensualidad']),
+                            'montoPago'          => str_replace(',', '', $datosSocioEmpresa['montoPago']),
+                            'montoPrestamo'      => str_replace(',', '', $datosSocioEmpresa['montoPrestamo']),
                             'mesSalida'          => $mesSalida,
                             'observaciones'      => $this->trimValidator($datosSocioEmpresa['observaciones']),
                             'fechaActualizacion' => Carbon::now()

@@ -98,20 +98,6 @@ export class RegistroPrestamoSocioComponent extends Grid implements OnInit, OnDe
 		}
 	}
 
-	protected mostrarPipe(): void {
-		const prestamoEntrada = this.formNuevoPrestamo.get('montoPrestamo')?.value;
-		let valorSinComas = prestamoEntrada.toString().replace(/,/g, '');
-
-		if(isNaN(valorSinComas)) {
-			this.formNuevoPrestamo.get('montoPrestamo')?.setValue(0);
-			return;
-		}
-
-		valorSinComas = parseInt(valorSinComas) > 0 ? parseInt(valorSinComas) : 0;
-		const valorConSeparadores = valorSinComas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-		this.formNuevoPrestamo.get('montoPrestamo')?.setValue(valorConSeparadores);
-	}
-
 	private obtenerSocioPorNombre ( nombre : any ) : any {
 		const resultado = this.datosSocios.filter( (socio : any) =>{
 		  	const nombreCompleto : string = socio.nombreSocio;
