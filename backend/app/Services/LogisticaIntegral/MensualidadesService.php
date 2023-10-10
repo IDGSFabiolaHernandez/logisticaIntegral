@@ -65,7 +65,7 @@ class MensualidadesService
     }
 
     public function obtenerMensualidadesPagarSelect () {
-        $ultimoMesSociosEmpresas = $this->mensualidadesRepository->obtenerUltimoMesSociosEmpresas();
+        /*$ultimoMesSociosEmpresas = $this->mensualidadesRepository->obtenerUltimoMesSociosEmpresas();
         $mesesPosteriores        = $this->mensualidadesRepository->obtenerMesesPosterioresAUltimoMes( $ultimoMesSociosEmpresas );
         $mesInicioSelect         = null;
 
@@ -81,7 +81,9 @@ class MensualidadesService
             if ( !is_null($mesInicioSelect) ) {
                 break;
             }
-        }
+        }*/
+
+        $mesInicioSelect = '2023-09-01';
 
         $mensualidadesSelect = $this->mensualidadesRepository->obtenerMesesPosterioresAUltimoMes( $mesInicioSelect );
 
