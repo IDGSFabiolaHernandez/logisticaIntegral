@@ -133,7 +133,7 @@
                                                     <div class="activite-label"></div>
                                                     <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
                                                     <div class="activity-content">
-                                                      <b> $ {{this.montoPagar * this.numEmpresasBloque | number:'1.2-2'}}</b> &nbsp;Por pagar
+                                                      <b> $ {{this.totalPagarBloque | number:'1.2-2'}}</b> &nbsp;Por pagar
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,8 +146,7 @@
                 </div>    
             </div>
 
-            <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesPagar"
-                [tableConfig]="tableConfig" (selectionChange)="obtenerSociosAPagar($event)"></app-datatable>
+            <app-datatable [columnasTabla]="columnasMensualidades" [datosTabla]="listaMensualidadesPagar" [tableConfig]="tableConfig" (selectionChange)="obtenerSociosAPagar($event)"></app-datatable>
         </div>
     </div>
 </section>
