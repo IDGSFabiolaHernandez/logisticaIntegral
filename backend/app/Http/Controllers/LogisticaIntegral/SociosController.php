@@ -153,6 +153,21 @@ class SociosController extends Controller
         }
     }
 
+    public function obtenerDetalleSocioEspecial($idSocio){
+        try{
+            return $this->sociosService->obtenerDetalleSocioEspecial($idSocio);
+        }catch( \Throwable $error ){
+            Log::alert($error);
+            return response()->json(
+                [
+                    'error' => $error,
+                    'mensaje' => 'Ocurrió un error interno'
+                ],
+                500
+            );
+        }
+    }
+
     public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
         try{
             return $this->sociosService->obtenerDetalleEnlaceSocioEmpresa($idEnlace);
