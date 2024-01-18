@@ -21,6 +21,7 @@ Route::post('/socios/registroNuevoSocio', 'App\Http\Controllers\LogisticaIntegra
 Route::post('/socios/obtenerSociosEmpresas','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosEmpresas');
 Route::post('/socios/generarEnlaceSocioEmpresa','App\Http\Controllers\LogisticaIntegral\SociosController@generarEnlaceSocioEmpresa');
 Route::get('/socios/obtenerDetalleSocioPorId/{idSocio}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioPorId');
+Route::get('/socios/detalle/obtenerDetalleSocioEspecial/{idSocio}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleSocioEspecial');
 Route::get('/socios/obtenerDetalleEnlaceSocioEmpresa/{idEnlace}','App\Http\Controllers\LogisticaIntegral\SociosController@obtenerDetalleEnlaceSocioEmpresa');
 Route::get('/socios/obtenerSociosMensualidadesSelect', 'App\Http\Controllers\LogisticaIntegral\SociosController@obtenerSociosMensualidadesSelect');
 Route::post('/socios/modificarSocio','App\Http\Controllers\LogisticaIntegral\SociosController@modificarSocio');

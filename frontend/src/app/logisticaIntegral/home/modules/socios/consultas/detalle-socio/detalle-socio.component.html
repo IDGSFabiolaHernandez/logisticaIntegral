@@ -1,0 +1,19 @@
+<div class="modal-body">
+    <div class="pagetitle">
+        <h1>Detalle socio <b *ngIf="this.detalleSocio.length > 0">{{this.detalleSocio[0].valor}}</b></h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Socios</li>
+                <li class="breadcrumb-item active">Detalle Socio</li>
+            </ol>
+        </nav>
+    </div>
+
+    <br>
+    <app-datatable [columnasTabla]="columnasDetalleSocio" [datosTabla]="detalleSocio"></app-datatable>
+</div>
+
+<div class="modal-footer" style="text-align: center;">
+    <button class="btn btn-success" (click)="exportarExcel()">Excel</button>
+    <button type="button" class="btn btn-danger" (click)="cerrarModal()"><b>Cerrar</b></button>
+</div>
