@@ -55,6 +55,11 @@ export class ListaSociosComponent extends Grid{
 				'Bloque 7'
 			],
 			"showEmptyOption": true
+		},
+		"rfcSocio" : {
+			"detailColumn" : true,
+			"value" : "id",
+			"idModal" : "detalleSocio"
 		}
 	};
 

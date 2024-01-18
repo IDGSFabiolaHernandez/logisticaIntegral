@@ -204,6 +204,75 @@ class SociosService
         );
     }
 
+    public function obtenerDetalleSocioEspecial($idSocio){
+        $detalleSocio = $this->sociosRepository->obtenerDetalleSocioPorId($idSocio);
+
+        $estadosCiviles = [
+            'Solter@',
+            'Casad@',
+            'Divorciad@',
+            'Separación en proceso judicial',
+            'Viud@',
+            'Concubinato'
+        ];
+
+        $data = [
+            [
+                'dato' => 'Nombre Socio',
+                'valor' => $detalleSocio[0]->nombreSocio
+            ], [
+                'dato' => 'Status Socio',
+                'valor' => $detalleSocio[0]->status == 1 ? 'Activo' : 'Inactivo'
+            ], [
+                'dato' => 'Fecha de nacimiento',
+                'valor' => Carbon::parse($detalleSocio[0]->fechaNacimiento)->format('d-m-Y')
+            ], [
+                'dato' => 'CURP',
+                'valor' => $detalleSocio[0]->curpSocio
+            ], [
+                'dato' => 'RFC',
+                'valor' => $detalleSocio[0]->rfcSocio
+            ], [
+                'dato' => 'Edad',
+                'valor' => Carbon::parse($detalleSocio[0]->fechaNacimiento)->age
+            ], [
+                'dato' => 'Estado Civil',
+                'valor' => $estadosCiviles[$detalleSocio[0]->estadoCivilSocio-1]
+            ], [
+                'dato' => 'Lugar de nacimiento',
+                'valor' => $detalleSocio[0]->lugarNacimiento
+            ], [
+                'dato' => 'Ocupación',
+                'valor' => $detalleSocio[0]->ocupacion
+            ], [
+                'dato' => 'Dirección',
+                'valor' => $detalleSocio[0]->direccion
+            ], [
+                'dato' => 'Colonia',
+                'valor' => $detalleSocio[0]->colonia
+            ], [
+                'dato' => 'CP',
+                'valor' => $detalleSocio[0]->cp
+            ], [
+                'dato' => 'Localidad',
+                'valor' => $detalleSocio[0]->localidad
+            ], [
+                'dato' => 'Teléfono',
+                'valor' => $detalleSocio[0]->telefono
+            ], [
+                'dato' => 'Estado',
+                'valor' => $detalleSocio[0]->estado
+            ]
+        ];
+
+        return response()->json(
+            [
+                'mensaje' => 'Se consultó el detalle de Socio con éxito',
+                'data' => $data
+            ]
+        );
+    }
+
     public function obtenerDetalleEnlaceSocioEmpresa($idEnlace){
         $detalleEnlaceSocioEmpresa = $this->sociosRepository->obtenerDetalleEnlaceSocioEmpresa($idEnlace);
         return response()->json(
