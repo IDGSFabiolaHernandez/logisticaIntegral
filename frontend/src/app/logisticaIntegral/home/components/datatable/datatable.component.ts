@@ -8,6 +8,7 @@ import Grid from 'src/app/shared/util/funciones-genericas';
 import { environment } from 'src/environments/environment';
 import { RegistroNombreEntrgaReciboPagoComponent } from '../../modules/socios/registros/registro-nombre-entrga-recibo-pago/registro-nombre-entrga-recibo-pago.component';
 import { MensajesService } from 'src/app/services/mensajes/mensajes.service';
+import { DetalleSocioComponent } from '../../modules/socios/consultas/detalle-socio/detalle-socio.component';
 
 @Component({
   	selector: 'app-datatable',
@@ -129,6 +130,9 @@ export class DatatableComponent extends Grid implements OnInit, OnChanges {
 			break;
 			case 'detalleAbonosPrestamoSocio':
 				op = this.modalService.show(DetalleAbonosPrestamoComponent, configModalDetalle);
+			break;
+			case 'detalleSocio':
+				op = this.modalService.show(DetalleSocioComponent, configModalDetalle);
 			break;
 		}
 
